@@ -1,0 +1,743 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#f7edff",
+          "inverse-on-surface": "#2c303b",
+          "on-primary": "#002a78",
+          "secondary": "#4edea3",
+          "background": "#0f131d",
+          "on-secondary-fixed-variant": "#005236",
+          "surface-container-lowest": "#0a0e18",
+          "tertiary-fixed-dim": "#d2bbff",
+          "secondary-fixed": "#6ffbbe",
+          "tertiary": "#d2bbff",
+          "error": "#ffb4ab",
+          "secondary-container": "#00a572",
+          "surface-variant": "#313540",
+          "primary-container": "#2563eb",
+          "on-primary-container": "#eeefff",
+          "surface-tint": "#b4c5ff",
+          "on-background": "#dfe2f1",
+          "on-secondary": "#003824",
+          "surface-container-highest": "#313540",
+          "outline-variant": "#434655",
+          "surface": "#0f131d",
+          "inverse-surface": "#dfe2f1",
+          "inverse-primary": "#0053db",
+          "surface-container": "#1c1f2a",
+          "on-tertiary-fixed": "#25005a",
+          "on-error": "#690005",
+          "on-error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#5a00c6",
+          "primary-fixed-dim": "#b4c5ff",
+          "surface-container-low": "#171b26",
+          "surface-container-high": "#262a35",
+          "error-container": "#93000a",
+          "on-tertiary": "#3f008e",
+          "on-secondary-container": "#00311f",
+          "secondary-fixed-dim": "#4edea3",
+          "on-surface-variant": "#c3c6d7",
+          "surface-bright": "#353944",
+          "on-primary-fixed-variant": "#003ea8",
+          "on-secondary-fixed": "#002113",
+          "outline": "#8d90a0",
+          "tertiary-fixed": "#eaddff",
+          "on-surface": "#dfe2f1",
+          "tertiary-container": "#8343f4",
+          "surface-dim": "#0f131d",
+          "on-primary-fixed": "#00174b",
+          "primary": "#b4c5ff",
+          "primary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem"
+        },
+        "fontFamily": {
+          "display-hero": ["Plus Jakarta Sans"],
+          "title-editorial": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "label-interactive": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-caps": ["Plus Jakarta Sans"],
+          "stat-metric": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "title-editorial": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+          "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+          "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "label-interactive": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+          "stat-metric": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/85 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)]"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><img alt="BRIGHTEEN Official Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"><div class="hidden sm:flex flex-col"><span class="font-title-editorial text-title-editorial tracking-tight text-on-surface">BRIGHTEEN</span><span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">SMP Brighton Depok</span></div></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider">Issue #24 Live</span></div></div><div class="flex items-center justify-center"><nav class="flex items-center bg-surface-container-lowest p-1 rounded-full" data-active-classes="bg-primary-container text-on-primary-container shadow-[0_0_16px_rgba(37,99,235,0.4)] font-bold"><a class="px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="reader-view" href="#">Reader View</a><a aria-current="page" class="px-space-md py-1.5 rounded-full transition-all whitespace-nowrap bg-primary-container text-on-primary-container shadow-[0_0_16px_rgba(37,99,235,0.4)] font-bold" data-path="student-contributor" href="#">Student Contributor</a><a class="hidden xl:inline-flex px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="editor-hub" href="#"><a class="hidden xl:inline-flex px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap cursor-text" data-path="editor-hub" href="https://app-companion-430619.appspot.com/projects/9683472186205695187?usegapi=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.gh7qIZtzO5w.O%2Fd%3D1%2Frs%3DAHpOoo84YKT1RVy0T6hcXi5rH3LooB1WCw%2Fm%3D__features__#" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; --tw-bg-opacity: 1; background-color: rgb(28 31 42 / var(--tw-bg-opacity, 1)); outline: none !important; box-shadow: none !important;">Stories and Archive</a></a><a class="hidden xl:inline-flex px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="management-analytics" href="#">About Us</a></nav></div><div class="flex items-center gap-space-sm shrink-0"><div class="hidden 2xl:flex items-center gap-space-xs px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase"><span class="material-symbols-outlined text-[16px] text-tertiary">timer</span><span class="">Next Drop: 4d 12h</span></div><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="flex items-center gap-space-xs pl-space-xs rounded-full bg-surface-container-low"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col pr-space-sm text-left"><span class="font-label-interactive text-label-interactive text-on-surface leading-tight">Kezia A.</span><span class="font-label-caps text-label-caps text-secondary font-bold">Chief Reporter 8A</span></div></div></div></div><div class="h-9 w-full px-gutter bg-surface-container-lowest/90 flex items-center justify-between overflow-x-auto"><div class="flex items-center gap-space-sm shrink-0"><span class="font-label-caps text-label-caps text-tertiary uppercase flex items-center gap-1 shrink-0"><span class="material-symbols-outlined text-[14px]">local_fire_department</span>Trending Pulse:</span><div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive shrink-0"><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#BrightonJHS</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#PentasSeni2025</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#AIinSchool</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#RoboticsChamps</a></div></div><div class="hidden sm:flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="">2,840 Active Readers Online</span></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<div class="w-full px-gutter py-space-md">
+<!-- Top Action Breadcrumb Bar -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]">edit_square</span>
+<span class="">Contributor Portal</span>
+</span>
+<span class="text-outline">/</span>
+<span class="text-on-surface">Issue #25 Submissions</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-secondary font-label-caps text-label-caps">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+          Auto-Saved at 14:28
+        </span>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-tertiary">workspace_premium</span>
+<span class="">Earn <strong>+150 Student Merit PTS</strong> on approval</span>
+</div>
+</div>
+</div>
+<!-- 1. Inspiring Hero Banner -->
+<div class="relative w-full rounded-lg overflow-hidden bg-gradient-to-r from-surface-container-high via-surface-container to-surface-container-low shadow-xl p-space-lg lg:p-space-xl mb-space-xl">
+<div class="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-16 left-1/3 w-64 h-64 rounded-full bg-secondary/15 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-center">
+<div class="lg:col-span-8 flex flex-col gap-space-sm">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-space-sm py-0.5 rounded-full bg-secondary text-on-secondary font-label-caps text-label-caps uppercase tracking-wider font-bold">
+              Open Call for Submissions
+            </span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-highest text-tertiary font-label-caps text-label-caps">
+              Deadline: Friday, 17:00 WIB
+            </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">
+            Got a Story, Brighton Tiger? <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-tertiary to-secondary">Get Published &amp; Earn Badges!</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+            Whether it's a bold tech opinion, original manga illustration, investigative cafeteria report, or soulful poem—BRIGHTEEN amplifies your voice across 2,800+ junior high peers.
+          </p>
+<div class="flex flex-wrap items-center gap-space-sm mt-space-xs pt-space-xs">
+<a class="inline-flex items-center gap-space-xs px-space-md py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-interactive text-label-interactive shadow-md hover:bg-primary transition-all" href="#submission-form">
+<span class="">Start Pitching Now</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2.5 rounded-full bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-interactive text-label-interactive transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">menu_book</span>
+<span class="">Editorial Guidelines</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2.5 rounded-full bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-interactive text-label-interactive transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">military_tech</span>
+<span class="">Badge Rewards Guide</span>
+</button>
+</div>
+</div>
+<!-- Student Spotlight Mini Card -->
+<div class="lg:col-span-4 w-full">
+<div class="relative bg-surface-container-lowest/80 backdrop-blur-xl rounded-DEFAULT p-space-md shadow-lg flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span> Featured Contributor
+              </span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">Last Week</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Close up portrait of an Indonesian junior high school student wearing Brighton navy blazer and vibrant smile in an editorial lighting setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVkWIX8caUBzrfh-xrBQu_hWyqcr4cQOl-NC8imunBKzu3O8gd8US5Mh3-UhsVhN65uO82xux6U9vSJwdKmorqlcGlg5cSxSkKnWIdk3WVFp3NVq-6X-SpDh0_eUrCX-1nDgIAMALoJ1ewmPWblNuKhB-hnxrqYQ1YwQlkOyP4FcbwmscuuMJA2hODbGyLEoBvbNkrmwA6SMLKc3LmnQg4qCibYdnfIwKQlqREVHIrj1BysTPPqX7-">
+<div class="flex flex-col min-w-0">
+<span class="font-headline-sm text-title-editorial text-on-surface truncate">Rafi Pratama (8C)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Published: "Why Esports Belongs in Class P.E."</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<div class="bg-surface-container rounded-DEFAULT p-space-xs text-center">
+<span class="font-stat-metric text-headline-sm text-primary block">1.8k</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Peer Reads</span>
+</div>
+<div class="bg-surface-container rounded-DEFAULT p-space-xs text-center">
+<span class="font-stat-metric text-headline-sm text-secondary block">Badge #4</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Voice of 8th</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace Split: Left Form (7 Cols), Right Live Mobile Reader Preview (5 Cols) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start" id="submission-form">
+<!-- LEFT COLUMN: The Submission Builder -->
+<div class="xl:col-span-7 flex flex-col gap-space-lg">
+<!-- Step 1: Student Identity Section -->
+<section class="bg-surface-container-low rounded-lg p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">1</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Student Author Credentials</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Validated with Brighton SIS portal for authorship credentials</p>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-secondary bg-surface-container px-space-sm py-1 rounded-full uppercase">Verified Account</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-interactive text-label-interactive text-on-surface flex items-center gap-1" for="student-name">
+                Full Name <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-on-surface-variant">badge</span>
+<input class="w-full bg-surface-container-highest text-on-surface rounded-DEFAULT pl-10 pr-4 py-2.5 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" id="student-name" type="text" value="Kezia Aurelia">
+</div>
+</div>
+<!-- Student ID (NISN) -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-interactive text-label-interactive text-on-surface flex items-center gap-1" for="student-nisn">
+                Student ID / NISN <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-on-surface-variant">fingerprint</span>
+<input class="w-full bg-surface-container-highest text-on-surface rounded-DEFAULT pl-10 pr-4 py-2.5 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" id="student-nisn" type="text" value="0098421894">
+</div>
+</div>
+<!-- Class / Grade Selector -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-interactive text-label-interactive text-on-surface flex items-center gap-1" for="grade-select">
+                Class / Grade <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-on-surface-variant">school</span>
+<select class="w-full bg-surface-container-highest text-on-surface rounded-DEFAULT pl-10 pr-10 py-2.5 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container appearance-none cursor-pointer" id="grade-select">
+<option value="7A">Class 7A - Innovation</option>
+<option value="7B">Class 7B - Explorer</option>
+<option value="7C">Class 7C - Harmony</option>
+<option selected="" value="8A">Class 8A - Global Pioneer</option>
+<option value="8B">Class 8B - Discovery</option>
+<option value="8C">Class 8C - Zenith</option>
+<option value="9A">Class 9A - Summit</option>
+<option value="9B">Class 9B - Legacy</option>
+<option value="9F">Class 9F - Creative Vanguard</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-[18px] text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- WhatsApp / Email Contact -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-interactive text-label-interactive text-on-surface flex items-center gap-1" for="student-contact">
+                WhatsApp / School Mail <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-3 text-[18px] text-on-surface-variant">alternate_email</span>
+<input class="w-full bg-surface-container-highest text-on-surface rounded-DEFAULT pl-10 pr-4 py-2.5 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary-container" id="student-contact" type="text" value="kezia.aurelia@student.brighton.sch.id">
+</div>
+</div>
+</div>
+</section>
+<!-- Step 2: Story Metadata & Category -->
+<section class="bg-surface-container-low rounded-lg p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">2</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Story Pitch &amp; Taxonomy</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Classify your piece so editors assign the best peer mentor</p>
+</div>
+</div>
+<!-- Category Pills Grid -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-interactive text-label-interactive text-on-surface">Select Primary Channel</span>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-space-xs" id="category-selector">
+<button class="cat-pill active flex items-center gap-2 p-space-sm rounded-DEFAULT bg-primary-container text-on-primary-container text-left transition-all" data-cat="Campus Life" type="button">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+<span class="font-label-interactive text-label-interactive">Campus Life</span>
+</button>
+<button class="cat-pill flex items-center gap-2 p-space-sm rounded-DEFAULT bg-surface-container hover:bg-surface-container-high text-on-surface text-left transition-all" data-cat="Opinion &amp; Op-Ed" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary">record_voice_over</span>
+<span class="font-label-interactive text-label-interactive">Opinion &amp; Op-Ed</span>
+</button>
+<button class="cat-pill flex items-center gap-2 p-space-sm rounded-DEFAULT bg-surface-container hover:bg-surface-container-high text-on-surface text-left transition-all" data-cat="Tech &amp; Gaming" type="button">
+<span class="material-symbols-outlined text-[20px] text-secondary">stadia_controller</span>
+<span class="font-label-interactive text-label-interactive">Tech &amp; Gaming</span>
+</button>
+<button class="cat-pill flex items-center gap-2 p-space-sm rounded-DEFAULT bg-surface-container hover:bg-surface-container-high text-on-surface text-left transition-all" data-cat="Short Story &amp; Poetry" type="button">
+<span class="material-symbols-outlined text-[20px] text-tertiary-fixed-dim">history_edu</span>
+<span class="font-label-interactive text-label-interactive">Short Story &amp; Poetry</span>
+</button>
+<button class="cat-pill flex items-center gap-2 p-space-sm rounded-DEFAULT bg-surface-container hover:bg-surface-container-high text-on-surface text-left transition-all" data-cat="Creative Art" type="button">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed">palette</span>
+<span class="font-label-interactive text-label-interactive">Creative Art</span>
+</button>
+<button class="cat-pill flex items-center gap-2 p-space-sm rounded-DEFAULT bg-surface-container hover:bg-surface-container-high text-on-surface text-left transition-all" data-cat="Academics &amp; Science" type="button">
+<span class="material-symbols-outlined text-[20px] text-primary">science</span>
+<span class="font-label-interactive text-label-interactive">Academics</span>
+</button>
+</div>
+</div>
+<!-- Headline Input -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-interactive text-label-interactive text-on-surface" for="headline-input">
+                Catchy Headline / Title <span class="text-error">*</span>
+</label>
+<span class="font-label-caps text-label-caps text-on-surface-variant" id="headline-counter">59 / 90 chars</span>
+</div>
+<input class="w-full bg-surface-container-highest text-on-surface font-title-editorial text-title-editorial rounded-DEFAULT px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary-container" id="headline-input" maxlength="90" type="text" value="Why Our School Should Have a Dedicated Student Podcast Booth">
+</div>
+<!-- Subtitle / Deck -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-interactive text-label-interactive text-on-surface" for="deck-input">
+              Deck / Subtitle Preview
+            </label>
+<input class="w-full bg-surface-container-highest text-on-surface-variant font-body-md text-body-md rounded-DEFAULT px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary-container" id="deck-input" type="text" value="From soundproof acoustics to student-led interviews: how audio storytelling empowers Brighton Tigers.">
+</div>
+</section>
+<!-- Step 3: WYSIWYG Editor Mockup -->
+<section class="bg-surface-container-low rounded-lg p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">3</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Editorial Drafting Space</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Type directly or paste your polished draft below</p>
+</div>
+</div>
+<!-- Word Count Widget -->
+<div class="flex items-center gap-2 px-space-sm py-1 rounded-full bg-surface-container-highest">
+<span class="material-symbols-outlined text-[16px] text-secondary">speed</span>
+<span class="font-label-caps text-label-caps text-on-surface" id="word-count-badge">428 / 600 words recommended</span>
+</div>
+</div>
+<!-- Pinned WYSIWYG Toolbar -->
+<div class="sticky top-24 z-20 flex flex-wrap items-center gap-1 p-1.5 rounded-DEFAULT bg-surface-container-highest/95 backdrop-blur-xl shadow-md">
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Bold" type="button">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Italic" type="button">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Underline" type="button">
+<span class="material-symbols-outlined text-[18px]">format_underlined</span>
+</button>
+<div class="w-[1px] h-5 bg-outline-variant mx-1"></div>
+<button class="px-2 py-1 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps font-bold transition-colors" title="Heading 2" type="button">
+              H2
+            </button>
+<button class="px-2 py-1 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface font-label-caps text-label-caps font-bold transition-colors" title="Heading 3" type="button">
+              H3
+            </button>
+<div class="w-[1px] h-5 bg-outline-variant mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Bullet List" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Numbered List" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_numbered</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Quote" type="button">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Insert Link" type="button">
+<span class="material-symbols-outlined text-[18px]">link</span>
+</button>
+<div class="w-[1px] h-5 bg-outline-variant mx-1"></div>
+<button class="p-1.5 rounded hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Inline Code" type="button">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</button>
+<button class="p-1.5 rounded bg-primary-container/20 text-primary hover:bg-primary-container/30 transition-colors flex items-center gap-1 font-label-caps text-label-caps px-2" title="Add Image Embed" type="button">
+<span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+<span class="">Embed</span>
+</button>
+</div>
+<!-- Realistic Rich Text Writing Area -->
+<div class="flex flex-col gap-space-xs">
+<textarea class="w-full bg-surface-container text-on-surface font-body-lg text-body-lg rounded-DEFAULT p-space-md focus:outline-none focus:ring-2 focus:ring-primary-container leading-relaxed" id="story-body" placeholder="Write your story here..." rows="12">Every Tuesday morning during homeroom, our hallways buzz with debates: who coded the best Scratch game in IT, how the basketball team clinched the Depok Cup, or whether cafeteria nasi goreng hits different on rainy days.
+
+Yet, once the bell rings, those lively ideas evaporate into thin air.
+
+Imagine a small, dedicated acoustic recording corner inside our 2nd-floor library: two cardioid USB microphones, sound-dampening foam, and a laptop running Audacity. With a student-managed podcast studio, Brighton Tigers wouldn't just speak—we would archive our generation's history in real time. We could interview exchange teachers, spotlight quiet artists from 7B, and share study hacks for midterms without social anxiety.
+
+It’s time to move beyond static bulletin boards. Our voices are dynamic; our school infrastructure should be too.</textarea>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm px-1">
+<span class="">Supports Markdown formatting (**bold**, _italics_, &gt; quote)</span>
+<span class="text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                Grammar check clear
+              </span>
+</div>
+</div>
+</section>
+<!-- Step 4: Drag & Drop Media Upload Dropzone -->
+<section class="bg-surface-container-low rounded-lg p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">4</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Hero Cover &amp; Visual Assets</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Great visuals increase reader engagement by +84%</p>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Max 10MB</span>
+</div>
+<!-- Drag and Drop Box -->
+<div class="relative w-full rounded-DEFAULT bg-surface-container-lowest/60 p-space-lg flex flex-col items-center justify-center text-center gap-space-xs cursor-pointer hover:bg-surface-container transition-all">
+<div class="w-14 h-14 rounded-full bg-surface-container-high flex items-center justify-center text-primary mb-space-xs shadow-inner">
+<span class="material-symbols-outlined text-[30px]">cloud_upload</span>
+</div>
+<span class="font-headline-sm text-title-editorial text-on-surface">Drag &amp; drop your cover photo or artwork</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">
+              Supports high-res JPG, PNG, WebP up to 10MB. 16:9 landscape aspect ratio recommended for feed banners.
+            </p>
+<div class="flex items-center gap-space-xs mt-space-xs">
+<button class="px-space-md py-1.5 rounded-full bg-surface-bright text-on-surface font-label-interactive text-label-interactive hover:bg-primary hover:text-on-primary transition-colors" type="button">
+                Browse Files
+              </button>
+</div>
+</div>
+<!-- Uploaded Media Preview Card -->
+<div class="flex items-center justify-between p-space-sm rounded-DEFAULT bg-surface-container-highest">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-16 h-12 rounded overflow-hidden shrink-0 bg-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="High tech dynamic school podcast microphone studio booth with warm neon lighting and headphones on an oak wood desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsRTagnOnQHrlaUbkk9mILr8xjZtvhkDjPLnqUhApkTBK0hDmCceTZFIY0NH9IDjHZAgUUzECSbnt_9A8nukPvxZ2frmY1oQ6LTa3BRSz0La6G5EnMm5cfGRsBhuzBPs2y8Oa1znmImmvdQTFtE3_R-A-C2i63-6l4qggTfkGSW2OAL6NALDVPX5PLWrfMU-CG6K7JvoYezGJn0YYgsl834D3qF5B75OHIGzAQDKLxFvEF8_DyBAiU">
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-interactive text-label-interactive text-on-surface truncate">podcast_booth_concept_mockup.jpg</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2.4 MB • Cover Image • 1920x1080</span>
+</div>
+</div>
+<div class="flex items-center gap-1 shrink-0">
+<button class="p-2 rounded-full hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Crop &amp; Re-align" type="button">
+<span class="material-symbols-outlined text-[18px]">crop</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-bright text-on-surface-variant hover:text-on-surface transition-colors" title="Replace" type="button">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+</button>
+<button class="p-2 rounded-full hover:bg-error-container text-error hover:text-on-error-container transition-colors" title="Delete" type="button">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Step 5: Submission Ethics & Final Actions -->
+<section class="bg-surface-container-low rounded-lg p-space-lg shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">5</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Brighton Honor Code &amp; Ethics</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Maintain our supportive, bully-free, and respectful digital campus culture</p>
+</div>
+</div>
+<!-- Compliance Checklist -->
+<div class="flex flex-col gap-space-sm bg-surface-container-highest/50 p-space-md rounded-DEFAULT">
+<label class="flex items-start gap-space-sm cursor-pointer">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container bg-surface-container-lowest focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">
+<strong>Original Authorship:</strong> I confirm this is my own authentic creation (or that all collaborative student credits and quotes are cited).
+              </span>
+</label>
+<label class="flex items-start gap-space-sm cursor-pointer">
+<input checked="" class="mt-1 w-4 h-4 rounded text-primary-container bg-surface-container-lowest focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">
+<strong>Anti-Bullying &amp; Positivity:</strong> I adhere to Brighton Junior High safety rules, strictly avoiding defamation, cyber-harassment, or hate speech.
+              </span>
+</label>
+<label class="flex items-start gap-space-sm cursor-pointer">
+<input class="mt-1 w-4 h-4 rounded text-primary-container bg-surface-container-lowest focus:ring-0 cursor-pointer" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface">
+<strong>Peer Review Consent:</strong> I agree to receive constructive feedback from student copyeditors and faculty mentors prior to final publishing.
+              </span>
+</label>
+</div>
+<!-- Final Buttons Row -->
+<div class="flex flex-wrap items-center justify-between gap-space-md pt-space-xs">
+<button class="inline-flex items-center gap-space-xs px-space-lg py-3 rounded-full bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-interactive text-label-interactive transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+<span class="">Save as Draft</span>
+</button>
+<div class="flex items-center gap-space-sm">
+<button class="inline-flex items-center gap-space-xs px-space-md py-3 rounded-full bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-interactive text-label-interactive transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">preview</span>
+<span class="">Mobile Preview</span>
+</button>
+<button class="inline-flex items-center gap-space-xs px-space-xl py-3 rounded-full bg-gradient-to-r from-primary-container via-primary-container to-secondary-container text-on-primary-container font-headline-sm text-headline-sm shadow-xl hover:opacity-95 transition-all" id="submit-btn" type="button">
+<span class="">Submit to Editor Hub</span>
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- RIGHT COLUMN: Real-Time Live Reader Preview Phone Frame (5 Cols) -->
+<div class="xl:col-span-5 sticky top-24 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Live Reader Preview</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Simulated Mobile Feed</span>
+</div>
+<!-- Phone Shell Container -->
+<div class="w-full max-w-[420px] mx-auto rounded-xl bg-surface-container-lowest p-3 shadow-2xl">
+<!-- Phone Speaker Notch & Glass Header -->
+<div class="w-full flex items-center justify-between px-4 py-2 bg-surface-container-low rounded-t-lg text-on-surface-variant font-label-caps text-label-caps">
+<span class="">9:41 AM</span>
+<div class="w-16 h-3 rounded-full bg-surface-container-highest"></div>
+<div class="flex items-center gap-1 text-[12px]">
+<span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[14px]">wifi</span>
+<span class="material-symbols-outlined text-[14px]">battery_full</span>
+</div>
+</div>
+<!-- Inside Phone Screen Scrollable Area -->
+<div class="w-full bg-surface rounded-b-lg overflow-hidden flex flex-col max-h-[720px] overflow-y-auto">
+<!-- Mini Feed Header in Phone -->
+<div class="p-3 bg-surface-container-lowest flex items-center justify-between">
+<span class="font-headline-sm text-title-editorial text-primary tracking-tight font-bold">BRIGHTEEN</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary text-on-secondary font-label-caps text-label-caps uppercase font-bold">Feed</span>
+</div>
+<!-- Feed Post Card (Dynamic Simulation) -->
+<div class="p-4 flex flex-col gap-3">
+<!-- Author Header Bar -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="relative">
+<div class="w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-secondary to-primary-container">
+<img class="w-full h-full object-cover rounded-full" data-alt="Avatar portrait of student Kezia Aurelia 8th grade wearing school uniform and smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk-jxQAnRVO70M1kGdfif67YuH_WDZIwaT_FpmXLCl9zsokerGMnSYGjSv5KgPwLOlY8Y54Li8BGDZlWGU6t2nFPe_aFFJ72oP1lys2NB7MvHVNmjEpefjluouAUWH7poq8GGuwI-TPNpJWaH49cCw7B12PaArkGuOAJ8QAkzn-E-HrzfCY7T-YBgbA6NmopF4CZfGD6EY3YF1hbwneW964KgBxF54nnH0e9qli17i6AKj0tOHRc90">
+</div>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-[10px] font-bold">8</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-interactive text-label-interactive text-on-surface leading-tight" id="preview-author">Kezia Aurelia</span>
+<div class="flex items-center gap-1">
+<span class="font-label-caps text-label-caps text-secondary font-bold" id="preview-grade">Class 8A</span>
+<span class="text-on-surface-variant text-[10px]">• Just now</span>
+</div>
+</div>
+</div>
+<button class="text-on-surface-variant" type="button">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<!-- Cover Image Display -->
+<div class="relative w-full aspect-[16/10] rounded-DEFAULT overflow-hidden bg-surface-container-high shadow-md">
+<img class="w-full h-full object-cover" data-alt="Modern podcast studio at Brighton high school showing condenser microphone, sound panels, and happy students collaborating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOkwP-3oXl1WHznqjSYRl7ABulaPz9r4WZ5_nMWOwzGRfEkRVLbOR--IX_XTLRahSsrN_T6Hdy5-InOYsnXU9kjOw-GwjwtwmegIoOhIHccLQiftEZ_dLfHyzj1zuPbE4oyJtkzUEU-pAfubq8-bA9-ub9dcbUn5CTjpxjIi6TlsWvUkfiwvl53xfuaJBJPv9559iSAzLWwPBpMF8mvzSdQLut_7_VlxZBckNu7eJqQf6-OejKbXlx">
+<span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-primary-container/90 backdrop-blur-md text-on-primary-container font-label-caps text-label-caps uppercase font-bold tracking-wide" id="preview-cat-badge">
+                  Campus Life
+                </span>
+<span class="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md text-on-surface font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 3 min read
+                </span>
+</div>
+<!-- Post Title & Content -->
+<div class="flex flex-col gap-1.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-snug" id="preview-title">
+                  Why Our School Should Have a Dedicated Student Podcast Booth
+                </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2" id="preview-deck">
+                  From soundproof acoustics to student-led interviews: how audio storytelling empowers Brighton Tigers.
+                </p>
+<p class="font-body-sm text-body-sm text-on-surface leading-relaxed mt-1 line-clamp-3" id="preview-snippet">
+                  Every Tuesday morning during homeroom, our hallways buzz with debates: who coded the best Scratch game in IT, how the basketball team clinched the Depok Cup, or whether cafeteria nasi goreng hits different...
+                </p>
+</div>
+<!-- Engagement Footer (Likes, Comments, Bookmark) -->
+<div class="pt-2 flex items-center justify-between text-on-surface-variant font-label-interactive text-label-interactive">
+<div class="flex items-center gap-4">
+<span class="flex items-center gap-1 hover:text-error transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+<span class="text-xs">24</span>
+</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+<span class="text-xs">8</span>
+</span>
+<span class="flex items-center gap-1 hover:text-secondary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</span>
+</div>
+<span class="hover:text-on-surface transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</span>
+</div>
+<!-- Peer Encouragement Pill in Phone -->
+<div class="p-2.5 rounded-DEFAULT bg-surface-container-high flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[18px] text-tertiary">bolt</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant leading-tight">
+                  This post will ping <strong>84 classmates in 8A</strong> upon publication.
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Submission Status Milestones Tracker -->
+<div class="bg-surface-container-low rounded-lg p-space-md shadow-md flex flex-col gap-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-bold">What happens next?</span>
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-interactive text-label-interactive text-on-surface">1. Student Submission Received</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Instant receipt sent to your Brighton school email.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">rate_review</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-interactive text-label-interactive text-on-surface">2. Peer Editorial Board Review</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Grade 9 editors provide light polish within 24 hours.</span>
+</div>
+</div>
+<div class="flex items-start gap-space-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[14px]">publish</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-interactive text-label-interactive text-on-surface">3. Friday Magazine Drop &amp; Badges</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Featured on home feed, merit points credited to SIS profile.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Success Feedback Toast (Interactive Toggle via JS) -->
+<div class="fixed bottom-8 right-8 z-50 transform translate-y-32 opacity-0 pointer-events-none transition-all duration-300 max-w-md bg-surface-container-lowest text-on-surface p-space-md rounded-lg shadow-2xl flex items-center gap-space-md" id="success-toast">
+<div class="w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-title-editorial text-on-surface">Pitch Sent to Editor Hub!</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Your story is queued for Issue #25 review. Merit badge +150 unlocked!</span>
+</div>
+<button class="p-1 text-on-surface-variant hover:text-on-surface" id="close-toast" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Live dynamic interactive preview binding
+  (function() {
+    const headlineInput = document.getElementById('headline-input');
+    const headlineCounter = document.getElementById('headline-counter');
+    const deckInput = document.getElementById('deck-input');
+    const storyBody = document.getElementById('story-body');
+    const gradeSelect = document.getElementById('grade-select');
+    const nameInput = document.getElementById('student-name');
+    
+    const previewTitle = document.getElementById('preview-title');
+    const previewDeck = document.getElementById('preview-deck');
+    const previewSnippet = document.getElementById('preview-snippet');
+    const previewAuthor = document.getElementById('preview-author');
+    const previewGrade = document.getElementById('preview-grade');
+    const previewCatBadge = document.getElementById('preview-cat-badge');
+    const wordCountBadge = document.getElementById('word-count-badge');
+
+    // Title sync & counter
+    if (headlineInput && previewTitle && headlineCounter) {
+      headlineInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        previewTitle.textContent = val || 'Your Catchy Headline Appears Here';
+        headlineCounter.textContent = `${e.target.value.length} / 90 chars`;
+      });
+    }
+
+    // Subtitle sync
+    if (deckInput && previewDeck) {
+      deckInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        previewDeck.textContent = val || 'Subtitle overview will preview here.';
+      });
+    }
+
+    // Story body sync & word count tracker
+    if (storyBody && previewSnippet && wordCountBadge) {
+      storyBody.addEventListener('input', (e) => {
+        const text = e.target.value.trim();
+        previewSnippet.textContent = text ? text.substring(0, 160) + '...' : 'Story content body preview...';
+        const words = text ? text.split(/\s+/).length : 0;
+        wordCountBadge.textContent = `${words} / 600 words recommended`;
+      });
+    }
+
+    // Author identity sync
+    if (nameInput && previewAuthor) {
+      nameInput.addEventListener('input', (e) => {
+        previewAuthor.textContent = e.target.value.trim() || 'Anonymous Tiger';
+      });
+    }
+
+    // Grade sync
+    if (gradeSelect && previewGrade) {
+      gradeSelect.addEventListener('change', (e) => {
+        previewGrade.textContent = `Class ${e.target.value}`;
+      });
+    }
+
+    // Category pills click handler
+    const catPills = document.querySelectorAll('.cat-pill');
+    catPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        catPills.forEach(p => {
+          p.classList.remove('bg-primary-container', 'text-on-primary-container');
+          p.classList.add('bg-surface-container', 'text-on-surface');
+        });
+        pill.classList.remove('bg-surface-container', 'text-on-surface');
+        pill.classList.add('bg-primary-container', 'text-on-primary-container');
+        if (previewCatBadge) {
+          previewCatBadge.textContent = pill.getAttribute('data-cat') || 'Editorial';
+        }
+      });
+    });
+
+    // Mock Submit Toast notification
+    const submitBtn = document.getElementById('submit-btn');
+    const toast = document.getElementById('success-toast');
+    const closeToast = document.getElementById('close-toast');
+
+    if (submitBtn && toast) {
+      submitBtn.addEventListener('click', () => {
+        toast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+        toast.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        setTimeout(() => {
+          toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+          toast.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+        }, 5000);
+      });
+    }
+
+    if (closeToast && toast) {
+      closeToast.addEventListener('click', () => {
+        toast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        toast.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+      });
+    }
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest pt-space-xl pb-space-lg mt-space-xl"><div class="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><img alt="BRIGHTEEN Official Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">BRIGHTEEN</span><span class="font-body-sm text-body-sm text-on-surface-variant">The Official Digital Voice of SMP Brighton Depok</span></div></div><div class="flex flex-wrap items-center justify-center gap-space-md font-label-interactive text-label-interactive text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#">Editorial Board</a><a class="hover:text-primary transition-colors" href="#">Submission Ethics</a><a class="hover:text-primary transition-colors" href="#">School Portal</a><a class="hover:text-primary transition-colors" href="#">Magazine Archive</a></div><div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-right">© 2025 SMP Brighton Depok. Empowering Student Voices.</div></div></footer>
+
+</body></html>

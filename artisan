@@ -1,0 +1,78 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Brighteen Artisan CLI Tool
+ */
+
+require_once __DIR__ . '/bootstrap/app.php';
+
+$command = $argv[1] ?? 'help';
+
+echo "\n⚡ brighteen CLI - bright student, active teen\n";
+echo "==============================================\n";
+
+switch ($command) {
+    case 'db:migrate-sql':
+        echo "Running pure SQL schema migration: database/sql/schema.sql ...\n";
+        $schemaFile = __DIR__ . '/database/sql/schema.sql';
+        if (!file_exists($schemaFile)) {
+            die("Error: schema file not found at {$schemaFile}\n");
+        }
+        $sql = file_get_contents($schemaFile);
+        try {
+            db()->exec($sql);
+            echo "✅ Schema successfully applied to database [" . getenv('DB_DATABASE') . "].\n";
+        } catch (\PDOException $e) {
+            echo "❌ Migration failed: " . $e->getMessage() . "\n";
+        }
+        break;
+
+    case 'db:seed-sql':
+        echo "Running pure SQL seeders: database/sql/seeders.sql ...\n";
+        $seedFile = __DIR__ . '/database/sql/seeders.sql';
+        if (!file_exists($seedFile)) {
+            die("Error: seed file not found at {$seedFile}\n");
+        }
+        $sql = file_get_contents($seedFile);
+        try {
+            db()->exec($sql);
+            echo "✅ Seeders successfully executed. Roles, users, categories, articles populated.\n";
+        } catch (\PDOException $e) {
+            echo "❌ Seeding failed: " . $e->getMessage() . "\n";
+        }
+        break;
+
+    case 'migrate:fresh':
+    case 'db:reset':
+        echo "Resetting database and executing schema + seeders ...\n";
+        $schema = file_get_contents(__DIR__ . '/database/sql/schema.sql');
+        $seeders = file_get_contents(__DIR__ . '/database/sql/seeders.sql');
+        try {
+            db()->exec($schema);
+            echo "  ✓ Schema created.\n";
+            db()->exec($seeders);
+            echo "  ✓ Seed data loaded.\n";
+            echo "✅ Database freshly rebuilt with pure SQL scripts.\n";
+        } catch (\PDOException $e) {
+            echo "❌ Error: " . $e->getMessage() . "\n";
+        }
+        break;
+
+    case 'serve':
+        $host = '127.0.0.1';
+        $port = 8000;
+        echo "🚀 Brighteen Development Server started at: http://{$host}:{$port}\n";
+        echo "Press Ctrl+C to stop.\n\n";
+        passthru("php -S {$host}:{$port} index.php");
+        break;
+
+    case 'help':
+    default:
+        echo "Available Commands:\n";
+        echo "  php artisan db:migrate-sql  Execute database/sql/schema.sql\n";
+        echo "  php artisan db:seed-sql     Execute database/sql/seeders.sql\n";
+        echo "  php artisan db:reset        Reset database with schema + seeders\n";
+        echo "  php artisan serve           Start PHP development server\n\n";
+        break;
+}

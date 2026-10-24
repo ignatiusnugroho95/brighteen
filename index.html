@@ -1,0 +1,821 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#f7edff",
+          "inverse-on-surface": "#2c303b",
+          "on-primary": "#002a78",
+          "secondary": "#4edea3",
+          "background": "#0f131d",
+          "on-secondary-fixed-variant": "#005236",
+          "surface-container-lowest": "#0a0e18",
+          "tertiary-fixed-dim": "#d2bbff",
+          "secondary-fixed": "#6ffbbe",
+          "tertiary": "#d2bbff",
+          "error": "#ffb4ab",
+          "secondary-container": "#00a572",
+          "surface-variant": "#313540",
+          "primary-container": "#2563eb",
+          "on-primary-container": "#eeefff",
+          "surface-tint": "#b4c5ff",
+          "on-background": "#dfe2f1",
+          "on-secondary": "#003824",
+          "surface-container-highest": "#313540",
+          "outline-variant": "#434655",
+          "surface": "#0f131d",
+          "inverse-surface": "#dfe2f1",
+          "inverse-primary": "#0053db",
+          "surface-container": "#1c1f2a",
+          "on-tertiary-fixed": "#25005a",
+          "on-error": "#690005",
+          "on-error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#5a00c6",
+          "primary-fixed-dim": "#b4c5ff",
+          "surface-container-low": "#171b26",
+          "surface-container-high": "#262a35",
+          "error-container": "#93000a",
+          "on-tertiary": "#3f008e",
+          "on-secondary-container": "#00311f",
+          "secondary-fixed-dim": "#4edea3",
+          "on-surface-variant": "#c3c6d7",
+          "surface-bright": "#353944",
+          "on-primary-fixed-variant": "#003ea8",
+          "on-secondary-fixed": "#002113",
+          "outline": "#8d90a0",
+          "tertiary-fixed": "#eaddff",
+          "on-surface": "#dfe2f1",
+          "tertiary-container": "#8343f4",
+          "surface-dim": "#0f131d",
+          "on-primary-fixed": "#00174b",
+          "primary": "#b4c5ff",
+          "primary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem"
+        },
+        "fontFamily": {
+          "display-hero": ["Plus Jakarta Sans"],
+          "title-editorial": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "label-interactive": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-caps": ["Plus Jakarta Sans"],
+          "stat-metric": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "title-editorial": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+          "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+          "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "label-interactive": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+          "stat-metric": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/85 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)]"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><img alt="BRIGHTEEN Official Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"><div class="hidden sm:flex flex-col"><span class="font-title-editorial text-title-editorial tracking-tight text-on-surface">BRIGHTEEN</span><span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">SMP Brighton Depok</span></div></div><div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-caps text-label-caps text-secondary uppercase font-bold tracking-wider">Issue #24 Live</span></div></div><div class="flex items-center justify-center"><nav class="flex items-center bg-surface-container-lowest p-1 rounded-full" data-active-classes="bg-primary-container text-on-primary-container shadow-[0_0_16px_rgba(37,99,235,0.4)] font-bold"><a aria-current="page" class="px-space-md py-1.5 rounded-full transition-all whitespace-nowrap bg-primary-container text-on-primary-container shadow-[0_0_16px_rgba(37,99,235,0.4)] font-bold" data-path="reader-view" href="#">Reader View</a><a class="px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="student-contributor" href="#">Student Contributor</a><a class="hidden xl:inline-flex px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="editor-hub" href="#">Stories and Archive</a><a class="hidden xl:inline-flex px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all whitespace-nowrap" data-path="management-analytics" href="#">About Us</a></nav></div><div class="flex items-center gap-space-sm shrink-0"><div class="hidden 2xl:flex items-center gap-space-xs px-space-sm py-1.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase"><span class="material-symbols-outlined text-[16px] text-tertiary">timer</span><span class="">Next Drop: 4d 12h</span></div><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="flex items-center gap-space-xs pl-space-xs rounded-full bg-surface-container-low"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col pr-space-sm text-left"><span class="font-label-interactive text-label-interactive text-on-surface leading-tight">Kezia A.</span><span class="font-label-caps text-label-caps text-secondary font-bold">Chief Reporter 8A</span></div></div></div></div><div class="h-9 w-full px-gutter bg-surface-container-lowest/90 flex items-center justify-between overflow-x-auto"><div class="flex items-center gap-space-sm shrink-0"><span class="font-label-caps text-label-caps text-tertiary uppercase flex items-center gap-1 shrink-0"><span class="material-symbols-outlined text-[14px]">local_fire_department</span>Trending Pulse:</span><div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive shrink-0"><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#BrightonJHS</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#PentasSeni2025</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#AIinSchool</a><a class="px-space-sm py-0.5 rounded-full bg-surface-container hover:bg-surface-container-high hover:text-primary transition-colors" href="#">#RoboticsChamps</a></div></div><div class="hidden sm:flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span><span class="">2,840 Active Readers Online</span></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full relative">
+<!-- Ambient Atmospheric Backdrops -->
+<div class="pointer-events-none absolute -top-12 left-1/4 w-96 h-96 rounded-full bg-primary-container/20 blur-[130px]"></div>
+<div class="pointer-events-none absolute top-96 right-10 w-[420px] h-[420px] rounded-full bg-secondary-container/15 blur-[140px]"></div>
+<div class="pointer-events-none absolute top-[1400px] left-12 w-[380px] h-[380px] rounded-full bg-tertiary-container/15 blur-[120px]"></div>
+<!-- SECTION 1: Instagram-Style Stories Reel -->
+<section class="w-full px-gutter py-space-md">
+<div class="w-full bg-surface-container-low/70 backdrop-blur-2xl rounded-2xl p-space-md shadow-xl">
+<div class="flex items-center justify-between mb-space-sm px-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px] animate-pulse">emergency_home</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-on-surface">Campus Live Highlights</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-caps text-label-caps font-bold">New Today</span>
+</div>
+<button class="font-label-interactive text-label-interactive text-primary hover:text-primary-fixed transition-colors flex items-center gap-0.5">
+<span class="">Watch Reel</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<!-- Horizontal Stories Scroll Tray -->
+<div class="flex items-center gap-space-md overflow-x-auto pb-1 scrollbar-none snap-x snap-mandatory">
+<!-- Story item 1: Clubs & OSIS (Unread) -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#f97316] via-[#ec4899] to-[#8343f4] shadow-[0_0_16px_rgba(236,72,153,0.35)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Vibrant group of Indonesian junior high students in colorful school jackets sitting together in student council room discussing creative projects with neon ambient lighting and tablet displays" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvr_oMtkbyaivr7T6PqG7XPv45Bp7aj1Mkt1gvaw_HoxINpaB-1zzeoZre5litIEJsT5WfpArYKXAvnf2gOiuWwD6DwJiEUT7QAuk90X7bTw4elxls0MqzkMLX8VvX68nApfOBGk88wjtcGqpY4cW82L8XMtRsEpkM146YZtrIhMwOmTkJIkE4bmBMDcoUDyw1gSermDnfyJZo6wkkVou_xltlZjRaai1NHKWke17LwTZ-u6yKiKNg">
+</div>
+<span class="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-[11px] ring-2 ring-surface shadow-sm">
+<span class="material-symbols-outlined text-[12px]">bolt</span>
+</span>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Clubs &amp; OSIS</span>
+</button>
+<!-- Story item 2: Pentas Seni 24 (Live Ring) -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#ec4899] via-[#8343f4] to-[#4edea3] shadow-[0_0_16px_rgba(131,67,244,0.4)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Energetic junior high school stage band performing with electric guitar and drums under vibrant purple and magenta concert lights with excited teen crowd silhouettes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgNOLvngVbgj98UU8cIT1pNjA2zmzi1PKENpKAqbymKkIPKCyVqd1XiUnUpZP-bzkcQzGT9vLl18t3bGwfXcRqsJOsJMe-k27aAG17nCZlpHczCFzlI4DlMwoApmcYEOtyagtfa4aD8hFAN3k3aACYxZzg-Xstv0GUq82Y2KrdkcV_GgshycNaKl2LnRcYM_T9TKEsDgXY3Jmi6Hefd5FXukTY7HfDBtZahNrcVkFfGCM7x_z_2vPi">
+</div>
+<span class="absolute -top-1 px-1.5 py-0.2 rounded-full bg-error text-on-error font-label-caps text-[9px] font-extrabold uppercase tracking-tight ring-1 ring-surface animate-bounce">Live</span>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Pentas Seni 24</span>
+</button>
+<!-- Story item 3: Tech & AI Lab -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#4edea3] via-[#2563eb] to-[#d2bbff] shadow-[0_0_16px_rgba(78,222,163,0.3)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Indonesian teenage student girl soldering a miniature robotics motherboard with illuminated neon cyan wireframes and 3D printer in contemporary school tech laboratory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU266c9GDbHQu2jVUn9fdB1f1ufIG68FnnEaCTlzkejZTPz2sFMPlpkeqiS8aibB6av_fSGfQ1NkCGiIdbIrc2epJmoZ37sdObh-DDKKsrAk_N0M1G47_Il29s41AtRbQdm463SblhLRDuch_1niBin-fLVLDlYx_cdZZtYCk-VmrELbphps4mVA5OqdGEfiMSpOPxtfnGEAYNhZXJJADsoyHI2cI3SJwfgv56BkE7okgvoYp0PWWL">
+</div>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Tech &amp; AI Lab</span>
+</button>
+<!-- Story item 4: Junior Esports -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#2563eb] via-[#8343f4] to-[#f97316] shadow-[0_0_16px_rgba(37,99,235,0.3)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Middle school student gaming team with RGB illuminated headsets concentrating on computer tournament screens in darkened computer club arena" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9szKEm5m-DbdzXbE4P-GPf2VOQqfdIT0A_F5ft9BXNGPh5k0V3PKo1lebYlKAWV1AWfPCtNV1l1ZKMNFRm0C9RaXR5ZBxIGrX23wevt3w1_KfLlbDDl9PKHQrMmm6HKsd1x1SlgQNtcQ32OoiBE3bcce54is6PcHoh5iN2mmegc09S9H0TtkGkP_J667oQw3VNxK8_8sMgBNOJBc7YFanEW3dYmZ596f1Hs2JoUGWf6yE8HNbB5h9">
+</div>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Junior Esports</span>
+</button>
+<!-- Story item 5: Student of Month -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#f97316] via-[#4edea3] to-[#2563eb] shadow-[0_0_16px_rgba(249,115,22,0.3)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Portrait of smiling junior high student wearing navy blue school blazer holding an academic science medal with modern library bookshelves behind" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqZ2W8ieUgSq12SJJH0K5Hs6mrDdqV0HfnkcXRMkxTtcn7c6PEUF5rrWE5CRpkgllXs4JrkhWEN7GPG3yZSTVo0SqoooclnEMNUgZ76Ntl-j4-9aUB8_1-bNEAkY-8fNMLulYK5tE1G9gWlgXKaz9RfDurZZihHtPUTpT3qEOrSR85WLpDasXfZL67AQgfR7NjeCtbAAxq4LDweNrlAplrFIykePD5oCXV73UBBWDLKSEJ7P_wp8Uw">
+</div>
+<span class="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[10px] ring-2 ring-surface">
+<span class="material-symbols-outlined text-[12px]">workspace_premium</span>
+</span>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Student Month</span>
+</button>
+<!-- Story item 6: Voice of Brighton Podcast -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#8343f4] via-[#d2bbff] to-[#ec4899] shadow-[0_0_16px_rgba(131,67,244,0.3)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Two teen student podcasters with broadcast boom microphones and headphones chatting happily in modern sound studio with acoustic foam walls" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnSaTMb7BCUUyUNareIijpSwmHOx1L1VaLDcW9OcHYYO3wORaElK9PDdduebhH4uoR63Wc9N3D6VSfJfwx3rbwEyYjx-9mj-0L44yF2McMqf0qFdmNtK_CJV71cqqaICr1Va3j-DzVtvsS00lHhirgFyKtNHk7v97WJQWw3aYuXXtpBYHV1yx_uvCUroPx9_SoSQgirQyWIL4vSO87C3bJOyLRtNFsLDVU1BdEPW4HCRkKrJI2fFSQ">
+</div>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">VOB Podcast</span>
+</button>
+<!-- Story item 7: Depok Science Fair -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="relative w-[70px] h-[70px] rounded-full p-[3px] bg-gradient-to-tr from-[#4edea3] via-[#f97316] to-[#2563eb] shadow-[0_0_16px_rgba(78,222,163,0.3)] group-hover:scale-105 transition-transform duration-300">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest p-[2px]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Science fair demonstration booth with green test tubes, solar model, and junior high students explaining their ecology project proudly to judges" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA05Qnat2dHk10CKYePiHLt-hZdAsX1xe7-1arpbfCW3MfDUik7fsY00764hbD91ttDUU4jtn0zZbh6o1orjFJ2i00m48YzzPGesqE1v89Z0zB0_-dQ3VMF6PuHxeQG0gQqOo3_3N4JhW4-cNs3ItJ-kuPV6jsX5llzb4qyLqg1jfKYAOLZNJba1oKOOasWjhw43zQQYxcRocG8o0vz6EAWgj4EsuAf3KpDmNQuYe3FxiVuViZgjYo8">
+</div>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface font-semibold truncate group-hover:text-primary transition-colors">Science Fair</span>
+</button>
+<!-- Add Story CTA -->
+<button class="group flex flex-col items-center gap-space-xs shrink-0 cursor-pointer snap-start focus:outline-none">
+<div class="w-[70px] h-[70px] rounded-full p-[2px] bg-surface-variant flex items-center justify-center group-hover:bg-primary-container transition-colors">
+<div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:text-on-primary-container">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</div>
+</div>
+<span class="w-20 text-center font-label-caps text-label-caps text-on-surface-variant group-hover:text-on-surface transition-colors">Submit Clip</span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECTION 2: Hero Highlight Article (Grand Editorial Glassmorphism) -->
+<section class="w-full px-gutter py-space-md">
+<div class="relative w-full rounded-3xl overflow-hidden bg-surface-container shadow-[0_12px_40px_rgba(0,0,0,0.6)]">
+<!-- Background High-impact Visual with Scrim -->
+<div class="relative w-full min-h-[520px] md:min-h-[580px] flex items-end">
+<img class="absolute inset-0 w-full h-full object-cover object-center filter brightness-[0.82] contrast-[1.08] transform hover:scale-102 transition-transform duration-700" data-alt="Cinematic shot of Indonesian junior high school student robotics champions holding a high-tech metallic autonomous robot trophy, bathed in electric blue, violet neon studio key lights with confetti reflections and triumphant smiles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnt2_DVyMwOUjkTFgxt1BIc03qQuRxJ1Ohy7I1jHNcgq9B5Gd7Y_kP12SeqONV2J91HrV2ZNRSUaor-Wk5GQhiImeHFoSE23b2pqahAoTXF7ESf_K2zxiYRzPGd1pbgCzB_5r6BTL8_H5FALXlBuJGY0dEmcYJIDz5xMi2wxBtr0FP8vn1ExNmuvVdqitxNAlRnmE5e-8wml_0z0A4Nx-FYbWgn6jsTXztfjQ3Gt5zeY8GAwZ1v3WI">
+<!-- Neomorphic Gradient Scrim Layers -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/70 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest/80 via-transparent to-surface-container-lowest/30"></div>
+<!-- Glass Content Overlay Sheet -->
+<div class="relative z-10 w-full p-space-md sm:p-space-lg md:p-space-xl flex flex-col gap-space-md max-w-4xl">
+<!-- Top Badges & Trend Indicator -->
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-space-md py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps uppercase tracking-wider font-extrabold shadow-[0_0_16px_rgba(37,99,235,0.6)] flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+              STEM &amp; Innovation
+            </span>
+<span class="px-space-sm py-1 rounded-full bg-surface-container-highest/80 backdrop-blur-md text-secondary font-label-caps text-label-caps font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">military_tech</span>
+              West Java Champion
+            </span>
+<span class="px-space-sm py-1 rounded-full bg-surface-container-highest/70 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+              4 min read
+            </span>
+<span class="px-space-sm py-1 rounded-full bg-surface-container-highest/70 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+              3.4K views
+            </span>
+</div>
+<!-- Headline -->
+<h1 class="font-display-hero text-display-hero text-on-surface tracking-tight leading-none drop-shadow-md">
+            Designing Our Future: Brighton Robotics Team Wins West Java STEM Championship
+          </h1>
+<!-- Excerpt -->
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl line-clamp-2 md:line-clamp-3">
+            Overcoming 42 regional secondary schools, Brighton's 8th-grade engineers deployed their autonomous flood-detection drone 'Garuda-IX' to take home first place at the Bandung Tech Olympiad.
+          </p>
+<!-- Editorial Meta & Social Interactions Dock -->
+<div class="pt-space-sm flex flex-wrap items-center justify-between gap-space-md">
+<!-- Author Card -->
+<div class="flex items-center gap-space-sm">
+<div class="w-11 h-11 rounded-full p-[2px] bg-gradient-to-r from-primary to-secondary">
+<img class="w-full h-full object-cover rounded-full" data-alt="Avatar portrait of 14 year old Aisyah smiling in Brighton school uniform with camera lanyard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyax55CkeRDJ1G4uCrQh8JNuyTl0ju-L0c_6cOlG7YTnFqGoG6j5ThuaxnFXkOo3GQWQMTXwrKg6DLCcOEwLM2aJG1QYSACfE92YNT2LvIdNyxU1kCgJDG5xbyTLu7BAibPzjuEzgXlM7_1ZAXGuT0y4mSNA2Ylp2A-Z2xA-xtY-EM07u2ZfRBjC0nfVuGScHO19Rnm64IGcIFRIT_EYvy90UV6qyVyIae5IHe9tdGpx0QKUsYK4JQ">
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-editorial text-title-editorial text-on-surface font-bold">Aisyah Aulia</span>
+<span class="material-symbols-outlined text-secondary text-[16px]" title="Verified Student Reporter">verified</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Grade 8A • Chief Tech Correspondent</span>
+</div>
+</div>
+<!-- Action Cluster -->
+<div class="flex items-center gap-space-xs bg-surface-container-lowest/80 backdrop-blur-xl px-space-sm py-1.5 rounded-full shadow-lg">
+<!-- Heart Reaction -->
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-on-surface-variant hover:text-error hover:bg-surface-container transition-all" id="hero-like-btn" onclick="toggleHeroLike()">
+<span class="material-symbols-outlined text-[20px] transition-transform duration-200" id="hero-heart-icon">favorite</span>
+<span class="font-label-interactive text-label-interactive" id="hero-like-count">1,248</span>
+</button>
+<!-- Bookmark -->
+<button class="p-2 rounded-full text-on-surface-variant hover:text-tertiary hover:bg-surface-container transition-all" id="hero-bookmark-btn" onclick="toggleHeroBookmark()">
+<span class="material-symbols-outlined text-[20px]" id="hero-bookmark-icon">bookmark</span>
+</button>
+<!-- Quick Share -->
+<button class="p-2 rounded-full text-on-surface-variant hover:text-primary hover:bg-surface-container transition-all" onclick="copyArticleShare()" title="Share story">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<!-- Read Full Story CTA -->
+<a class="ml-1 px-space-md py-2 rounded-full bg-primary hover:bg-primary-fixed-dim text-on-primary font-label-interactive text-label-interactive transition-all flex items-center gap-1 font-bold shadow-md hover:shadow-primary/30" href="#">
+<span class="">Read Story</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Featured 4-Grid (2x2 Dynamic Editorial Bento) -->
+<section class="w-full px-gutter py-space-md">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider text-secondary font-bold">Trending Desk</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">Curated School Stories</h2>
+</div>
+<div class="hidden sm:flex items-center gap-1 text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="">Issue #24 Curations</span>
+<span class="material-symbols-outlined text-[18px]">auto_stories</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Card 1: Zero-Waste Canteen -->
+<article class="group relative rounded-2xl overflow-hidden bg-surface-container-low/90 backdrop-blur-md p-space-md flex flex-col justify-between shadow-lg hover:shadow-[0_8px_32px_rgba(78,222,163,0.18)] transition-all duration-300">
+<div class="relative w-full h-52 rounded-xl overflow-hidden mb-space-md bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern junior high eco-friendly school cafeteria with students using reusable stainless steel bento boxes and bamboo cups, green indoor vertical garden, sunny natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm7m5mapq9pWxMMWmg4zGCWO_vx9AjJQiYxJdBPRu_NNtTLsqSKp3FCCHkaMsMSYCPokj9QnzTvVGr-yxFdXBpS_XI7q7_FDkb6cBmW3xZZ75S340jIBfwTM2RJiUt6I04u1wkQM8eMO2CZw6TVqr05mdfAvIHOfWu2oj2Q3Mc-cJH2stC000i_opVYvPwMKpELUWX5Jem1Fmxh9e8-5ZqF6nGQEP-GWoT9cb1tM80LEgVOax6ISqs">
+<div class="absolute top-space-sm left-space-sm px-2.5 py-1 rounded-full bg-surface-container-highest/85 backdrop-blur-md text-secondary font-label-caps text-label-caps uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">eco</span>
+            Eco Campus
+          </div>
+<div class="absolute bottom-space-sm right-space-sm px-2 py-0.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">visibility</span>
+            940 reads
+          </div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="">By Fadhil (7C)</span>
+<span class="">Yesterday</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors line-clamp-2">
+            Inside Brighton's Green Campus: Zero-Waste Canteen Experiment
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+            Single-use plastics have been officially eliminated from our dining pavilion. How our peer inspectors and local culinary vendors transformed lunchtime.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between mt-auto">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="flex items-center gap-1 hover:text-error transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 312</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat</span> 28</span>
+</div>
+<a class="font-label-interactive text-label-interactive text-primary font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1" href="#">
+<span class="">Read Article</span>
+<span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Card 2: AI Tools Homework -->
+<article class="group relative rounded-2xl overflow-hidden bg-surface-container-low/90 backdrop-blur-md p-space-md flex flex-col justify-between shadow-lg hover:shadow-[0_8px_32px_rgba(37,99,235,0.18)] transition-all duration-300">
+<div class="relative w-full h-52 rounded-xl overflow-hidden mb-space-md bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up of a teenager hands typing on a laptop with holographic mathematical equations and AI neural network overlays glowing in deep blue and purple on screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd1yjvD1fjucIEQ5KiT513TP6jnEFwbuCAznU6izls6_r07l0uc8HkV6mSfalWJvEZAkD8TLoz8npsIH_OwSi-U5G_56TLy5XyHVwADuFeucge7Tn3ANHHEXHEbglwFhmwtKAj-AFwv2nDwz_44H4a54wKvnUk2XYWWo6pr2mT1m-iObaQ_LWSul9zSr4SktfGkvod9S9wjRRwD-02sCWsMqSTMjI8gvZUsOwe95gfAuWpgJnV_9g5">
+<div class="absolute top-space-sm left-space-sm px-2.5 py-1 rounded-full bg-surface-container-highest/85 backdrop-blur-md text-primary font-label-caps text-label-caps uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">smart_toy</span>
+            Tech &amp; Future
+          </div>
+<div class="absolute bottom-space-sm right-space-sm px-2 py-0.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">visibility</span>
+            1.8K reads
+          </div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="">By Ryan K. (9B)</span>
+<span class="">2 days ago</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors line-clamp-2">
+            AI Tools Every Junior High Student is Secretly Using for Homework
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+            From math concept explainers to flashcard generators, we surveyed 250 classmates to find the boundary between smart study habits and digital shortcuts.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between mt-auto">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="flex items-center gap-1 hover:text-error transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 740</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat</span> 94</span>
+</div>
+<a class="font-label-interactive text-label-interactive text-primary font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1" href="#">
+<span class="">Read Article</span>
+<span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Card 3: Basketball Tigers Semifinals -->
+<article class="group relative rounded-2xl overflow-hidden bg-surface-container-low/90 backdrop-blur-md p-space-md flex flex-col justify-between shadow-lg hover:shadow-[0_8px_32px_rgba(249,115,22,0.18)] transition-all duration-300">
+<div class="relative w-full h-52 rounded-xl overflow-hidden mb-space-md bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High action sports photography of junior high school basketball player in royal blue jersey executing a high jump layup against opponents in gymnasium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuKWFZWjzFXmgCxxy9LQd0uOqYwJyRtDOBML4Okm5s6I73AoCKxIMRt9LPJ5aAxFIubHBDvxj_N9QukbMWhAnUfrnMppFV82S62kpgwKiTOw78FBCih-3t7ZB5O9FAKxGLPfcf9AnhfZ47W9ffkW4AH33En46u6cwg7HXK6CqBXUkHzSFhYW6Q5xfkuQvJxqr1b8YaM5sQoEKEP9dQG4bJbOKA-gLOSaa5N_3gCMhZJu18Mtf5pNsG">
+<div class="absolute top-space-sm left-space-sm px-2.5 py-1 rounded-full bg-surface-container-highest/85 backdrop-blur-md text-[#f97316] font-label-caps text-label-caps uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">sports_basketball</span>
+            Sports Arena
+          </div>
+<div class="absolute bottom-space-sm right-space-sm px-2 py-0.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">visibility</span>
+            2.1K reads
+          </div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="">By Dimas Satria (8E)</span>
+<span class="">3 days ago</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors line-clamp-2">
+            Basketball Tigers Win Semifinals Against SMP 2 Depok
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+            With a buzzer-beater 3-pointer in the fourth quarter, Brighton secured a 58-55 victory to lock their championship ticket at the Depok Youth League.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between mt-auto">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="flex items-center gap-1 hover:text-error transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 1,120</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat</span> 116</span>
+</div>
+<a class="font-label-interactive text-label-interactive text-primary font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1" href="#">
+<span class="">Read Article</span>
+<span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Card 4: Manga & Digital Art -->
+<article class="group relative rounded-2xl overflow-hidden bg-surface-container-low/90 backdrop-blur-md p-space-md flex flex-col justify-between shadow-lg hover:shadow-[0_8px_32px_rgba(210,187,255,0.18)] transition-all duration-300">
+<div class="relative w-full h-52 rounded-xl overflow-hidden mb-space-md bg-surface-container-lowest">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Digital art illustration showcase created by Indonesian teen artist featuring colorful cyberpunk city skyline with traditional Indonesian batik motifs and anime character style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAA7VvzS_LPg-T44CdjDGB-WTxMlRZP5FJPdEGlyw6jOBSJr1gNEy6jUetfK8IGvQxmgoJAoYVzQVHHC0gDXizkzvpj0tkMKO_mc8AFFNOczqENyZwK4MCQaWhz7oneO4xohE3GMdLsWQW3KxuL1C2qiTAH8zOTp72vCBF0jtq3MAqmc77sHy_A5sObG7EJ8lyNLvQitcl4jFF1lwjvuuUSxzI5WH2RBQ3D1_Sq8Nsr-CiIhZpoobhb">
+<div class="absolute top-space-sm left-space-sm px-2.5 py-1 rounded-full bg-surface-container-highest/85 backdrop-blur-md text-tertiary font-label-caps text-label-caps uppercase font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">palette</span>
+            Creative Corner
+          </div>
+<div class="absolute bottom-space-sm right-space-sm px-2 py-0.5 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">visibility</span>
+            1.5K reads
+          </div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span class="">By Nadia P. (8C)</span>
+<span class="">4 days ago</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold group-hover:text-primary transition-colors line-clamp-2">
+            Manga &amp; Digital Art Showcase: Best Student Sketches of Q2
+          </h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">
+            Meet the 12 student illustrators fusing neo-tokyo aesthetics with Depok suburban folklore in this quarter's standout virtual art exhibit.
+          </p>
+</div>
+<div class="pt-space-md flex items-center justify-between mt-auto">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-interactive text-label-interactive">
+<span class="flex items-center gap-1 hover:text-error transition-colors"><span class="material-symbols-outlined text-[16px]">favorite</span> 890</span>
+<span class="flex items-center gap-1 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[16px]">chat</span> 62</span>
+</div>
+<a class="font-label-interactive text-label-interactive text-primary font-bold group-hover:translate-x-1 transition-transform flex items-center gap-1" href="#">
+<span class="">Read Article</span>
+<span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<!-- SECTION 4: Sticky Category Filter Bar with Instant Search -->
+<section class="sticky top-20 z-40 w-full px-gutter py-space-sm my-space-sm">
+<div class="w-full bg-surface-container-lowest/90 backdrop-blur-2xl rounded-2xl p-space-sm shadow-2xl flex flex-col md:flex-row items-center justify-between gap-space-sm">
+<!-- Filter Pills Tray -->
+<div class="flex items-center gap-space-xs overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none" id="category-filter-bar">
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-primary-container text-on-primary-container shadow-[0_0_12px_rgba(37,99,235,0.4)] whitespace-nowrap font-bold" onclick="setFilter('all', this)">
+          All Stories
+        </button>
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" onclick="setFilter('campus', this)">
+          Campus Life
+        </button>
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" onclick="setFilter('academics', this)">
+          Academics
+        </button>
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" onclick="setFilter('tech', this)">
+          Tech &amp; AI
+        </button>
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" onclick="setFilter('sports', this)">
+          Sports
+        </button>
+<button class="category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" onclick="setFilter('creative', this)">
+          Creative Corner
+        </button>
+</div>
+<!-- Integrated Instant Search Bar -->
+<div class="relative w-full md:w-72 shrink-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container text-on-surface text-body-sm font-body-sm pl-9 pr-8 py-2 rounded-full focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/60 shadow-inner" id="story-instant-search" placeholder="Search stories, tags, writers..." type="text">
+<button class="absolute right-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface text-[14px]" onclick="clearSearch()">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</section>
+<!-- SECTION 5: Instagram Social Feed Stream (Gen Z & Alpha Kinetic Feed) -->
+<section class="w-full px-gutter py-space-md">
+<div class="max-w-3xl mx-auto flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-extrabold tracking-tight">Student Pulse &amp; Snap Feed</h2>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-caps text-label-caps uppercase font-bold">
+<span class="material-symbols-outlined text-[16px]">sensors</span>
+<span class="">Depok Sync Active</span>
+</div>
+</div>
+<!-- FEED POST 1: Photo Carousel Showcase -->
+<article class="w-full bg-surface-container-low/95 backdrop-blur-2xl rounded-3xl p-space-md md:p-space-lg shadow-2xl flex flex-col gap-space-md">
+<!-- Post Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#f97316] via-[#ec4899] to-[#2563eb]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Aisyah Aulia Grade 8A student journalist headshot smiling warmly with press ID card" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0UsQeJMfVVmdosO5LQX05p7x_ClSqjfW_O4Zwi1KSbDx3mmgoYMiqPHG3C_9NSEJKkkbxMzM4I--Zx4ynmGTyyTfgcVNnlu_BaoIOACDO_i1aNlSpx4upZayNqInigyFp2w1-oQDMRtxRFszUzmpDROAd0SYRJ81N9a-TV6bzTAYbEGMi98IDSNOC3GCXGjJn23Q96ZE3hxiRlsvpgytE2LDlSn42uPiysec5ogor5IauqM4wycux">
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-editorial text-title-editorial text-on-surface font-bold leading-tight">Aisyah Aulia</span>
+<span class="px-2 py-0.2 rounded-full bg-primary/20 text-primary font-label-caps text-[10px] font-bold">8A Journalist</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">SMP Brighton STEM Lab • 2h ago</span>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+<!-- 4:5 Vertical Carousel Media Frame -->
+<div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-surface-container-lowest shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Vibrant close-up of junior high robotics squad testing Garuda-IX robot on competition grid with laptops displaying telemetry code, cyan neon atmosphere" id="carousel-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcmfdomsthY2zog9_6p-e_jOeE7YPZZ4S1wX49G9HaNCGp0dfshkmOAlkZ6gUbfmJzIdeFIWwvzl_-H3RfuV1xY3oSeWsE4n2zoHj7h7_VSB2QFk_Q1eG2vcP5UgOoyNqSgTCmGQvAO-pvsVKPTia4EG9xjC14akuiz03vE9_j-_48X26EnKjksGfwddrOD3CP21nPr-lM9Tue-N0Qb43gf8nAiFU-G3refIcQeue62iaiFawhoIQ0">
+<!-- Carousel Pagination Pill -->
+<div class="absolute top-space-sm right-space-sm px-2.5 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md font-label-caps text-label-caps text-on-surface font-bold">
+<span id="carousel-index" class="">1</span>/4
+          </div>
+<!-- Carousel Slide Nav Arrows -->
+<button class="absolute left-space-sm top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-surface-container-lowest/70 backdrop-blur-md text-on-surface flex items-center justify-center hover:bg-surface-container transition-colors" onclick="prevCarousel()">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="absolute right-space-sm top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-surface-container-lowest/70 backdrop-blur-md text-on-surface flex items-center justify-center hover:bg-surface-container transition-colors" onclick="nextCarousel()">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+<!-- Audio Track Overlay Badge -->
+<div class="absolute bottom-space-sm left-space-sm px-space-sm py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface font-label-caps text-label-caps flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[14px] animate-spin">graphic_eq</span>
+<span class="truncate max-w-[160px]">Brighton Beats • Future Echoes</span>
+</div>
+</div>
+<!-- Interactive Social Engagement Bar -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-space-sm">
+<!-- Heart Like Button -->
+<button class="group flex items-center gap-1.5 text-on-surface hover:text-error transition-all" onclick="togglePostLike(this, 'post-like-count-1')">
+<span class="material-symbols-outlined text-[26px] group-hover:scale-125 transition-transform" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-label-interactive text-label-interactive font-bold" id="post-like-count-1">482</span>
+</button>
+<!-- Comment Count Button -->
+<button class="flex items-center gap-1.5 text-on-surface hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[26px]">chat_bubble</span>
+<span class="font-label-interactive text-label-interactive font-bold">64</span>
+</button>
+<!-- Share Button -->
+<button class="text-on-surface hover:text-secondary transition-all" onclick="sharePost()">
+<span class="material-symbols-outlined text-[24px]">send</span>
+</button>
+</div>
+<!-- Bookmark Button -->
+<button class="text-on-surface hover:text-tertiary transition-all" onclick="togglePostBookmark(this)">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+<!-- Caption Section -->
+<div class="flex flex-col gap-space-xs">
+<p class="font-body-md text-body-md text-on-surface">
+<span class="font-bold">Aisyah Aulia</span> Still surreal! Here are behind-the-scenes snaps of our calibration runs 20 minutes before the finals in Bandung. Our PID controller stabilized the flight right in the nick of time 🚀✨ Huge shoutout to Pak Hendra for staying up late with the coding crew!
+          </p>
+<div class="flex flex-wrap gap-1 font-label-interactive text-label-interactive text-primary">
+<a class="hover:underline" href="#">#BrightonJHS</a>
+<a class="hover:underline" href="#">#BrighteenMag</a>
+<a class="hover:underline" href="#">#STEMKids</a>
+<a class="hover:underline" href="#">#RoboticsChampions</a>
+</div>
+</div>
+<!-- Comments Preview & Add Comment Input -->
+<div class="flex flex-col gap-space-sm pt-space-xs bg-surface-container/40 p-space-sm rounded-2xl">
+<div class="flex items-start gap-space-xs font-body-sm text-body-sm">
+<span class="font-bold text-on-surface shrink-0">Bagas (8D):</span>
+<span class="text-on-surface-variant">The telemetry visualizer look is insane! Proud of you guys 🔥👏</span>
+</div>
+<div class="flex items-start gap-space-xs font-body-sm text-body-sm">
+<span class="font-bold text-on-surface shrink-0">Ms. Sarah (Physics Dept):</span>
+<span class="text-on-surface-variant">Magnificent engineering discipline, team. Presentation on Monday assembly! 🏆</span>
+</div>
+<!-- Input field -->
+<div class="relative flex items-center mt-1">
+<input class="w-full bg-surface-container-high/70 text-on-surface text-body-sm font-body-sm px-space-md py-2 rounded-full focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/50" placeholder="Add a comment as Kezia..." type="text">
+<button class="absolute right-3 font-label-interactive text-label-interactive text-primary hover:text-primary-fixed font-bold">Post</button>
+</div>
+</div>
+</article>
+<!-- FEED POST 2: OSIS Drama Club Rehearsal & Interactive Poll -->
+<article class="w-full bg-surface-container-low/95 backdrop-blur-2xl rounded-3xl p-space-md md:p-space-lg shadow-2xl flex flex-col gap-space-md">
+<!-- Post Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-[#8343f4] via-[#4edea3] to-[#2563eb]">
+<img class="w-full h-full object-cover rounded-full" data-alt="Brighton Drama Club mascot icon featuring comedic and tragic theater masks glowing with neon outline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2UlFxEmp_rwn30RgWu1FtZIkwxJ1UP32JG91Ga5RdS1O1A1r6whzVyHnPHkDC0EfF2k88j7rDxOCdRuZHJiiY5pKT5OhD39BdXbenDXEIOfwxuLf6OzuEfvO1xNsg8lUgMp0URmtwkBM3cxtZcBey6SHiQhV33LsYMr_tXgw5hl4MefUHqjlA3MNrH9bOpcF3Ydf20KPwiRRbzod_YW42ItjrLdRbRwbuETwvfUKmEyXKJGolOsX8">
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-editorial text-title-editorial text-on-surface font-bold leading-tight">OSIS Brighton Drama Troupe</span>
+<span class="px-2 py-0.2 rounded-full bg-tertiary-container/30 text-tertiary font-label-caps text-[10px] font-bold">Official Club</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Brighton Amphitheater • 5h ago</span>
+</div>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-error/20 text-error font-label-caps text-label-caps font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">videocam</span>
+            Teaser Clip
+          </div>
+</div>
+<!-- Video Teaser Frame with Sound Badge -->
+<div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-surface-container-lowest shadow-inner">
+<img class="w-full h-full object-cover" data-alt="Dramatic theatrical lighting with junior high actors in futuristic Indonesian traditional costumes standing on fog-filled auditorium stage rehearsing Pentas Seni musical play" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtEx7W3aW2mf-sE_L8dsOlSO_UHhPmohceRco-m2iJq99ujdOwHH0iKGnxSnSZyofliw_hNddvfjZZcwKx4ZzIi3kV4zdWGc2hRZMixEnyDzC_iuUWIVR3kvgbFtdaVxFlZSaYti8cgxrQOVFeSVd3pmm45MgKF1h2_7J6Jm56TzHW4vv6Y_zDc9j1Lmvox78EXwXNR7JlSHg8RtnpOhnNIUJeJoB2hfC-UGvdB6aNGGs6Sd-smJSL">
+<div class="absolute inset-0 bg-surface-container-lowest/30 flex items-center justify-center">
+<button class="w-16 h-16 rounded-full bg-primary/90 text-on-primary flex items-center justify-center shadow-[0_0_24px_rgba(37,99,235,0.6)] hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<!-- Sound Badge Indicator -->
+<div class="absolute bottom-space-sm left-space-sm px-2.5 py-1 rounded-full bg-surface-container-lowest/85 backdrop-blur-md text-on-surface font-label-caps text-label-caps flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[14px]">volume_up</span>
+<span class="">Original Sound • Drama Rehearsal Tape</span>
+</div>
+<div class="absolute top-space-sm right-space-sm px-2 py-0.5 rounded-full bg-surface-container-lowest/80 text-on-surface font-label-caps text-[11px]">
+            0:45 / 1:20
+          </div>
+</div>
+<!-- Poll Widget Card -->
+<div class="w-full bg-surface-container/70 rounded-2xl p-space-md flex flex-col gap-space-sm shadow-md">
+<div class="flex items-center justify-between">
+<span class="font-title-editorial text-title-editorial text-on-surface font-bold">Are you coming to Friday's Premiere?</span>
+<span class="font-label-caps text-label-caps text-secondary font-bold">342 Votes</span>
+</div>
+<!-- Option 1: Yes Can't Wait (82%) -->
+<button class="poll-btn relative w-full h-11 rounded-xl bg-surface-container-high overflow-hidden flex items-center justify-between px-space-md text-left transition-all" onclick="votePoll(this, 1)">
+<div class="absolute left-0 top-0 bottom-0 bg-primary-container/60 rounded-xl transition-all duration-500" style="width: 82%;"></div>
+<span class="relative z-10 font-label-interactive text-label-interactive text-on-surface font-semibold flex items-center gap-1.5">
+<span class="">Yes! Can't Wait</span>
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span>
+</span>
+<span class="relative z-10 font-label-interactive text-label-interactive text-on-surface font-bold">82%</span>
+</button>
+<!-- Option 2: Need Tickets (18%) -->
+<button class="poll-btn relative w-full h-11 rounded-xl bg-surface-container-high overflow-hidden flex items-center justify-between px-space-md text-left transition-all" onclick="votePoll(this, 2)">
+<div class="absolute left-0 top-0 bottom-0 bg-tertiary-container/40 rounded-xl transition-all duration-500" style="width: 18%;"></div>
+<span class="relative z-10 font-label-interactive text-label-interactive text-on-surface font-semibold">
+              Need Tickets at Lunch Booth
+            </span>
+<span class="relative z-10 font-label-interactive text-label-interactive text-on-surface font-bold">18%</span>
+</button>
+</div>
+<!-- Engagement Action Row -->
+<div class="flex items-center justify-between pt-1">
+<div class="flex items-center gap-space-sm">
+<button class="group flex items-center gap-1.5 text-on-surface hover:text-error transition-all" onclick="togglePostLike(this, 'post-like-count-2')">
+<span class="material-symbols-outlined text-[26px] group-hover:scale-125 transition-transform" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-label-interactive text-label-interactive font-bold" id="post-like-count-2">628</span>
+</button>
+<button class="flex items-center gap-1.5 text-on-surface hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[26px]">chat_bubble</span>
+<span class="font-label-interactive text-label-interactive font-bold">41</span>
+</button>
+<button class="text-on-surface hover:text-secondary transition-all" onclick="sharePost()">
+<span class="material-symbols-outlined text-[24px]">send</span>
+</button>
+</div>
+<button class="text-on-surface hover:text-tertiary transition-all" onclick="togglePostBookmark(this)">
+<span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+<span class="font-bold">OSIS Brighton Drama Troupe</span> Sneak peek of Act 2 scene! Tickets are moving fast. 300 free passes distributed at the library desk today during 2nd break. Don't miss the lighting cues test! 🎭✨
+        </p>
+</article>
+<!-- Infinite Stream Indicator -->
+<div class="w-full py-space-md flex flex-col items-center justify-center gap-space-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[28px] animate-spin text-primary">progress_activity</span>
+<span class="font-label-caps text-label-caps uppercase tracking-wider">Syncing more student stories...</span>
+</div>
+</div>
+</section>
+<!-- Notification Toast for Micro-interactions -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-surface-container-highest/95 backdrop-blur-xl text-on-surface px-space-md py-3 rounded-2xl shadow-2xl flex items-center gap-2 pointer-events-none" id="toast-notify">
+<span class="material-symbols-outlined text-secondary text-[20px]" id="toast-icon">check_circle</span>
+<span class="font-label-interactive text-label-interactive" id="toast-msg">Article Saved!</span>
+</div>
+</div>
+<script>
+  // Toast Helper
+  function showToast(message, iconName = 'check_circle') {
+    const toast = document.getElementById('toast-notify');
+    const msg = document.getElementById('toast-msg');
+    const icon = document.getElementById('toast-icon');
+    if (!toast || !msg || !icon) return;
+    
+    msg.textContent = message;
+    icon.textContent = iconName;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 2400);
+  }
+
+  // Hero Like Button Logic
+  let heroLiked = false;
+  let heroLikes = 1248;
+  function toggleHeroLike() {
+    heroLiked = !heroLiked;
+    const countEl = document.getElementById('hero-like-count');
+    const iconEl = document.getElementById('hero-heart-icon');
+    
+    if (heroLiked) {
+      heroLikes += 1;
+      iconEl.style.fontVariationSettings = "'FILL' 1";
+      iconEl.classList.add('text-error', 'scale-125');
+      setTimeout(() => iconEl.classList.remove('scale-125'), 200);
+      showToast('Liked hero cover story!', 'favorite');
+    } else {
+      heroLikes -= 1;
+      iconEl.style.fontVariationSettings = "'FILL' 0";
+      iconEl.classList.remove('text-error');
+    }
+    countEl.textContent = heroLikes.toLocaleString();
+  }
+
+  // Hero Bookmark Logic
+  let heroBookmarked = false;
+  function toggleHeroBookmark() {
+    heroBookmarked = !heroBookmarked;
+    const iconEl = document.getElementById('hero-bookmark-icon');
+    if (heroBookmarked) {
+      iconEl.style.fontVariationSettings = "'FILL' 1";
+      iconEl.classList.add('text-tertiary');
+      showToast('Article saved to your Brighton Reading List!', 'bookmark');
+    } else {
+      iconEl.style.fontVariationSettings = "'FILL' 0";
+      iconEl.classList.remove('text-tertiary');
+      showToast('Removed from Reading List', 'bookmark_remove');
+    }
+  }
+
+  function copyArticleShare() {
+    navigator.clipboard?.writeText(window.location.href);
+    showToast('Story link copied to clipboard!', 'share');
+  }
+
+  // Category Filter Switcher
+  function setFilter(category, btnElement) {
+    document.querySelectorAll('.category-pill').forEach(btn => {
+      btn.className = "category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap";
+    });
+    btnElement.className = "category-pill px-space-md py-1.5 rounded-full font-label-interactive text-label-interactive bg-primary-container text-on-primary-container shadow-[0_0_12px_rgba(37,99,235,0.4)] whitespace-nowrap font-bold";
+    showToast(`Filtering by ${btnElement.textContent.trim()}`, 'filter_list');
+  }
+
+  function clearSearch() {
+    const input = document.getElementById('story-instant-search');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  // Feed Carousel Navigation
+  let carouselIdx = 1;
+  const maxIdx = 4;
+  function nextCarousel() {
+    carouselIdx = carouselIdx < maxIdx ? carouselIdx + 1 : 1;
+    document.getElementById('carousel-index').textContent = carouselIdx;
+  }
+  function prevCarousel() {
+    carouselIdx = carouselIdx > 1 ? carouselIdx - 1 : maxIdx;
+    document.getElementById('carousel-index').textContent = carouselIdx;
+  }
+
+  // Post Like Logic
+  function togglePostLike(btn, countId) {
+    const icon = btn.querySelector('.material-symbols-outlined');
+    const countSpan = document.getElementById(countId);
+    let count = parseInt(countSpan.textContent.replace(',', '')) || 0;
+    const isFilled = icon.style.fontVariationSettings?.includes("'FILL' 1");
+    
+    if (!isFilled) {
+      icon.style.fontVariationSettings = "'FILL' 1";
+      icon.classList.add('text-error', 'scale-125');
+      setTimeout(() => icon.classList.remove('scale-125'), 150);
+      countSpan.textContent = (count + 1).toLocaleString();
+      showToast('Liked post!', 'favorite');
+    } else {
+      icon.style.fontVariationSettings = "'FILL' 0";
+      icon.classList.remove('text-error');
+      countSpan.textContent = Math.max(0, count - 1).toLocaleString();
+    }
+  }
+
+  function togglePostBookmark(btn) {
+    const icon = btn.querySelector('.material-symbols-outlined');
+    const isFilled = icon.style.fontVariationSettings?.includes("'FILL' 1");
+    if (!isFilled) {
+      icon.style.fontVariationSettings = "'FILL' 1";
+      icon.classList.add('text-tertiary');
+      showToast('Post bookmarked!', 'bookmark');
+    } else {
+      icon.style.fontVariationSettings = "'FILL' 0";
+      icon.classList.remove('text-tertiary');
+    }
+  }
+
+  function sharePost() {
+    showToast('Post link shared to Student Chat!', 'send');
+  }
+
+  function votePoll(btn, opt) {
+    showToast('Vote submitted! 82% said Yes.', 'how_to_vote');
+    const allBtns = btn.closest('.w-full').querySelectorAll('.poll-btn');
+    allBtns.forEach(b => b.classList.add('ring-1', 'ring-secondary/40'));
+  }
+</script></main><footer class="w-full bg-surface-container-lowest pt-space-xl pb-space-lg mt-space-xl"><div class="w-full px-gutter flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><img alt="BRIGHTEEN Official Logo" class="h-7 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface font-bold">BRIGHTEEN</span><span class="font-body-sm text-body-sm text-on-surface-variant">The Official Digital Voice of SMP Brighton Depok</span></div></div><div class="flex flex-wrap items-center justify-center gap-space-md font-label-interactive text-label-interactive text-on-surface-variant"><a class="hover:text-primary transition-colors" href="#">Editorial Board</a><a class="hover:text-primary transition-colors" href="#">Submission Ethics</a><a class="hover:text-primary transition-colors" href="#">School Portal</a><a class="hover:text-primary transition-colors" href="#">Magazine Archive</a></div><div class="font-body-sm text-body-sm text-on-surface-variant text-center md:text-right">© 2025 SMP Brighton Depok. Empowering Student Voices.</div></div></footer>
+
+</body></html>

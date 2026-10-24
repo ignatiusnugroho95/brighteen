@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#f7edff",
+          "inverse-on-surface": "#2c303b",
+          "on-primary": "#002a78",
+          "secondary": "#4edea3",
+          "background": "#0f131d",
+          "on-secondary-fixed-variant": "#005236",
+          "surface-container-lowest": "#0a0e18",
+          "tertiary-fixed-dim": "#d2bbff",
+          "secondary-fixed": "#6ffbbe",
+          "tertiary": "#d2bbff",
+          "error": "#ffb4ab",
+          "secondary-container": "#00a572",
+          "surface-variant": "#313540",
+          "primary-container": "#2563eb",
+          "on-primary-container": "#eeefff",
+          "surface-tint": "#b4c5ff",
+          "on-background": "#dfe2f1",
+          "on-secondary": "#003824",
+          "surface-container-highest": "#313540",
+          "outline-variant": "#434655",
+          "surface": "#0f131d",
+          "inverse-surface": "#dfe2f1",
+          "inverse-primary": "#0053db",
+          "surface-container": "#1c1f2a",
+          "on-tertiary-fixed": "#25005a",
+          "on-error": "#690005",
+          "on-error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#5a00c6",
+          "primary-fixed-dim": "#b4c5ff",
+          "surface-container-low": "#171b26",
+          "surface-container-high": "#262a35",
+          "error-container": "#93000a",
+          "on-tertiary": "#3f008e",
+          "on-secondary-container": "#00311f",
+          "secondary-fixed-dim": "#4edea3",
+          "on-surface-variant": "#c3c6d7",
+          "surface-bright": "#353944",
+          "on-primary-fixed-variant": "#003ea8",
+          "on-secondary-fixed": "#002113",
+          "outline": "#8d90a0",
+          "tertiary-fixed": "#eaddff",
+          "on-surface": "#dfe2f1",
+          "tertiary-container": "#8343f4",
+          "surface-dim": "#0f131d",
+          "on-primary-fixed": "#00174b",
+          "primary": "#b4c5ff",
+          "primary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem"
+        },
+        "fontFamily": {
+          "display-hero": ["Plus Jakarta Sans"],
+          "title-editorial": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "label-interactive": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-caps": ["Plus Jakarta Sans"],
+          "stat-metric": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "title-editorial": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+          "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+          "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "label-interactive": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+          "stat-metric": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-50 flex flex-col pt-space-md pb-space-lg shadow-[4px_0_24px_rgba(0,0,0,0.5)]"><div class="px-space-md mb-space-lg flex items-center gap-space-sm"><img alt="BRIGHTEEN Official Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"/><div class="flex flex-col"><span class="font-title-editorial text-title-editorial text-on-surface leading-none">BRIGHTEEN</span><span class="font-label-caps text-label-caps text-secondary font-bold tracking-wider">NEWSROOM HUB</span></div></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary-container font-bold"><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="journalist-portal" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">edit_note</span>Assignments</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="editor-hub" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">view_kanban</span>Moderation</a><a aria-current="page" class="flex items-center px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary-container font-bold" data-path="management-analytics" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">insights</span>Analytics &amp; Badges</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reader-view" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">menu_book</span>Reader View</a></nav><div class="px-space-md pt-space-md"><div class="p-space-sm rounded-lg bg-surface-container flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col overflow-hidden"><span class="font-label-interactive text-label-interactive text-on-surface truncate">Kezia Amanda</span><span class="font-label-caps text-label-caps text-secondary truncate">Grade 8A Editor</span></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-20 bg-surface/85 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-sm"><span class="font-label-caps text-label-caps uppercase px-space-sm py-1 rounded-full bg-primary-container text-on-primary-container font-bold">Live Desk</span><span class="font-body-sm text-body-sm text-on-surface-variant">Issue #24 Editorial Pipeline</span></div><div class="flex items-center gap-space-sm"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-20 bg-background"><div class="flex flex-col w-full">
+<div class="relative px-gutter pb-space-xl flex flex-col gap-space-lg max-w-[1440px] mx-auto w-full">
+<!-- Ambient Neon Diffusion Backdrop Blooms (Decorative CSS-only) -->
+<div class="absolute -top-12 left-1/4 w-96 h-96 bg-primary-container/20 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+<div class="absolute top-1/3 right-10 w-80 h-80 bg-secondary-container/15 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="absolute bottom-1/4 left-10 w-96 h-96 bg-tertiary-container/15 rounded-full blur-[110px] pointer-events-none -z-10"></div>
+<!-- Executive Header & Quick Filter Strip -->
+<div class="pt-space-md flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-caps text-label-caps uppercase tracking-wider">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Term 2 Active Telemetry
+          </span>
+<span class="text-outline text-body-sm font-body-sm">·</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Brighton Junior High School Depok</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Management &amp; Performance Analytics</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Real-time publication throughput, student newsroom KPIs, behavioral engagement data, and term-end gamified merit accreditation.
+        </p>
+</div>
+<!-- Action Suite: Cohort Filter + Export Intelligence -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center bg-surface-container-low p-1 rounded-full shadow-inner">
+<button class="px-space-md py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-interactive text-label-interactive shadow-sm transition-all" type="button">This Month</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-interactive text-label-interactive transition-all" type="button">Mid-Term</button>
+<button class="px-space-md py-1.5 rounded-full text-on-surface-variant hover:text-on-surface font-label-interactive text-label-interactive transition-all" type="button">Academic Year</button>
+</div>
+<button class="inline-flex items-center gap-space-xs px-space-md py-2 rounded-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-interactive text-label-interactive transition-all shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Curriculum Audit PDF</span>
+</button>
+</div>
+</div>
+<!-- Section 1: KPI Stat Cards with Trend Sparklines -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Total Readers -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-xl shadow-lg flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Total Readers</span>
+<span class="font-stat-metric text-stat-metric text-on-surface mt-1">48,920</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">visibility</span>
+</div>
+</div>
+<div class="mt-space-md flex items-end justify-between">
+<div class="flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+22%</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm font-normal ml-1">vs last month</span>
+</div>
+<!-- Sparkline SVG -->
+<svg class="w-24 h-9 overflow-visible text-secondary" fill="none" viewbox="0 0 100 35">
+<path d="M0,28 Q15,30 30,18 T60,12 T85,8 L100,2" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,28 Q15,30 30,18 T60,12 T85,8 L100,2 L100,35 L0,35 Z" fill="currentColor" fill-opacity="0.12"></path>
+</svg>
+</div>
+</div>
+<!-- Card 2: Monthly Output -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-xl shadow-lg flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Monthly Output</span>
+<span class="font-stat-metric text-stat-metric text-on-surface mt-1">36 Stories</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+</div>
+<div class="mt-space-md flex items-end justify-between">
+<div class="flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>100%</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm font-normal ml-1">issue quota hit</span>
+</div>
+<!-- Sparkline SVG -->
+<svg class="w-24 h-9 overflow-visible text-secondary" fill="none" viewbox="0 0 100 35">
+<path d="M0,25 C25,25 25,12 50,15 C75,18 75,4 100,6" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,25 C25,25 25,12 50,15 C75,18 75,4 100,6 L100,35 L0,35 Z" fill="currentColor" fill-opacity="0.12"></path>
+</svg>
+</div>
+</div>
+<!-- Card 3: Active Journalists -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-xl shadow-lg flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Active Journalists</span>
+<span class="font-stat-metric text-stat-metric text-on-surface mt-1">64 Students</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-tertiary-container/30 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">groups</span>
+</div>
+</div>
+<div class="mt-space-md flex items-end justify-between">
+<div class="flex items-center gap-1 text-tertiary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>+12 New</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm font-normal ml-1">this school term</span>
+</div>
+<!-- Sparkline SVG -->
+<svg class="w-24 h-9 overflow-visible text-tertiary" fill="none" viewbox="0 0 100 35">
+<path d="M0,32 Q30,28 45,16 T75,18 T100,4" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,32 Q30,28 45,16 T75,18 T100,4 L100,35 L0,35 Z" fill="currentColor" fill-opacity="0.15"></path>
+</svg>
+</div>
+</div>
+<!-- Card 4: Avg Engagement Rate -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-xl shadow-lg flex flex-col justify-between relative overflow-hidden group hover:bg-surface-container-high/80 transition-all">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Engagement Rate</span>
+<span class="font-stat-metric text-stat-metric text-on-surface mt-1">14.6%</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-container/20 text-primary-fixed-dim flex items-center justify-center">
+<span class="material-symbols-outlined text-[22px]">favorite</span>
+</div>
+</div>
+<div class="mt-space-md flex items-end justify-between">
+<div class="flex items-center gap-1 text-primary-fixed-dim font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">forum</span>
+<span>3.4 per reader</span>
+</div>
+<!-- Sparkline SVG -->
+<svg class="w-24 h-9 overflow-visible text-primary-fixed-dim" fill="none" viewbox="0 0 100 35">
+<path d="M0,20 Q20,32 40,15 T70,12 T100,8" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+<path d="M0,20 Q20,32 40,15 T70,12 T100,8 L100,35 L0,35 Z" fill="currentColor" fill-opacity="0.15"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Section 2: Interactive Analytics Visualizations -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Chart 1: Reader Views & Engagement Time Series (Span 8 cols) -->
+<div class="lg:col-span-8 p-space-lg rounded-lg bg-surface-container/60 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface">Audience Pulse &amp; Traffic Cadence</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/30 text-primary font-label-caps text-label-caps">After-School Surge</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daily unique readers vs micro-interactions (likes, shares, comment threads)</p>
+</div>
+<!-- Legend -->
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Pageviews</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Social Actions</span>
+</div>
+</div>
+</div>
+<!-- Inline Rich Area SVG Chart -->
+<div class="relative w-full h-64 mt-2">
+<svg class="w-full h-full" fill="none" preserveaspectratio="none" viewbox="0 0 680 220">
+<defs>
+<lineargradient id="primaryAreaGlow" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#b4c5ff" stop-opacity="0.35"></stop>
+<stop offset="100%" stop-color="#b4c5ff" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="secondaryAreaGlow" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#4edea3" stop-opacity="0.30"></stop>
+<stop offset="100%" stop-color="#4edea3" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid Baseline Guides -->
+<line stroke="#313540" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="680" y1="40" y2="40"></line>
+<line stroke="#313540" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="680" y1="95" y2="95"></line>
+<line stroke="#313540" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="680" y1="150" y2="150"></line>
+<line stroke="#434655" stroke-width="1" x1="0" x2="680" y1="205" y2="205"></line>
+<!-- Area 1: Pageviews Fill & Line -->
+<path d="M0,170 C60,165 90,130 140,120 C190,110 220,150 270,140 C320,130 350,60 410,50 C470,40 500,110 550,90 C600,70 630,30 680,25 L680,205 L0,205 Z" fill="url(#primaryAreaGlow)"></path>
+<path d="M0,170 C60,165 90,130 140,120 C190,110 220,150 270,140 C320,130 350,60 410,50 C470,40 500,110 550,90 C600,70 630,30 680,25" stroke="#b4c5ff" stroke-linecap="round" stroke-width="3"></path>
+<!-- Area 2: Social Actions Fill & Line -->
+<path d="M0,190 C70,185 100,160 150,155 C200,150 230,170 280,165 C330,160 360,105 410,95 C460,85 510,140 560,125 C610,110 640,75 680,70 L680,205 L0,205 Z" fill="url(#secondaryAreaGlow)"></path>
+<path d="M0,190 C70,185 100,160 150,155 C200,150 230,170 280,165 C330,160 360,105 410,95 C460,85 510,140 560,125 C610,110 640,75 680,70" stroke="#4edea3" stroke-linecap="round" stroke-width="2.5"></path>
+<!-- High Peak Interactive Pulse Markers -->
+<circle class="shadow-lg animate-ping opacity-60" cx="410" cy="50" fill="#b4c5ff" r="5"></circle>
+<circle cx="410" cy="50" fill="#002a78" r="4" stroke="#b4c5ff" stroke-width="2"></circle>
+<circle cx="680" cy="25" fill="#002a78" r="4" stroke="#b4c5ff" stroke-width="2"></circle>
+<circle cx="410" cy="95" fill="#003824" r="3.5" stroke="#4edea3" stroke-width="2"></circle>
+</svg>
+</div>
+<!-- Axis Markers -->
+<div class="flex items-center justify-between text-on-surface-variant font-label-caps text-label-caps pt-space-xs">
+<span>Mon (07:00)</span>
+<span>Tue (15:30)</span>
+<span>Wed (Study Hall)</span>
+<span>Thu (Club Expo)</span>
+<span>Fri (Issue Drop)</span>
+<span>Sat (Weekend Chill)</span>
+<span>Sun (Prep)</span>
+</div>
+</div>
+<!-- Chart 2: Content Distribution by Category (Span 4 cols) -->
+<div class="lg:col-span-4 p-space-lg rounded-lg bg-surface-container/60 backdrop-blur-xl shadow-xl flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">Category Mix</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Coverage balance across beats</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant">pie_chart</span>
+</div>
+<!-- Donut Chart Illustration -->
+<div class="flex items-center justify-center my-space-md relative">
+<svg class="w-44 h-44 -rotate-90" viewbox="0 0 100 100">
+<!-- Background Ring -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#262a35" stroke-width="12"></circle>
+<!-- Segment 1: Campus Life 35% (Circumference ~238.76 -> 35% is 83.5) -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#2563eb" stroke-dasharray="83.5 238.76" stroke-dashoffset="0" stroke-width="12"></circle>
+<!-- Segment 2: Tech & AI 25% (25% is 59.7) -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#8343f4" stroke-dasharray="59.7 238.76" stroke-dashoffset="-83.5" stroke-width="12"></circle>
+<!-- Segment 3: Sports 20% (20% is 47.7) -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#4edea3" stroke-dasharray="47.7 238.76" stroke-dashoffset="-143.2" stroke-width="12"></circle>
+<!-- Segment 4: Creative Corner 15% (15% is 35.8) -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#d2bbff" stroke-dasharray="35.8 238.76" stroke-dashoffset="-190.9" stroke-width="12"></circle>
+<!-- Segment 5: Academics 5% (5% is 11.9) -->
+<circle cx="50" cy="50" fill="none" r="38" stroke="#6ffbbe" stroke-dasharray="11.9 238.76" stroke-dashoffset="-226.7" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+<span class="font-stat-metric text-stat-metric text-on-surface">36</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Stories</span>
+</div>
+</div>
+<!-- Legend Bars -->
+<div class="grid grid-cols-2 gap-x-space-sm gap-y-1.5 font-label-interactive text-label-interactive">
+<div class="flex items-center gap-1.5 truncate">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container shrink-0"></span>
+<span class="text-on-surface truncate">Campus Life</span>
+<span class="text-on-surface-variant ml-auto font-label-caps text-label-caps">35%</span>
+</div>
+<div class="flex items-center gap-1.5 truncate">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary-container shrink-0"></span>
+<span class="text-on-surface truncate">Tech &amp; AI</span>
+<span class="text-on-surface-variant ml-auto font-label-caps text-label-caps">25%</span>
+</div>
+<div class="flex items-center gap-1.5 truncate">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary shrink-0"></span>
+<span class="text-on-surface truncate">Sports</span>
+<span class="text-on-surface-variant ml-auto font-label-caps text-label-caps">20%</span>
+</div>
+<div class="flex items-center gap-1.5 truncate">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary shrink-0"></span>
+<span class="text-on-surface truncate">Creative</span>
+<span class="text-on-surface-variant ml-auto font-label-caps text-label-caps">15%</span>
+</div>
+<div class="flex items-center gap-1.5 col-span-2 truncate">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed shrink-0"></span>
+<span class="text-on-surface truncate">Academics &amp; STEM</span>
+<span class="text-on-surface-variant ml-auto font-label-caps text-label-caps">5%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chart 3: Output Velocity Comparison across 4 Weeks -->
+<div class="p-space-lg rounded-lg bg-surface-container/60 backdrop-blur-xl shadow-xl flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Publishing Velocity: Staff Journalists vs. Open Submissions</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Weekly throughput comparison tracking student voice inclusivity</p>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Core Press Team</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-sm bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Guest Student Submissions</span>
+</div>
+</div>
+</div>
+<!-- CSS/Flex Grouped Bar Visualization -->
+<div class="grid grid-cols-4 gap-space-md pt-space-sm items-end h-44">
+<!-- Week 1 -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<div class="flex items-end gap-2 w-full max-w-[80px] h-full justify-center">
+<div class="w-5 bg-primary-container rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 55%;">
+<span class="absolute -top-6 text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">5 Arts</span>
+</div>
+<div class="w-5 bg-secondary rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 30%;">
+<span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">2 Subs</span>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">W1 (Oct 01)</span>
+</div>
+<!-- Week 2 -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<div class="flex items-end gap-2 w-full max-w-[80px] h-full justify-center">
+<div class="w-5 bg-primary-container rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 70%;">
+<span class="absolute -top-6 text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">7 Arts</span>
+</div>
+<div class="w-5 bg-secondary rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 48%;">
+<span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">4 Subs</span>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">W2 (Oct 08)</span>
+</div>
+<!-- Week 3 -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<div class="flex items-end gap-2 w-full max-w-[80px] h-full justify-center">
+<div class="w-5 bg-primary-container rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 85%;">
+<span class="absolute -top-6 text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">9 Arts</span>
+</div>
+<div class="w-5 bg-secondary rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 60%;">
+<span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">5 Subs</span>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">W3 (Oct 15)</span>
+</div>
+<!-- Week 4: Peak Current -->
+<div class="flex flex-col items-center gap-2 h-full justify-end group">
+<div class="flex items-end gap-2 w-full max-w-[80px] h-full justify-center">
+<div class="w-5 bg-primary-container rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 98%;">
+<span class="absolute -top-6 text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity">11 Arts</span>
+</div>
+<div class="w-5 bg-secondary rounded-t-md hover:brightness-125 transition-all relative flex justify-center group-hover:scale-y-105 origin-bottom" style="height: 80%;">
+<span class="absolute -top-6 text-[10px] font-bold text-secondary opacity-0 group-hover:opacity-100 transition-opacity">7 Subs</span>
+</div>
+</div>
+<span class="font-label-caps text-label-caps text-secondary font-bold uppercase">W4 (Issue Finale)</span>
+</div>
+</div>
+</div>
+<!-- Section 3: Gamification & Student Recognition System (Hall of Fame) -->
+<div class="flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Newsroom Hall of Fame &amp; Merit Accreditations</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Recognizing student excellence, viral impact, and extracurricular leadership points</p>
+</div>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-primary-fixed font-label-interactive text-label-interactive transition-colors" type="button">
+<span>View Credit Ledger</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Badges & Awards Wall (3 Asymmetric Glass Tokens) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Award 1: Star Journalist of the Month -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-2xl shadow-xl flex flex-col justify-between relative overflow-hidden group hover:scale-[1.01] transition-transform">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px]">emoji_events</span>
+              Grand Honor
+            </span>
+<span class="font-stat-metric text-stat-metric text-tertiary">+450 XP</span>
+</div>
+<div class="my-space-md flex items-center gap-space-md">
+<div class="relative shrink-0">
+<img class="w-16 h-16 rounded-full object-cover shadow-md" data-alt="A candid profile portrait of Aisyah Aulia, an Indonesian junior high school student wearing a crisp navy school uniform blazer and subtle headset, warm gentle studio lighting with neon blue accents, ultra crisp digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKfDlyxWVQlGWuzv8SZcwCVWrK3Ni_SlEVlGBhdoHIybcgR1OcMXzid4VJMUsjZvecjF8gBiNF84vkFJrqndufj67IbpyuZDzPrzT-P9Og98tCD_4csgoZ6COT1pcJbSDouMzlRheAQsDk0MEloigdrqA-a06GdFQtBNxoeLHjXGyCWztgm793SSwWkNNy79gJVuReMifR3FLG4fvbmex8sYld3_dR2vNAqhqTdf0SvouewlSqd4Bq"/>
+<span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-tertiary text-on-tertiary flex items-center justify-center text-[12px] font-bold">#1</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial text-on-surface truncate">Aisyah Aulia</span>
+<span class="font-label-interactive text-label-interactive text-secondary">Grade 8A Press Lead</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">14.8K reads · 4 Scoop Pieces</span>
+</div>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high/60 backdrop-blur-sm flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-primary uppercase">Principal Commendation</span>
+<p class="font-body-sm text-body-sm text-on-surface italic line-clamp-2">
+              "Outstanding investigative coverage on the new Brighton Science Wing green roof labs."
+            </p>
+</div>
+</div>
+<!-- Award 2: Most Viral Story -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-2xl shadow-xl flex flex-col justify-between relative overflow-hidden group hover:scale-[1.01] transition-transform">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-primary-container/20 text-primary-fixed-dim font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span>
+              Viral Velocity
+            </span>
+<span class="font-stat-metric text-stat-metric text-primary-fixed-dim">+380 XP</span>
+</div>
+<div class="my-space-md flex flex-col gap-1">
+<span class="font-title-editorial text-title-editorial text-on-surface leading-tight">AI Tools in Homework: Savior or Shortcut?</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">By Dimas Raditya (Grade 9D)</span>
+<div class="flex items-center gap-space-md mt-space-sm">
+<div class="flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">share</span>
+<span>6.2K Shares</span>
+</div>
+<div class="flex items-center gap-1 text-primary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>412 Comments</span>
+</div>
+</div>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high/60 backdrop-blur-sm flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-secondary font-bold">98% Positive Sentiment</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Featured on School IG</span>
+</div>
+</div>
+<!-- Award 3: Editor's Choice Gold Medal -->
+<div class="p-space-lg rounded-lg bg-surface-container/70 backdrop-blur-2xl shadow-xl flex flex-col justify-between relative overflow-hidden group hover:scale-[1.01] transition-transform">
+<div class="flex items-start justify-between">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+              Faculty Gold Medal
+            </span>
+<span class="font-stat-metric text-stat-metric text-secondary">+500 XP</span>
+</div>
+<div class="my-space-md flex flex-col gap-1">
+<span class="font-title-editorial text-title-editorial text-on-surface leading-tight">Zero-Waste Canteen Audit</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Environmental Club Investigation</span>
+<div class="flex items-center gap-space-sm mt-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface text-body-sm font-body-sm">Deep-Dive Journalism</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-secondary text-body-sm font-body-sm">Policy Impact</span>
+</div>
+</div>
+<div class="p-space-sm rounded bg-surface-container-high/60 backdrop-blur-sm flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-tertiary">Board Review Approved</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Presented to Depok Council</span>
+</div>
+</div>
+</div>
+<!-- Leaderboard Sub-Strip (Student Extracurricular Credit Points) -->
+<div class="p-space-md rounded-lg bg-surface-container-low/90 backdrop-blur-md flex flex-col lg:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md w-full lg:w-auto">
+<div class="flex -space-x-3 overflow-hidden">
+<img class="inline-block h-9 w-9 rounded-full ring-2 ring-surface object-cover" data-alt="Close-up portrait of student reporter with glasses and friendly smile in modern school library setting, ambient purple and cyan tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt32QHHG3-pxfWQ3BUv5HWT3SJA3r687HHLBXAhy1nqcNZVZGEgVx0Jo-er0eUT7R4JKxov2U25fhMh0fNR4Y56jA3l5qmaynUa91gUZyfe-ay84s8Lfy9YgPpHOSRXRlCF1EXIu5fwMDRYD1bmqZSzL_b1p6D6uapwFukkjPcQDW4582sU3l21dYB0XWsQw3D4ejwCX6nx5vbxdxck4e13KWM0LkwFROegFHUezZ3KwlLloByU2JJ"/>
+<img class="inline-block h-9 w-9 rounded-full ring-2 ring-surface object-cover" data-alt="Portrait of student photographer holding mirrorless camera indoors at a modern high school, dynamic neon mint accent lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3M5CHBXC-G9BJz-vxb9Jm8Xqk2EC9X4WrIIpe68_4JROrUMKvgzPpNhTuxlXm7WN1HqSSIqKtpWKYWJy9k2XcPL5pMKTXdccc6G-A_ladunFsvCxu5F_5xm3JAFcIPV1k2farwTfO_YUvSGpP4iTG6r4-Ym2hL8YD97_soQzwkrQ4ZMNwQwBt5m9Bsufydq71aOX_dH5h1yblxFthsjr934ovx1CAZ2eGVy3THzx6ejdknXpi3hea"/>
+<img class="inline-block h-9 w-9 rounded-full ring-2 ring-surface object-cover" data-alt="Portrait of teenage boy writing in notebook with futuristic clean school newsroom background, soft cool blue light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCot_UGFEGbtzKbr6P_-_DZZ4ZOxM52_V931EDIeUF2h9H5-QeKhyUDdLZF5R8f0hxDADX3IAOkoKJAN27Jo5HZz_V5ZuverQNq46idaUCRL0523f74vfFsTRHnL_tnC53Llo6yX_1G66O4Eselq_Vhsf7Zl482Zu63Y1JVJhzI3nxJ3hBeOApH40bO8rRBI2SE9Cfcu08IbJ4B8Rfs3plbww1-25HgUpD7HTyPNu5JbJDP0uSb4NON"/>
+<div class="h-9 w-9 rounded-full bg-surface-container-high flex items-center justify-center font-label-caps text-label-caps text-on-surface ring-2 ring-surface">+18</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-interactive text-label-interactive text-on-surface">Term 2 Merit Roster</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">88% of journalists qualify for Honors Extracurricular Transcript Credits</span>
+</div>
+</div>
+<div class="flex items-center gap-space-lg w-full lg:w-auto justify-end">
+<div class="flex items-center gap-space-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Total XP Distributed:</span>
+<span class="font-title-editorial text-title-editorial text-secondary">24,850 XP</span>
+</div>
+<button class="px-space-md py-1.5 rounded-full bg-primary-container hover:bg-primary-container/80 text-on-primary-container font-label-interactive text-label-interactive transition-all" type="button">
+            Certify Credits
+          </button>
+</div>
+</div>
+</div>
+<!-- Section 4: Personnel & Newsroom Account Management Table -->
+<div class="p-space-lg rounded-lg bg-surface-container/60 backdrop-blur-xl shadow-xl flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Editorial Staff &amp; Contributor Registry</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Roster permissions, grade cohort beat assignments, and issue progress tracking</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-on-surface-variant text-[18px]">search</span>
+<input class="pl-9 pr-4 py-1.5 bg-surface-container-lowest rounded-full text-body-sm font-body-sm text-on-surface placeholder-outline focus:outline-none focus:ring-1 focus:ring-primary w-48 sm:w-64" placeholder="Filter by student or beat..." type="text"/>
+</div>
+<button class="inline-flex items-center gap-1 px-space-md py-1.5 rounded-full bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-interactive text-label-interactive transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>Assign Role</span>
+</button>
+</div>
+</div>
+<!-- Table Container -->
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-lowest/80 text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+<th class="py-3 px-space-md rounded-l-lg">Staff Member</th>
+<th class="py-3 px-space-md">Role &amp; Tier</th>
+<th class="py-3 px-space-md">Grade/Class</th>
+<th class="py-3 px-space-md">Assigned Beat</th>
+<th class="py-3 px-space-md">Monthly Progress</th>
+<th class="py-3 px-space-md">Status</th>
+<th class="py-3 px-space-md text-right rounded-r-lg">Manage</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40 font-body-md text-body-md text-on-surface">
+<!-- Row 1: Kezia Amanda (Senior Editor) -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-label-interactive">KA</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial leading-tight truncate">Kezia Amanda</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">kezia.amanda@brighton.sch.id</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[14px]">edit_note</span> Senior Editor
+                </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md">Grade 8A</td>
+<td class="py-space-md px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-body-sm font-body-sm">Investigative &amp; Leads</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1 w-32">
+<div class="flex justify-between font-label-caps text-label-caps">
+<span>4/4 Stories</span>
+<span class="text-secondary">100%</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest inline-flex items-center justify-center text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Aisyah Aulia (Journalist) -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-label-interactive">AA</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial leading-tight truncate">Aisyah Aulia</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">aisyah.aulia@brighton.sch.id</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container/20 text-primary-fixed-dim font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[14px]">feed</span> Staff Journalist
+                </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md">Grade 8A</td>
+<td class="py-space-md px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-body-sm font-body-sm">Campus Life &amp; Labs</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1 w-32">
+<div class="flex justify-between font-label-caps text-label-caps">
+<span>4/3 Stories</span>
+<span class="text-secondary">133%</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest inline-flex items-center justify-center text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Dimas Raditya (Staff Journalist) -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-label-interactive">DR</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial leading-tight truncate">Dimas Raditya</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">dimas.r@brighton.sch.id</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container/20 text-primary-fixed-dim font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[14px]">feed</span> Staff Journalist
+                </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md">Grade 9D</td>
+<td class="py-space-md px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-body-sm font-body-sm">Tech, AI &amp; Gadgets</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1 w-32">
+<div class="flex justify-between font-label-caps text-label-caps">
+<span>3/3 Stories</span>
+<span class="text-secondary">100%</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest inline-flex items-center justify-center text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Sarah Nabila (Student Contributor) -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-variant text-on-surface flex items-center justify-center font-bold text-label-interactive">SN</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial leading-tight truncate">Sarah Nabila</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">sarah.nabila@brighton.sch.id</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-variant text-on-surface font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[14px]">rate_review</span> Contributor
+                </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md">Grade 7C</td>
+<td class="py-space-md px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-body-sm font-body-sm">Creative Corner &amp; Poetry</span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col gap-1 w-32">
+<div class="flex justify-between font-label-caps text-label-caps">
+<span>1/2 Stories</span>
+<span class="text-tertiary">50%</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 50%;"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest inline-flex items-center justify-center text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Pak Budi Santoso, M.Pd (Faculty Advisor) -->
+<tr class="hover:bg-surface-container-high/30 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-label-interactive">BS</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-editorial text-title-editorial leading-tight truncate">Budi Santoso, M.Pd</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">budi.santoso@faculty.brighton.sch.id</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-interactive text-label-interactive">
+<span class="material-symbols-outlined text-[14px]">school</span> Faculty Advisor
+                </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md">Staff / Lang. Dept</td>
+<td class="py-space-md px-space-md">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface text-body-sm font-body-sm">Ethical Oversight &amp; Ops</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-label-caps text-label-caps text-on-surface-variant">42 Approvals Logged</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 text-secondary font-label-interactive text-label-interactive">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Active
+                </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest inline-flex items-center justify-center text-on-surface transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Registry Footer -->
+<div class="flex items-center justify-between pt-space-xs font-body-sm text-body-sm text-on-surface-variant">
+<span>Showing 5 of 64 staff journalists &amp; faculty members</span>
+<div class="flex items-center gap-2">
+<button class="p-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-interactive text-label-interactive">1</span>
+<button class="p-1.5 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

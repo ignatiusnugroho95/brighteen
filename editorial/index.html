@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#f7edff",
+          "inverse-on-surface": "#2c303b",
+          "on-primary": "#002a78",
+          "secondary": "#4edea3",
+          "background": "#0f131d",
+          "on-secondary-fixed-variant": "#005236",
+          "surface-container-lowest": "#0a0e18",
+          "tertiary-fixed-dim": "#d2bbff",
+          "secondary-fixed": "#6ffbbe",
+          "tertiary": "#d2bbff",
+          "error": "#ffb4ab",
+          "secondary-container": "#00a572",
+          "surface-variant": "#313540",
+          "primary-container": "#2563eb",
+          "on-primary-container": "#eeefff",
+          "surface-tint": "#b4c5ff",
+          "on-background": "#dfe2f1",
+          "on-secondary": "#003824",
+          "surface-container-highest": "#313540",
+          "outline-variant": "#434655",
+          "surface": "#0f131d",
+          "inverse-surface": "#dfe2f1",
+          "inverse-primary": "#0053db",
+          "surface-container": "#1c1f2a",
+          "on-tertiary-fixed": "#25005a",
+          "on-error": "#690005",
+          "on-error-container": "#ffdad6",
+          "on-tertiary-fixed-variant": "#5a00c6",
+          "primary-fixed-dim": "#b4c5ff",
+          "surface-container-low": "#171b26",
+          "surface-container-high": "#262a35",
+          "error-container": "#93000a",
+          "on-tertiary": "#3f008e",
+          "on-secondary-container": "#00311f",
+          "secondary-fixed-dim": "#4edea3",
+          "on-surface-variant": "#c3c6d7",
+          "surface-bright": "#353944",
+          "on-primary-fixed-variant": "#003ea8",
+          "on-secondary-fixed": "#002113",
+          "outline": "#8d90a0",
+          "tertiary-fixed": "#eaddff",
+          "on-surface": "#dfe2f1",
+          "tertiary-container": "#8343f4",
+          "surface-dim": "#0f131d",
+          "on-primary-fixed": "#00174b",
+          "primary": "#b4c5ff",
+          "primary-fixed": "#dbe1ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-lg": "1.5rem",
+          "margin-mobile": "1rem",
+          "space-sm": "0.5rem",
+          "margin": "2rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-xs": "0.25rem",
+          "gutter-mobile": "0.75rem",
+          "space-xl": "2.5rem"
+        },
+        "fontFamily": {
+          "display-hero": ["Plus Jakarta Sans"],
+          "title-editorial": ["Plus Jakarta Sans"],
+          "body-md": ["Inter"],
+          "display-hero-mobile": ["Plus Jakarta Sans"],
+          "label-interactive": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Plus Jakarta Sans"],
+          "body-sm": ["Inter"],
+          "body-lg": ["Inter"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "headline-sm": ["Plus Jakarta Sans"],
+          "label-caps": ["Plus Jakarta Sans"],
+          "stat-metric": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "display-hero": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "800"}],
+          "title-editorial": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+          "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+          "display-hero-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "label-interactive": ["13px", {"lineHeight": "18px", "fontWeight": "600"}],
+          "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+          "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+          "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+          "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+          "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+          "stat-metric": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+          "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+        }
+      }
+    }
+  }</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest z-50 flex flex-col pt-space-md pb-space-lg shadow-[4px_0_24px_rgba(0,0,0,0.5)]"><div class="px-space-md mb-space-lg flex items-center gap-space-sm"><img alt="BRIGHTEEN Official Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM9x8j92-2GqscYdgUW25N6AUvveVKsPPiu6ZhhdQSpPEM83o7vHMtEO8G5oF4riUO_WI49ixCGQCs1I0lCu5HaoHwVVbJviN80aRdTSyZm0Oz0xB8FCP68QeJ0e5L8JDyw87f9i1ZQsLybdFLsb9y0aDrLF7f7T1dDJS6LIPa4vMWlABmhs_jCY86sdJPBhrT82Ivv9jGapQtNA7ENnnYuPwmWhfvc0oH3Dcs1glIMN4IcVYXEPmM"/><div class="flex flex-col"><span class="font-title-editorial text-title-editorial text-on-surface leading-none">BRIGHTEEN</span><span class="font-label-caps text-label-caps text-secondary font-bold tracking-wider">NEWSROOM HUB</span></div></div><nav class="flex-1 px-space-sm space-y-1" data-active-classes="bg-primary-container text-on-primary-container font-bold"><a aria-current="page" class="flex items-center px-space-md py-space-sm rounded-lg transition-all bg-primary-container text-on-primary-container font-bold" data-path="journalist-portal" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">edit_note</span>Assignments</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="editor-hub" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">view_kanban</span>Moderation</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="management-analytics" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">insights</span>Analytics &amp; Badges</a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="reader-view" href="#"><span class="material-symbols-outlined mr-space-sm text-[20px]">menu_book</span>Reader View</a></nav><div class="px-space-md pt-space-md"><div class="p-space-sm rounded-lg bg-surface-container flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="flex flex-col overflow-hidden"><span class="font-label-interactive text-label-interactive text-on-surface truncate">Kezia Amanda</span><span class="font-label-caps text-label-caps text-secondary truncate">Grade 8A Editor</span></div></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-20 bg-surface/85 backdrop-blur-2xl shadow-[0_4px_24px_rgba(0,0,0,0.5)] z-40 flex items-center justify-between px-gutter"><div class="flex items-center gap-space-sm"><span class="font-label-caps text-label-caps uppercase px-space-sm py-1 rounded-full bg-primary-container text-on-primary-container font-bold">Live Desk</span><span class="font-body-sm text-body-sm text-on-surface-variant">Issue #24 Editorial Pipeline</span></div><div class="flex items-center gap-space-sm"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">search</span></button><div class="relative"><button class="w-10 h-10 rounded-full bg-surface-container-low hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-all" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface"></span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Dynamic Neon Gradient Ambient Background Orbs -->
+<div class="relative w-full px-margin py-space-lg max-w-[1440px] mx-auto overflow-hidden">
+<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-container/20 blur-[130px] pointer-events-none"></div>
+<div class="absolute top-80 right-0 w-80 h-80 rounded-full bg-secondary-container/15 blur-[120px] pointer-events-none"></div>
+<div class="absolute bottom-40 left-1/3 w-72 h-72 rounded-full bg-tertiary-container/20 blur-[110px] pointer-events-none"></div>
+<!-- Editorial Broadcast Ribbon -->
+<div class="relative mb-space-lg overflow-hidden rounded-lg bg-surface-container-high/90 backdrop-blur-2xl p-space-sm pl-space-md shadow-xl flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm min-w-0">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps uppercase tracking-wider shrink-0">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+          Desk Alert
+        </span>
+<p class="font-body-md text-body-md text-on-surface truncate">
+<span class="font-semibold text-primary">Chief Editor Fajar:</span> Reminder: Monthly print &amp; digital magazine deadline is next Wednesday. Please ensure all student interview consent forms are attached!
+        </p>
+</div>
+<div class="flex items-center gap-space-xs shrink-0 pr-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container hover:bg-surface-container-highest font-label-interactive text-label-interactive text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">rule</span>
+          Guidelines
+        </button>
+<button aria-label="Dismiss notice" class="w-7 h-7 rounded-full flex items-center justify-center text-outline hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- Journalist Identity & Performance KPI Bar -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-md mb-space-xl">
+<!-- Profile Card (Bento 4-col) -->
+<div class="xl:col-span-4 rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-xl flex flex-col justify-between relative overflow-hidden group">
+<div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-primary/10 blur-2xl group-hover:bg-primary/20 transition-all duration-500"></div>
+<div>
+<div class="flex items-start justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-md">
+<div class="relative shrink-0">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a cheerful 14-year-old Indonesian female junior high student journalist with glasses, natural smile, wearing school blazer and camera neck strap, brightly lit creative studio with neon purple accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtNdrGvEqVkkO4dDPpqwdxItq9nM1HeAL8PmSRdU05bVCR3slQ6yoB00Kf3eF7aBxD9XPpnjQ7Kh1mxEvr6zLCuu-glj9AwGzuoQml--_mgNPsvqSqUiGgklApKNmJJIjglxGqVbOskplkzt1Q8OicEk7yceONTxUirg9l-KzyHrah33wPhcgc4jN9VJXg-KA0bDHjshkrq1fX35svTtbcuGjYKL7EQusXoibJAcuThQW2LOJXHU7f"/>
+</div>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-on-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface truncate">Aisyah Aulia</h2>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps uppercase">Grade 8A</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Senior Student Reporter • Science &amp; Culture</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-label-caps text-secondary font-semibold">ONLINE • DRAFTING</span>
+</div>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-high hover:bg-surface-variant flex items-center justify-center text-on-surface-variant transition-colors" title="Reporter Profile Settings" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+<!-- Tier Badge Award Ribbon -->
+<div class="p-space-sm rounded-lg bg-surface-container-high/60 backdrop-blur flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 shadow-md shrink-0">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">history_edu</span>
+</div>
+<div class="min-w-0 flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-label-caps uppercase font-bold text-amber-300">Gold Quill Tier</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Rank #2 in School</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface truncate">Recognized for top investigative depth &amp; peer impact</p>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Press Badge ID: <strong class="text-on-surface">BT-2024-8A09</strong></span>
+<span class="font-label-interactive text-label-interactive text-primary flex items-center gap-0.5 cursor-pointer hover:underline">Portfolio <span class="material-symbols-outlined text-[16px]">arrow_outward</span></span>
+</div>
+</div>
+<!-- KPI Metrics (Bento 8-col: 3 dynamic blocks) -->
+<div class="xl:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+<!-- Monthly Quota Progress -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-xl flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-bold">Monthly Target</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/30 text-secondary font-label-caps text-label-caps font-bold">75% Done</span>
+</div>
+<div class="my-space-sm">
+<div class="flex items-baseline gap-2">
+<span class="font-stat-metric text-stat-metric text-on-surface">3 <span class="font-headline-sm text-headline-sm text-on-surface-variant">/ 4</span></span>
+<span class="font-body-sm text-body-sm text-secondary font-semibold">Articles Filed</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden mt-3">
+<div class="bg-gradient-to-r from-secondary-container to-secondary h-full rounded-full transition-all duration-700" style="width: 75%"></div>
+</div>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>1 piece remaining</span>
+<span class="text-secondary font-semibold">Due in 5 days</span>
+</div>
+</div>
+<!-- Readership Total with Sparkline -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-xl flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-bold">Total Reads</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/40 text-primary-fixed font-label-caps text-label-caps font-bold">+28.4%</span>
+</div>
+<div class="my-space-sm">
+<span class="font-stat-metric text-stat-metric text-on-surface">14,820</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Unique readers across campus</p>
+</div>
+<!-- Sparkline Mini SVG -->
+<div class="h-10 w-full overflow-hidden flex items-end">
+<svg class="w-full h-10 text-primary" fill="none" preserveaspectratio="none" viewbox="0 0 160 40">
+<path d="M0 32 L20 28 L45 35 L70 18 L95 24 L120 12 L140 16 L160 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+<path d="M0 32 L20 28 L45 35 L70 18 L95 24 L120 12 L140 16 L160 4 L160 40 L0 40 Z" fill="currentColor" fill-opacity="0.12"></path>
+</svg>
+</div>
+</div>
+<!-- Average Engagement -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-xl flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-start justify-between">
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant font-bold">Avg. Engagement</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/30 text-tertiary font-label-caps text-label-caps font-bold">Super High</span>
+</div>
+<div class="my-space-sm flex items-center justify-between">
+<div>
+<span class="font-stat-metric text-stat-metric text-on-surface">8.4%</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Likes, shares &amp; replies</p>
+</div>
+<!-- Progress Ring Chart -->
+<div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
+<svg class="w-14 h-14 -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-tertiary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="84, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="absolute font-label-caps text-label-caps text-tertiary font-bold">Top 5%</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">trending_up</span>
+<span>+1.9% higher than Grade 8 avg</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Workspace Split: Left (Editor Studio) & Right (Tasks Kanban + Style Rules) -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg mb-space-xl items-start">
+<!-- LEFT COLUMN: Story Creation & Rich Drafts Desk (7 cols) -->
+<section class="xl:col-span-7 flex flex-col gap-space-md">
+<!-- Section Header with Quick Action -->
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-bold tracking-wider">Newsroom Studio</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Story Desk &amp; Quick Editor</h3>
+</div>
+<button class="px-space-md py-space-sm rounded-full bg-primary-container hover:bg-inverse-primary text-on-primary-container font-label-interactive text-label-interactive flex items-center gap-2 shadow-lg hover:shadow-primary-container/30 transition-all active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">add_circle</span>
+            New Investigation
+          </button>
+</div>
+<!-- Elevated Distraction-Free Rich Text Editor Canvas -->
+<div class="rounded-lg bg-surface-container-low/95 backdrop-blur-2xl p-space-lg shadow-2xl relative">
+<!-- Editor Status Header -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-md mb-space-md border-b border-surface-container-highest/60">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                Autosaved 2 mins ago
+              </span>
+<span class="font-body-sm text-body-sm text-outline">Issue #24 • Feature Section</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors font-label-interactive text-label-interactive flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span> Preview
+              </button>
+<button class="px-space-md py-1 rounded bg-secondary-container hover:bg-secondary-fixed-dim text-on-secondary-container font-label-interactive text-label-interactive font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span> Submit to Editor
+              </button>
+</div>
+</div>
+<!-- Headline Input -->
+<div class="mb-space-md">
+<label class="font-label-caps text-label-caps uppercase text-outline tracking-wider block mb-1" for="headline-input">Headline Hook</label>
+<input class="w-full bg-transparent font-headline-md text-headline-md text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-0 leading-tight" id="headline-input" type="text" value="Under the Microscope: Inside Brighton's Record-Breaking Clean Water Drone Prototype"/>
+</div>
+<!-- Tags Selector Chips -->
+<div class="mb-space-md flex flex-wrap items-center gap-space-xs">
+<span class="font-label-caps text-label-caps uppercase text-outline mr-1">Tags:</span>
+<span class="px-2.5 py-1 rounded-full bg-primary-container/20 text-primary font-label-interactive text-label-interactive flex items-center gap-1">
+              #STEMClub <button aria-label="Remove STEMClub tag" class="hover:text-white" type="button">×</button>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-secondary-container/20 text-secondary font-label-interactive text-label-interactive flex items-center gap-1">
+              #EcoInnovation <button aria-label="Remove EcoInnovation tag" class="hover:text-white" type="button">×</button>
+</span>
+<span class="px-2.5 py-1 rounded-full bg-tertiary-container/20 text-tertiary font-label-interactive text-label-interactive flex items-center gap-1">
+              #InterviewSpecial <button aria-label="Remove InterviewSpecial tag" class="hover:text-white" type="button">×</button>
+</span>
+<button class="px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-highest text-on-surface-variant font-label-interactive text-label-interactive flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span> Add Tag
+            </button>
+</div>
+<!-- Floating Contextual Toolbar -->
+<div class="p-1 rounded-full bg-surface-container-highest/90 backdrop-blur-md shadow-xl flex items-center justify-between mb-space-md overflow-x-auto">
+<div class="flex items-center gap-0.5">
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Bold" type="button">
+<span class="material-symbols-outlined text-[18px]">format_bold</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Italic" type="button">
+<span class="material-symbols-outlined text-[18px]">format_italic</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Heading 2" type="button">
+<span class="material-symbols-outlined text-[18px]">title</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Blockquote" type="button">
+<span class="material-symbols-outlined text-[18px]">format_quote</span>
+</button>
+<span class="w-px h-4 bg-outline-variant mx-1"></span>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Bullet List" type="button">
+<span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Insert Media" type="button">
+<span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+</button>
+<button class="p-1.5 rounded-full hover:bg-surface-variant text-on-surface transition-colors" title="Interview Quote Embed" type="button">
+<span class="material-symbols-outlined text-[18px]">record_voice_over</span>
+</button>
+</div>
+<div class="flex items-center gap-2 pr-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant"><strong class="text-primary font-semibold">648</strong> words</span>
+<span class="text-outline-variant">•</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3.5 min read</span>
+</div>
+</div>
+<!-- Body Text Area -->
+<div class="min-h-[220px] text-on-surface font-body-lg text-body-lg space-y-space-sm leading-relaxed focus:outline-none" contenteditable="true" spellcheck="false">
+<p>
+              When the bells chimed at 14:00 on Wednesday, the basement physics laboratory was uncharacteristically quiet. Not because students had fled for after-school bubble tea, but because seven junior members of Brighton's Applied Mechanics Guild were holding their breaths. Suspended inside the hydro-tank was "Nautilus-7"—a twin-propeller water filtration rover 3D printed entirely from recycled cafeteria milk jugs.
+            </p>
+<p class="text-on-surface-variant italic pl-space-md border-l-2 border-secondary">
+              "We didn't want another theoretical poster board project," explains guild captain Rifqi (Grade 9B). "We wanted something that could literally scrub algae off the school retention pond before duck season."
+            </p>
+</div>
+<!-- Media Attachments Tray -->
+<div class="mt-space-lg pt-space-md border-t border-surface-container-highest/60">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-caps text-label-caps uppercase text-outline font-bold">Attached Evidence &amp; Media (3 Files)</span>
+<button class="font-label-interactive text-label-interactive text-primary hover:underline flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">upload_file</span> Add Photo / Audio Clip
+              </button>
+</div>
+<div class="grid grid-cols-3 gap-space-sm">
+<div class="relative rounded-lg overflow-hidden bg-surface-container group h-24">
+<img class="w-full h-full object-cover" data-alt="Close up photography of junior high school students working on a glowing robotics water drone circuit board with screwdrivers and soldering kit in a modern STEM classroom with blue ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvaq9NYVylnBXlQSlXASAIew7GLiL5KdtnsjQ73_AoHMuqOD128IWBBqbqrSls9lrAhBN6qbJwVFHJZzzGB1URqswR5jwRq4yKgtO8J-Fs8pQCUrJJr9wO4Tk1yPouR2GlmPrpO1QMvEU-nB5Fss5Lt59BxXXUqcsXsjWR_B8w-nL1-AE5QNkqUM-Be3f1C64KCMet64cl0MIl-jJ6osROGP3eofDa1ffOhYmdQXh89qyK8cAMj04F"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent flex items-end p-2">
+<span class="font-body-sm text-body-sm text-on-surface truncate">lab_rig_prototype.jpg</span>
+</div>
+</div>
+<div class="relative rounded-lg overflow-hidden bg-surface-container group h-24">
+<img class="w-full h-full object-cover" data-alt="Student holding an open notebook with hand-drawn scientific schematics and formulas beside a 3D printed mechanical propeller on a lab workbench" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_JsjNK5tYGmUyOzJt5BS40FlAVYZQEmwcz8wj6_lVY3Kd2zRqyLmgCjiSyQPo5-JjLA_UiH3jG0rww6uZIE0YrvQCgwXhl7wtgHgbos6CXDv4-vqklE5WuBBw3L-xHw5uSwUiWNhzddcLMR87cfPsd5Ryjhf0A1NPuU7caBf5RR54WsiTjjzYk6D1rFiz7E-YU2iEZrYHkBaBSkP1eiHxBdPVW9wncY-wgfX7FkiR8zkh0ur_jRin"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/90 via-transparent to-transparent flex items-end p-2">
+<span class="font-body-sm text-body-sm text-on-surface truncate">cad_sketches_v2.png</span>
+</div>
+</div>
+<div class="rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex flex-col items-center justify-center p-2 text-center h-24">
+<span class="material-symbols-outlined text-[24px] text-tertiary">mic</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate max-w-full">Rifqi_interview.m4a</span>
+<span class="font-label-caps text-label-caps text-outline">04:12 • Consent Form Signed</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Assigned Tasks Kanban + Style Guide Cheat Sheet (5 cols) -->
+<aside class="xl:col-span-5 flex flex-col gap-space-md">
+<!-- Tasks Kanban / Cards Deck -->
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-primary font-bold tracking-wider">Assignments Pipeline</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Editor Desk Directives</h3>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest font-label-caps text-label-caps text-on-surface font-semibold">3 Active</span>
+</div>
+<div class="space-y-space-sm">
+<!-- Assignment Card 1 -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-lg hover:shadow-2xl hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase">In Progress</span>
+<div class="flex items-center gap-1 text-secondary font-label-caps text-label-caps font-semibold">
+<span class="material-symbols-outlined text-[16px]">schedule</span> Due Tomorrow 15:00
+                </div>
+</div>
+<h4 class="font-title-editorial text-title-editorial text-on-surface group-hover:text-primary transition-colors">
+                Coverage: Brighton Annual Science Olympiad
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                Capture the opening ceremonies, interview 2 gold medalist teams from Class 7B &amp; 8C, plus live quotes from judges.
+              </p>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-label-caps text-label-caps font-bold">F</div>
+<span>Chief Editor Fajar</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline">photo_camera</span>
+<span class="material-symbols-outlined text-[16px] text-outline">article</span>
+</div>
+</div>
+</div>
+<!-- Assignment Card 2 (Urgent) -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-lg hover:shadow-2xl hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm mb-2">
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container font-label-caps text-label-caps font-bold uppercase">Pending Outline</span>
+<span class="px-2 py-0.5 rounded-full bg-error/20 text-error font-label-caps text-label-caps font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Urgent
+                  </span>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]">event</span> Due Oct 28
+                </div>
+</div>
+<h4 class="font-title-editorial text-title-editorial text-on-surface group-hover:text-primary transition-colors">
+                Interview: Mr. Bambang on the new AI Robotics Curriculum
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                Discuss how Grade 8 students will use micro-controllers and responsible AI safety guidelines in term 2.
+              </p>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-tertiary font-label-caps text-label-caps font-bold">R</div>
+<span>Faculty Mentor Rina</span>
+</div>
+<span class="font-label-caps text-label-caps text-error font-semibold">Q&amp;A Sheet Needed</span>
+</div>
+</div>
+<!-- Assignment Card 3 -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-lg hover:shadow-2xl hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="flex items-start justify-between gap-space-sm mb-2">
+<span class="px-2.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps font-bold uppercase">Scheduled for Review</span>
+<div class="flex items-center gap-1 text-on-surface-variant font-label-caps text-label-caps">
+<span class="material-symbols-outlined text-[16px]">event</span> Due Nov 02
+                </div>
+</div>
+<h4 class="font-title-editorial text-title-editorial text-on-surface group-hover:text-primary transition-colors">
+                Photo Essay: Friday Club Fair &amp; Music Band Trials
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-1">
+                Visual story capturing dynamic action shots across the school courtyard, drum solos, and art stall volunteers.
+              </p>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center text-secondary font-label-caps text-label-caps font-bold">K</div>
+<span>Editor Kezia Amanda</span>
+</div>
+<span class="font-label-caps text-label-caps text-secondary font-semibold">8 Photos Selected</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Style Guide Cheat Sheet (Quick Access Cards) -->
+<div class="rounded-lg bg-surface-container-low/90 backdrop-blur-xl p-space-md shadow-xl">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_stories</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Style Guide Rules</h4>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Brighteen Press Code</span>
+</div>
+<div class="grid grid-cols-1 gap-space-xs">
+<div class="p-space-sm rounded-lg bg-surface-container/70 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-interactive text-label-interactive text-primary font-bold">1. Headline Formulas</span>
+<span class="font-label-caps text-label-caps text-outline">Action + Impact</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Use active verbs. Avoid passive phrasing like "Was held by". Focus on the student outcome.</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container/70 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-interactive text-label-interactive text-secondary font-bold">2. Photo Credit Mandate</span>
+<span class="font-label-caps text-label-caps text-outline">Exact Format</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Format: <em>Photo: [First Last] / BRIGHTEEN Media</em>. Always verify permission for identifiable student faces.</p>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container/70 hover:bg-surface-container-high transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-interactive text-label-interactive text-tertiary font-bold">3. Caption Guidelines</span>
+<span class="font-label-caps text-label-caps text-outline">Present Tense</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">First sentence in present tense describing action; second sentence gives context and full grade designations.</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Submitted Articles History & Moderation Status Table -->
+<section class="rounded-lg bg-surface-container-low/95 backdrop-blur-2xl p-space-lg shadow-2xl mb-space-xl">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<span class="font-label-caps text-label-caps uppercase text-secondary font-bold tracking-wider">Archival Pipeline</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">My Submissions &amp; Editorial Review</h3>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<input class="pl-8 pr-3 py-1.5 rounded-full bg-surface-container text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:outline-none" placeholder="Filter articles..." type="text"/>
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[16px] text-outline">search</span>
+</div>
+<button class="p-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors" title="Export CSV" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+</button>
+</div>
+</div>
+<!-- Modern Responsive Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-surface-container-highest text-outline font-label-caps text-label-caps uppercase tracking-wider">
+<th class="py-space-sm px-space-md">Article Title</th>
+<th class="py-space-sm px-space-sm">Category</th>
+<th class="py-space-sm px-space-sm">Submitted</th>
+<th class="py-space-sm px-space-sm text-right">Reads</th>
+<th class="py-space-sm px-space-sm text-right">Likes</th>
+<th class="py-space-sm px-space-md">Status &amp; Notes</th>
+<th class="py-space-sm px-space-sm text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest/40 font-body-sm text-body-sm">
+<!-- Row 1: Approved & Published -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-editorial text-title-editorial text-on-surface">Zero-Waste Canteen: How Grade 8 Phased Out Single-Use Plastics</span>
+<span class="font-body-sm text-body-sm text-outline">Vol. 23 • Issue Feature</span>
+</div>
+</td>
+<td class="py-space-md px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-caps text-label-caps font-semibold">Campus Life</span>
+</td>
+<td class="py-space-md px-space-sm text-on-surface-variant">Oct 14, 2024</td>
+<td class="py-space-md px-space-sm text-right font-stat-metric text-[18px] text-on-surface">6,240</td>
+<td class="py-space-md px-space-sm text-right font-stat-metric text-[18px] text-secondary">582</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold uppercase">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Approved &amp; Published
+                </span>
+</td>
+<td class="py-space-md px-space-sm text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant inline-flex items-center justify-center text-on-surface-variant transition-colors" title="View Published" type="button">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: In Review -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-editorial text-title-editorial text-on-surface">The Sound of Dedication: Behind the Scenes with Marching Band</span>
+<span class="font-body-sm text-body-sm text-outline">Vol. 24 • Cultural Spotlight</span>
+</div>
+</td>
+<td class="py-space-md px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-caps text-label-caps font-semibold">Arts &amp; Music</span>
+</td>
+<td class="py-space-md px-space-sm text-on-surface-variant">Oct 21, 2024</td>
+<td class="py-space-md px-space-sm text-right text-outline">—</td>
+<td class="py-space-md px-space-sm text-right text-outline">—</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps font-bold uppercase">
+<span class="material-symbols-outlined text-[14px] animate-spin">sync</span> In Review
+                </span>
+</td>
+<td class="py-space-md px-space-sm text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant inline-flex items-center justify-center text-on-surface-variant transition-colors" title="Check Draft" type="button">
+<span class="material-symbols-outlined text-[16px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Needs Revision with Editor Feedback Badge -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-editorial text-title-editorial text-on-surface">Digital Lockers vs. Heavy Backpacks: What Brighton Survey Reveals</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-bold">Editor Kezia Notes:</span>
+<span class="font-body-sm text-body-sm text-error truncate">Please add sample size count (how many students responded) before publishing.</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-caps text-label-caps font-semibold">Investigation</span>
+</td>
+<td class="py-space-md px-space-sm text-on-surface-variant">Oct 18, 2024</td>
+<td class="py-space-md px-space-sm text-right text-outline">—</td>
+<td class="py-space-md px-space-sm text-right text-outline">—</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-error-container text-on-error-container font-label-caps text-label-caps font-bold uppercase">
+<span class="material-symbols-outlined text-[14px]">feedback</span> Needs Revision
+                </span>
+</td>
+<td class="py-space-md px-space-sm text-right">
+<button class="px-space-sm py-1 rounded-full bg-surface-container hover:bg-surface-variant font-label-interactive text-label-interactive text-primary transition-colors flex items-center gap-1 ml-auto" type="button">
+                  Resolve
+                </button>
+</td>
+</tr>
+<!-- Row 4: Approved & Published -->
+<tr class="hover:bg-surface-container-high/50 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-editorial text-title-editorial text-on-surface">Meet the New English Debate Champions of East Jakarta</span>
+<span class="font-body-sm text-body-sm text-outline">Vol. 22 • Student Spotlight</span>
+</div>
+</td>
+<td class="py-space-md px-space-sm">
+<span class="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary font-label-caps text-label-caps font-semibold">Achievements</span>
+</td>
+<td class="py-space-md px-space-sm text-on-surface-variant">Oct 02, 2024</td>
+<td class="py-space-md px-space-sm text-right font-stat-metric text-[18px] text-on-surface">8,580</td>
+<td class="py-space-md px-space-sm text-right font-stat-metric text-[18px] text-secondary">744</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-caps text-label-caps font-bold uppercase">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Approved &amp; Published
+                </span>
+</td>
+<td class="py-space-md px-space-sm text-right">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-variant inline-flex items-center justify-center text-on-surface-variant transition-colors" title="View Published" type="button">
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div></main></div></body></html>
