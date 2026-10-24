@@ -48,10 +48,17 @@
 <div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
      x-data="{
          aiModalOpen: false,
-         aiTab: 'draft',
+         aiActiveSection: 'ideas', // 'ideas' | 'draft' | 'title' | 'rephrase' | 'grammar'
          aiLoading: false,
          aiPrompt: '',
          aiNotes: '',
+         aiWhat: '',
+         aiWho: '',
+         aiWhere: '',
+         aiWhen: '',
+         aiWhy: '',
+         aiHow: '',
+         aiInterviewQuotes: '',
          aiSelectedText: '',
          aiResult: '',
          aiSource: '',
@@ -64,6 +71,10 @@
          aiEngineName: 'Detecting AI Engine...',
          aiKeySaving: false,
          aiKeyMessage: '',
+
+         toggleAiSection(key) {
+             this.aiActiveSection = (this.aiActiveSection === key) ? null : key;
+         },
 
          fetchAiStatus() {
              fetch('{{ url('api/ai/status') }}')
@@ -112,8 +123,8 @@
              });
          },
 
-         openAiModal(tab = 'draft') {
-             this.aiTab = tab;
+         openAiModal(section = 'ideas') {
+             this.aiActiveSection = section;
              this.aiModalOpen = true;
              this.aiError = '';
              this.fetchAiStatus();
@@ -155,8 +166,15 @@
                  prompt: this.aiPrompt,
                  topic: this.aiPrompt || titleVal,
                  notes: this.aiNotes,
+                 what: this.aiWhat,
+                 who: this.aiWho,
+                 where: this.aiWhere,
+                 when: this.aiWhen,
+                 why: this.aiWhy,
+                 how: this.aiHow,
+                 interview_quotes: this.aiInterviewQuotes,
                  text: this.aiSelectedText || plainContent || excerptVal || titleVal,
-                 niche: 'Gen-Z Tech, Pop Culture & Creativity'
+                 niche: this.aiPrompt || 'School Life & Hobbies'
              };
 
              fetch('{{ url('api/ai/generate') }}', {
@@ -245,7 +263,7 @@
             <!-- Action Controls -->
             <div class="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
                 <!-- AI Assistant Trigger Button -->
-                <button type="button" @click="openAiModal('draft')" 
+                <button type="button" @click="openAiModal('ideas')" 
                         class="px-3.5 sm:px-4 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-primary hover:from-purple-700 hover:to-primary-hover text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all flex items-center gap-1.5 sm:gap-2 transform hover:-translate-y-0.5">
                     <span class="material-symbols-outlined text-base sm:text-lg animate-pulse">auto_awesome</span>
                     <span>Gemini AI Assistant</span>
@@ -490,7 +508,7 @@
 
     </form>
 
-    <!-- GEMINI AI ASSISTANT MODAL (Mobile-Friendly & Dark/Light Mode Responsive) -->
+    <!-- GEMINI AI ASSISTANT MODAL (Vertical Collapsible Accordion & Dark/Light Mode Responsive) -->
     <div x-cloak x-show="aiModalOpen" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-slate-900/70 dark:bg-black/80 backdrop-blur-sm transition-opacity" @click="aiModalOpen = false"></div>
@@ -518,21 +536,22 @@
                                     class="px-2.5 py-0.5 rounded-full text-[10px] font-bold flex items-center gap-1 transition-all border shadow-xs"
                                     :class="aiHasKey 
                                         ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-300 dark:border-emerald-500/30' 
-                                        : 'bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-500/30'">
+                                        : 'bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-500/30'"
+                                    title="Configure Google Gemini credentials">
                                 <span class="w-1.5 h-1.5 rounded-full" :class="aiHasKey ? 'bg-emerald-500 animate-pulse' : 'bg-purple-500'"></span>
                                 <span x-text="aiHasKey ? 'Google Gemini Live' : 'Contextual AI Engine'"></span>
                                 <span class="material-symbols-outlined text-[13px] text-slate-400">tune</span>
                             </button>
                         </div>
                         <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                            Asisten penulisan cerdas, akurat dengan prompt, gaya bahasa muda & bebas klise
+                            Smart AI co-pilot for junior high & middle school student journalists
                         </p>
                     </div>
                 </div>
 
                 <button type="button" @click="aiModalOpen = false" 
                         class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors shrink-0"
-                        title="Tutup Modal">
+                        title="Close Assistant">
                     <span class="material-symbols-outlined text-lg sm:text-xl">close</span>
                 </button>
             </div>
@@ -542,10 +561,10 @@
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-sm text-primary">key</span>
-                        <span>Konfigurasi Google Gemini Cloud API</span>
+                        <span>Google Gemini Cloud API Configuration</span>
                     </span>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[11px] font-bold text-primary hover:underline flex items-center gap-0.5">
-                        <span>Dapatkan Key Gratis</span>
+                        <span>Get Free API Key</span>
                         <span class="material-symbols-outlined text-xs">open_in_new</span>
                     </a>
                 </div>
@@ -554,28 +573,28 @@
                     <div class="sm:col-span-2">
                         <input type="password" 
                                x-model="aiApiKeyInput" 
-                               placeholder="Tempel API Key (AIzaSy...)" 
+                               placeholder="Paste API Key (AIzaSy...)" 
                                class="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
                     </div>
                     <div>
                         <select x-model="aiModelInput" 
                                 class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
-                            <option value="gemini-3.5-flash">gemini-3.5-flash (Rekomendasi - Cepat & Stabil)</option>
-                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Ringan & Cepat)</option>
-                            <option value="gemini-3.8-flash">gemini-3.8-flash (Versi 3.8 Terbaru)</option>
+                            <option value="gemini-3.5-flash">gemini-3.5-flash (Fast & Stable - Recommended)</option>
+                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Rapid & Lightweight)</option>
+                            <option value="gemini-3.8-flash">gemini-3.8-flash (Latest Model)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-between gap-2 flex-wrap pt-1">
                     <p class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
-                        *Tanpa API key, sistem otomatis memakai <strong>Intelligent Contextual Generator Brighteen</strong> yang 100% selaras dengan topik Anda.
+                        *Without an API key, the system automatically uses Brighteen's built-in Contextual Generator tailored for student journalism.
                     </p>
                     <div class="flex items-center gap-2">
                         <button type="button" @click="saveAiKey()" :disabled="aiKeySaving"
                                 class="px-3.5 py-1.5 rounded-xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1">
                             <span class="material-symbols-outlined text-xs" :class="aiKeySaving ? 'animate-spin' : ''">save</span>
-                            <span>Simpan Key</span>
+                            <span x-text="aiKeySaving ? 'Saving...' : 'Save Key'"></span>
                         </button>
                     </div>
                 </div>
@@ -585,155 +604,314 @@
                 </template>
             </div>
 
-            <!-- AI Tool Tabs Toolbar (Touch Scrollable on Mobile) -->
-            <div class="flex items-center gap-1.5 px-3 sm:px-6 pt-3 pb-2 border-b border-slate-200 dark:border-white/10 overflow-x-auto scrollbar-none text-xs font-bold shrink-0">
-                <button type="button" @click="aiTab = 'draft'" 
-                        class="px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs"
-                        :class="aiTab === 'draft' 
-                            ? 'bg-primary text-white shadow-primary/25' 
-                            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                    <span class="material-symbols-outlined text-base">edit_document</span>
-                    <span>1. Auto-Draft</span>
-                </button>
+            <!-- Modal Body Content: Stacked Vertical Collapsible Sections (Accordion Pattern) -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-3.5 flex-1">
 
-                <button type="button" @click="aiTab = 'title'" 
-                        class="px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs"
-                        :class="aiTab === 'title' 
-                            ? 'bg-primary text-white shadow-primary/25' 
-                            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                    <span class="material-symbols-outlined text-base">format_h1</span>
-                    <span>2. Titles & SEO</span>
-                </button>
-
-                <button type="button" @click="aiTab = 'rephrase'" 
-                        class="px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs"
-                        :class="aiTab === 'rephrase' 
-                            ? 'bg-primary text-white shadow-primary/25' 
-                            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                    <span class="material-symbols-outlined text-base">autorenew</span>
-                    <span>3. Rephrase/Ringkas</span>
-                </button>
-
-                <button type="button" @click="aiTab = 'grammar'" 
-                        class="px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs"
-                        :class="aiTab === 'grammar' 
-                            ? 'bg-primary text-white shadow-primary/25' 
-                            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                    <span class="material-symbols-outlined text-base">spellcheck</span>
-                    <span>4. Tone Checker</span>
-                </button>
-
-                <button type="button" @click="aiTab = 'ideas'" 
-                        class="px-3 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap shadow-xs"
-                        :class="aiTab === 'ideas' 
-                            ? 'bg-primary text-white shadow-primary/25' 
-                            : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                    <span class="material-symbols-outlined text-base">lightbulb</span>
-                    <span>5. Ide Cerita</span>
-                </button>
-            </div>
-
-            <!-- Modal Body Content (Scrollable) -->
-            <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
-                
-                <!-- Tab 1: Auto-Draft Generator -->
-                <div x-show="aiTab === 'draft'" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Topik atau Tema Cerita yang Ingin Dibuat:
-                        </label>
-                        <input type="text" x-model="aiPrompt" 
-                               placeholder="Contoh: Mengapa pelajar SMA banyak beralih ke kamera digital jadul Y2K" 
-                               class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Sudut Pandang / Catatan Khusus (Opsional):
-                        </label>
-                        <input type="text" x-model="aiNotes" 
-                               placeholder="Contoh: Sebutkan kejenuhan feed Instagram, estetika sensor CMOS jadul, dan nostalgia taktil" 
-                               class="w-full px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
-                    </div>
-                    <button type="button" @click="runAiAction('draft')" :disabled="aiLoading" 
-                            class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary-hover hover:to-indigo-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-primary/25 transition-all flex items-center justify-center gap-2 transform active:scale-98">
-                        <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">auto_awesome</span>
-                        <span x-text="aiLoading ? 'Menyusun Draf Artikel Lengkap...' : 'Generate Draf Artikel Sesuai Topik'"></span>
-                    </button>
+                <div class="flex items-center justify-between text-xs pb-1">
+                    <span class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">
+                        Editorial AI Tools
+                    </span>
+                    <span class="text-[11px] text-slate-400 font-semibold">Middle School Magazine Edition (SMP)</span>
                 </div>
 
-                <!-- Tab 2: Title & SEO Optimizer -->
-                <div x-show="aiTab === 'title'" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Topik atau Penggalan Draf Naskah:
-                        </label>
-                        <input type="text" x-model="aiPrompt" 
-                               placeholder="Masukkan judul sementara atau pokok bahasan..." 
-                               class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
-                    </div>
-                    <button type="button" @click="runAiAction('title')" :disabled="aiLoading" 
-                            class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-purple-600/25 transition-all flex items-center justify-center gap-2 transform active:scale-98">
-                        <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">format_h1</span>
-                        <span x-text="aiLoading ? 'Meracik Rekomendasi Judul & SEO...' : 'Buat 5 Pilihan Judul Menarik & Ringkasan SEO'"></span>
+                <!-- 1. SECTION: Story Ideas (First Tab / Top Accordion) -->
+                <div class="rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50/70 dark:bg-surface-card transition-all">
+                    <button type="button" @click="toggleAiSection('ideas')" 
+                            class="w-full p-4 flex items-center justify-between gap-3 text-left transition-colors"
+                            :class="aiActiveSection === 'ideas' ? 'bg-amber-500/10 dark:bg-amber-500/15 border-b border-slate-200 dark:border-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                                 :class="aiActiveSection === 'ideas' ? 'bg-amber-500 text-white shadow-sm' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300'">
+                                <span class="material-symbols-outlined text-lg">lightbulb</span>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Story Ideas</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Discover 6 fresh, engaging story angles for middle school students</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 transition-transform duration-200 shrink-0"
+                              :class="aiActiveSection === 'ideas' ? 'rotate-180 text-amber-600 dark:text-amber-400' : ''">
+                            keyboard_arrow_down
+                        </span>
                     </button>
-                </div>
 
-                <!-- Tab 3: Rephrase & Summarize -->
-                <div x-show="aiTab === 'rephrase'" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Teks yang Ingin Diolah / Dipoles:
-                        </label>
-                        <textarea x-model="aiSelectedText" rows="4" 
-                                  placeholder="Sorot teks di editor atau ketik/tempel paragraf di sini..." 
-                                  class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 resize-none transition-all"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button type="button" @click="runAiAction('rephrase')" :disabled="aiLoading" 
-                                class="py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm">
-                            <span class="material-symbols-outlined text-base">autorenew</span>
-                            <span>Poles Gaya Bahasa (Rephrase)</span>
-                        </button>
-                        <button type="button" @click="runAiAction('summarize')" :disabled="aiLoading" 
-                                class="py-3 px-4 rounded-2xl bg-slate-100 dark:bg-surface-high hover:bg-slate-200 dark:hover:bg-white/10 disabled:opacity-50 text-slate-800 dark:text-white font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5 shadow-xs">
-                            <span class="material-symbols-outlined text-base">short_text</span>
-                            <span>Ringkas Jadi Cuplikan (Excerpt)</span>
+                    <div x-show="aiActiveSection === 'ideas'" x-transition class="p-4 sm:p-5 space-y-4 bg-white dark:bg-[#151923]/60">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Beat, Club, or Topic Category:
+                            </label>
+                            <input type="text" x-model="aiPrompt" 
+                                   placeholder="e.g., School Science Fair, Robotics Club, Eco Project, Esports, Study Tips" 
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/50 transition-all">
+                        </div>
+                        <button type="button" @click="runAiAction('ideas')" :disabled="aiLoading" 
+                                class="w-full py-3 px-6 rounded-2xl bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-amber-600/25 transition-all flex items-center justify-center gap-2 transform active:scale-98">
+                            <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">radar</span>
+                            <span x-text="aiLoading ? 'Researching Student Trends...' : 'Brainstorm 6 Engaging Story Ideas'"></span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Tab 4: Grammar & Tone Checker -->
-                <div x-show="aiTab === 'grammar'" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Teks yang Ingin Diaudit:
-                        </label>
-                        <textarea x-model="aiSelectedText" rows="4" 
-                                  placeholder="Tempel draf tulisan untuk memeriksa ejaan, ritme kalimat, dan kesesuaian nada baca..." 
-                                  class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 resize-none transition-all"></textarea>
-                    </div>
-                    <button type="button" @click="runAiAction('grammar')" :disabled="aiLoading" 
-                            class="w-full py-3 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">fact_check</span>
-                        <span x-text="aiLoading ? 'Memeriksa Ritme Kalimat & Tata Bahasa...' : 'Jalankan Audit Nada & Tata Bahasa'"></span>
+                <!-- 2. SECTION: Auto-Draft Generator with 5W+1H & Interview Quotes -->
+                <div class="rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50/70 dark:bg-surface-card transition-all">
+                    <button type="button" @click="toggleAiSection('draft')" 
+                            class="w-full p-4 flex items-center justify-between gap-3 text-left transition-colors"
+                            :class="aiActiveSection === 'draft' ? 'bg-primary/10 dark:bg-primary/15 border-b border-slate-200 dark:border-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                                 :class="aiActiveSection === 'draft' ? 'bg-primary text-white shadow-sm' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300'">
+                                <span class="material-symbols-outlined text-lg">edit_document</span>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Auto-Draft</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Generate a structured, complete article with 5W+1H journalism</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 transition-transform duration-200 shrink-0"
+                              :class="aiActiveSection === 'draft' ? 'rotate-180 text-primary' : ''">
+                            keyboard_arrow_down
+                        </span>
                     </button>
+
+                    <div x-show="aiActiveSection === 'draft'" x-transition class="p-4 sm:p-5 space-y-4 bg-white dark:bg-[#151923]/60">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Story Topic or Working Headline:
+                            </label>
+                            <input type="text" x-model="aiPrompt" 
+                                   placeholder="e.g., SMP Science Club creates solar-powered phone charger from recycled parts" 
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Story Angle & Key Notes (Optional):
+                            </label>
+                            <input type="text" x-model="aiNotes" 
+                                   placeholder="e.g., Highlight hands-on teamwork, budget-friendly materials, and teacher encouragement" 
+                                   class="w-full px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
+                        </div>
+
+                        <!-- 5W + 1H Structured Journalism Fields -->
+                        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-surface-card/80 border border-slate-200 dark:border-white/10 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm text-primary">feed</span>
+                                    <span>5W + 1H Journalism Foundation (Optional)</span>
+                                </span>
+                                <span class="text-[10px] text-slate-400 uppercase font-mono tracking-wider">Fact Checker</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
+                                Provide real details to help Gemini ground the story in accurate, factual reporting.
+                            </p>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                <!-- What -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        What (Core Event / Subject):
+                                    </label>
+                                    <input type="text" x-model="aiWhat" 
+                                           placeholder="e.g., Annual student green-tech expo and robot showcase" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+
+                                <!-- Who -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        Who (Students, Teachers, Clubs Involved):
+                                    </label>
+                                    <input type="text" x-model="aiWho" 
+                                           placeholder="e.g., 8th-grade robotics team & science teacher Mr. Aris" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+
+                                <!-- Where -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        Where (Location / Venue):
+                                    </label>
+                                    <input type="text" x-model="aiWhere" 
+                                           placeholder="e.g., School Auditorium and central courtyard" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+
+                                <!-- When -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        When (Date / Time / Timeline):
+                                    </label>
+                                    <input type="text" x-model="aiWhen" 
+                                           placeholder="e.g., Friday morning, October 24, during homeroom" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+
+                                <!-- Why -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        Why (Significance / Motivation):
+                                    </label>
+                                    <input type="text" x-model="aiWhy" 
+                                           placeholder="e.g., To reduce single-use plastic and promote green habits" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+
+                                <!-- How -->
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">
+                                        How (Process / How It Unfolded):
+                                    </label>
+                                    <input type="text" x-model="aiHow" 
+                                           placeholder="e.g., Students built working prototypes and demonstrated them live" 
+                                           class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interview Quotes & Attribution Field -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center justify-between">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm text-primary">format_quote</span>
+                                    <span>Interview Quotes & Speaker Attribution (Optional):</span>
+                                </span>
+                                <span class="text-[10px] text-slate-400">Quotes</span>
+                            </label>
+                            <textarea x-model="aiInterviewQuotes" rows="2" 
+                                      placeholder="e.g., &quot;We wanted to prove that science isn't just theory in textbooks, but something fun we can build together,&quot; shared Maya, 8th grade science club leader." 
+                                      class="w-full p-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 resize-none transition-all"></textarea>
+                            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
+                                *Gemini will format quotes into stylized blockquote elements with proper speaker credits.
+                            </p>
+                        </div>
+
+                        <button type="button" @click="runAiAction('draft')" :disabled="aiLoading" 
+                                class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary-hover hover:to-indigo-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-primary/25 transition-all flex items-center justify-center gap-2 transform active:scale-98">
+                            <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">auto_awesome</span>
+                            <span x-text="aiLoading ? 'Writing Middle School Feature Story...' : 'Generate Complete Article Draft'"></span>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Tab 5: Content Idea Generator -->
-                <div x-show="aiTab === 'ideas'" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                            Tema / Kategori Pembahasan:
-                        </label>
-                        <input type="text" x-model="aiPrompt" 
-                               placeholder="Contoh: Teknologi, Kreativitas, Lingkungan Sekolah, Esports" 
-                               class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all">
-                    </div>
-                    <button type="button" @click="runAiAction('ideas')" :disabled="aiLoading" 
-                            class="w-full py-3 px-6 rounded-2xl bg-amber-600 hover:bg-amber-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-amber-600/25 transition-all flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">radar</span>
-                        <span x-text="aiLoading ? 'Meriset Tren Terkini...' : 'Temukan 6 Ide Cerita Berpotensi Viral'"></span>
+                <!-- 3. SECTION: Titles & SEO -->
+                <div class="rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50/70 dark:bg-surface-card transition-all">
+                    <button type="button" @click="toggleAiSection('title')" 
+                            class="w-full p-4 flex items-center justify-between gap-3 text-left transition-colors"
+                            :class="aiActiveSection === 'title' ? 'bg-indigo-500/10 dark:bg-indigo-500/15 border-b border-slate-200 dark:border-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                                 :class="aiActiveSection === 'title' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300'">
+                                <span class="material-symbols-outlined text-lg">format_h1</span>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Titles & SEO</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Generate 5 catchy, student-friendly headlines and an SEO excerpt</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 transition-transform duration-200 shrink-0"
+                              :class="aiActiveSection === 'title' ? 'rotate-180 text-indigo-600 dark:text-indigo-400' : ''">
+                            keyboard_arrow_down
+                        </span>
                     </button>
+
+                    <div x-show="aiActiveSection === 'title'" x-transition class="p-4 sm:p-5 space-y-4 bg-white dark:bg-[#151923]/60">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Topic or Working Draft Snippet:
+                            </label>
+                            <input type="text" x-model="aiPrompt" 
+                                   placeholder="Enter temporary title or key takeaway..." 
+                                   class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-500/50 transition-all">
+                        </div>
+                        <button type="button" @click="runAiAction('title')" :disabled="aiLoading" 
+                                class="w-full py-3 px-6 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-purple-600/25 transition-all flex items-center justify-center gap-2 transform active:scale-98">
+                            <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">format_h1</span>
+                            <span x-text="aiLoading ? 'Crafting Headlines...' : 'Generate 5 Catchy Headlines & SEO Excerpt'"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. SECTION: Rephrase & Summarize -->
+                <div class="rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50/70 dark:bg-surface-card transition-all">
+                    <button type="button" @click="toggleAiSection('rephrase')" 
+                            class="w-full p-4 flex items-center justify-between gap-3 text-left transition-colors"
+                            :class="aiActiveSection === 'rephrase' ? 'bg-cyan-500/10 dark:bg-cyan-500/15 border-b border-slate-200 dark:border-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                                 :class="aiActiveSection === 'rephrase' ? 'bg-cyan-600 text-white shadow-sm' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300'">
+                                <span class="material-symbols-outlined text-lg">autorenew</span>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Rephrase & Summarize</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Polish sentence flow or condense paragraphs into punchy excerpts</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 transition-transform duration-200 shrink-0"
+                              :class="aiActiveSection === 'rephrase' ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''">
+                            keyboard_arrow_down
+                        </span>
+                    </button>
+
+                    <div x-show="aiActiveSection === 'rephrase'" x-transition class="p-4 sm:p-5 space-y-4 bg-white dark:bg-[#151923]/60">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Text to Polish or Summarize:
+                            </label>
+                            <textarea x-model="aiSelectedText" rows="4" 
+                                      placeholder="Highlight text in the editor or paste paragraphs here..." 
+                                      class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 resize-none transition-all"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="button" @click="runAiAction('rephrase')" :disabled="aiLoading" 
+                                    class="py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                <span class="material-symbols-outlined text-base">autorenew</span>
+                                <span>Polish & Rephrase</span>
+                            </button>
+                            <button type="button" @click="runAiAction('summarize')" :disabled="aiLoading" 
+                                    class="py-3 px-4 rounded-2xl bg-slate-100 dark:bg-surface-high hover:bg-slate-200 dark:hover:bg-white/10 disabled:opacity-50 text-slate-800 dark:text-white font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5 shadow-xs">
+                                <span class="material-symbols-outlined text-base">short_text</span>
+                                <span>Summarize into Excerpt</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. SECTION: Tone & Grammar Checker -->
+                <div class="rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden bg-slate-50/70 dark:bg-surface-card transition-all">
+                    <button type="button" @click="toggleAiSection('grammar')" 
+                            class="w-full p-4 flex items-center justify-between gap-3 text-left transition-colors"
+                            :class="aiActiveSection === 'grammar' ? 'bg-emerald-500/10 dark:bg-emerald-500/15 border-b border-slate-200 dark:border-white/10' : 'hover:bg-slate-100 dark:hover:bg-white/5'">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                                 :class="aiActiveSection === 'grammar' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-200 dark:bg-white/10 text-slate-700 dark:text-slate-300'">
+                                <span class="material-symbols-outlined text-lg">spellcheck</span>
+                            </div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">Tone & Grammar Checker</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Audit clarity, rhythm, and age-appropriate middle school voice</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-400 transition-transform duration-200 shrink-0"
+                              :class="aiActiveSection === 'grammar' ? 'rotate-180 text-emerald-600 dark:text-emerald-400' : ''">
+                            keyboard_arrow_down
+                        </span>
+                    </button>
+
+                    <div x-show="aiActiveSection === 'grammar'" x-transition class="p-4 sm:p-5 space-y-4 bg-white dark:bg-[#151923]/60">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                                Draft Text to Audit:
+                            </label>
+                            <textarea x-model="aiSelectedText" rows="4" 
+                                      placeholder="Paste your draft to check spelling, sentence flow, and friendly tone..." 
+                                      class="w-full p-4 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/50 resize-none transition-all"></textarea>
+                        </div>
+                        <button type="button" @click="runAiAction('grammar')" :disabled="aiLoading" 
+                                class="w-full py-3 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined text-base" :class="aiLoading ? 'animate-spin' : ''">fact_check</span>
+                            <span x-text="aiLoading ? 'Auditing Rhythm & Grammar...' : 'Run Tone & Grammar Audit'"></span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Error Display -->
@@ -748,23 +926,23 @@
                         <div class="flex items-center gap-2">
                             <span class="text-xs font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-base">sparkles</span>
-                                <span>Hasil Output AI</span>
+                                <span>AI Generated Output</span>
                             </span>
                             <span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10" 
                                   x-text="'Engine: ' + aiSource"></span>
                         </div>
 
-                        <!-- View Mode Switch: Formatted vs Raw Code -->
+                        <!-- View Mode Switch: Formatted Preview vs Raw HTML Code -->
                         <div class="flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-[11px] font-bold">
                             <button type="button" @click="aiViewMode = 'preview'" 
                                     class="px-2.5 py-1 rounded-lg transition-all"
                                     :class="aiViewMode === 'preview' ? 'bg-white dark:bg-surface-card text-primary shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'">
-                                Pratinjau
+                                Preview
                             </button>
                             <button type="button" @click="aiViewMode = 'code'" 
                                     class="px-2.5 py-1 rounded-lg transition-all"
                                     :class="aiViewMode === 'code' ? 'bg-white dark:bg-surface-card text-primary shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'">
-                                Kode HTML
+                                HTML Code
                             </button>
                         </div>
                     </div>
@@ -782,24 +960,24 @@
                              x-text="aiResult"></pre>
                     </div>
 
-                    <!-- Sticky / Touch-Friendly Action Buttons -->
+                    <!-- Action Buttons -->
                     <div class="flex flex-wrap items-center justify-between gap-2.5 pt-2">
                         <div class="flex items-center gap-2 flex-wrap w-full sm:w-auto">
                             <button type="button" @click="insertIntoEditor()" 
                                     class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary-hover hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-primary/25 transition-all flex items-center justify-center gap-1.5">
                                 <span class="material-symbols-outlined text-base">input</span>
-                                <span>Masukkan ke Editor</span>
+                                <span>Insert into Editor</span>
                             </button>
                             <button type="button" @click="copyResult()" 
                                     class="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-slate-700 dark:text-white font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5 shadow-xs">
                                 <span class="material-symbols-outlined text-base">content_copy</span>
-                                <span>Salin Teks</span>
+                                <span>Copy Text</span>
                             </button>
                         </div>
 
                         <button type="button" @click="aiResult = ''; aiError = ''" 
                                 class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 px-2 py-1">
-                            Bersihkan
+                            Clear
                         </button>
                     </div>
                 </div>

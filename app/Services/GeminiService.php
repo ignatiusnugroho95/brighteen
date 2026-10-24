@@ -152,18 +152,61 @@ class GeminiService
     }
 
     /**
-     * 1. Auto-Draft Generator
+     * 1. Auto-Draft Generator with 5W+1H Journalistic Foundation & Quotes (Middle School / SMP Student Magazine)
      */
-    public function generateAutoDraft($topic, $notes = '')
+    public function generateAutoDraft($topic, $notes = '', $journalismData = [])
     {
-        $isIndonesian = $this->isIndonesianText($topic . ' ' . $notes);
+        $what = trim($journalismData['what'] ?? '');
+        $who = trim($journalismData['who'] ?? '');
+        $where = trim($journalismData['where'] ?? '');
+        $when = trim($journalismData['when'] ?? '');
+        $why = trim($journalismData['why'] ?? '');
+        $how = trim($journalismData['how'] ?? '');
+        $quotes = trim($journalismData['interview_quotes'] ?? '');
+
+        $combinedContext = $topic . ' ' . $notes . ' ' . $what . ' ' . $who . ' ' . $quotes;
+        $isIndonesian = $this->isIndonesianText($combinedContext);
 
         if ($isIndonesian) {
-            $system = "Anda adalah Chief AI Editor untuk media remaja Brighteen (bright student, active teen). Nada bicara Anda cerdas, lugas, segar, relevan bagi Gen-Z dan pelajar sekolah/kuliah, dan tanpa klise korporat yang kaku. Format artikel menggunakan tag HTML semantik: <h2>, <h3>, <p>, <blockquote>, <ul>, <li>. Selalu buat artikel yang 100% mendalam, berbobot, dan fokus penuh pada topik yang diminta.";
-            $prompt = "Buat artikel lengkap, menarik, dan berwawasan untuk media pemuda/pelajar tentang: '{$topic}'.\nCatatan & Sudut Pandang Khusus: '{$notes}'.\n\nStruktur yang wajib dipenuhi:\n1. <h2> Judul artikel yang memikat dan relevan dengan topik.\n2. Paragraf pembuka (<p class='lead'>) yang mengangkat fenomena nyata dan urgensi topik ini bagi pelajar/remaja.\n3. Dua hingga tiga seksi pembahasan dengan subjudul <h3> yang mengupas solusi, fakta, atau strategi praktis.\n4. Sebuah kutipan inspiratif dalam <blockquote> dari sudut pandang siswa, pengamat, atau praktisi.\n5. Daftar poin tindakan praktis dalam <ul><li>.\n6. Paragraf penutup yang memotivasi dan memberi kesimpulan kuat.";
+            $fiveWoneH = [];
+            if (!empty($what)) $fiveWoneH[] = "- What (Peristiwa/Hal yang terjadi): {$what}";
+            if (!empty($who)) $fiveWoneH[] = "- Who (Siapa yang terlibat/tokoh siswa/guru): {$who}";
+            if (!empty($where)) $fiveWoneH[] = "- Where (Tempat/lokasi di sekolah atau sekitarnya): {$where}";
+            if (!empty($when)) $fiveWoneH[] = "- When (Waktu pelaksanaan/jadwal): {$when}";
+            if (!empty($why)) $fiveWoneH[] = "- Why (Mengapa penting/tujuan kegiatan): {$why}";
+            if (!empty($how)) $fiveWoneH[] = "- How (Bagaimana jalannya acara/proses/solusinya): {$how}";
+
+            $factsPrompt = !empty($fiveWoneH)
+                ? "\n\nFakta Jurnalistik 5W+1H (Wajib diintegrasikan ke dalam tubuh artikel secara alami dan mengalir):\n" . implode("\n", $fiveWoneH)
+                : "";
+
+            $quotesPrompt = !empty($quotes)
+                ? "\n\nHasil Wawancara & Kutipan Narasumber (Wajib dimasukkan dalam tag <blockquote> dengan menyebutkan nama pembicara dan perannya):\n\"{$quotes}\""
+                : "";
+
+            $system = "Anda adalah Chief AI Editor untuk Majalah Siswa SMP Brighteen (Sekolah Menengah Pertama, usia 12-15 tahun). Karakter Anda ceria, ramah, penuh rasa ingin tahu, suportif, dan dekat dengan dunia anak SMP. Format artikel menggunakan tag HTML semantik: <h2>, <h3>, <p>, <blockquote>, <ul>, <li>. Hindari kata-kata birokratis atau istilah akademis yang kaku dan membosankan. Tuliskan artikel jurnalistik sekolah yang seru, kaya fakta, dan menginspirasi siswa SMP (seputar kegiatan ekskul, sains sederhana, pertemanan, tips belajar asyik, hobi, dan kreativitas).";
+
+            $prompt = "Buat artikel majalah siswa SMP yang seru, edukatif, dan menarik tentang: '{$topic}'.\nCatatan & Sudut Pandang Khusus: '{$notes}'.{$factsPrompt}{$quotesPrompt}\n\nStruktur wajib:\n1. <h2> Judul artikel yang seru, ramah siswa SMP, dan memikat rasa ingin tahu.\n2. Paragraf pembuka (<p class='lead'>) yang hangat, menghubungkan topik dengan keseharian siswa di sekolah.\n3. Dua hingga tiga seksi pembahasan dengan subjudul <h3> yang mengulas fakta, kisah inspiratif, atau strategi praktis.\n4. Kutipan wawancara dalam <blockquote> yang hidup dan mencerminkan suara siswa atau guru pembimbing.\n5. Daftar tips atau poin aksi seru yang bisa dicoba langsung dalam <ul><li>.\n6. Paragraf penutup yang memberi dorongan semangat positif bagi pembaca.";
         } else {
-            $system = "You are Brighteen's Chief AI Youth Editor. Your voice is smart, witty, authentic, deeply tapped into internet lore, creator economics, student productivity, and modern youth aesthetics. Format using semantic HTML tags: <h2>, <h3>, <p>, <blockquote>, <ul>, <li>. Always produce a deeply relevant, well-structured story directly addressing the specified topic.";
-            $prompt = "Write a complete, compelling youth media article about: '{$topic}'. Context/Notes: '{$notes}'. Format with HTML tags (<h2>, <h3>, <p>, <blockquote>, <ul>, <li>). Include a strong opening hook, 2-3 body sections with bold subheadings, an expert or student quote in a blockquote, actionable bullet points, and an inspiring conclusion.";
+            $fiveWoneHEn = [];
+            if (!empty($what)) $fiveWoneHEn[] = "- What (Event/Core Subject): {$what}";
+            if (!empty($who)) $fiveWoneHEn[] = "- Who (Key people, students, clubs, teachers involved): {$who}";
+            if (!empty($where)) $fiveWoneHEn[] = "- Where (Location / Venue): {$where}";
+            if (!empty($when)) $fiveWoneHEn[] = "- When (Time / Date / Context): {$when}";
+            if (!empty($why)) $fiveWoneHEn[] = "- Why (Significance / Motivation): {$why}";
+            if (!empty($how)) $fiveWoneHEn[] = "- How (How it unfolded / Process / Experience): {$how}";
+
+            $factsPrompt = !empty($fiveWoneHEn)
+                ? "\n\n5W+1H Journalistic Foundation (Seamlessly weave these facts into the story):\n" . implode("\n", $fiveWoneHEn)
+                : "";
+
+            $quotesPrompt = !empty($quotes)
+                ? "\n\nInterview Quotes & Attribution (Format into a prominent <blockquote> element with full speaker attribution):\n\"{$quotes}\""
+                : "";
+
+            $system = "You are the Chief AI Student Editor for Brighteen Middle School Magazine (junior high school, ages 12-15). Your tone is vibrant, friendly, curious, encouraging, and relatable to young teens. Write compelling, accurate student journalism about school life, science, creativity, clubs, and friendship without corporate clichés or overly dry academic jargon. Format using semantic HTML tags: <h2>, <h3>, <p>, <blockquote>, <ul>, <li>.";
+
+            $prompt = "Write an exciting, educational, and engaging middle school magazine feature article about: '{$topic}'.\nContext / Notes: '{$notes}'.{$factsPrompt}{$quotesPrompt}\n\nStructure required:\n1. <h2> Catchy, teen-friendly article headline.\n2. Opening paragraph (<p class='lead'>) connecting with daily school life and student curiosity.\n3. Two to three body sections with clear <h3> subheadings covering facts, practical tips, or behind-the-scenes stories.\n4. An authentic interview quote in <blockquote> attributing the speaker.\n5. Actionable tips or bullet points in <ul><li>.\n6. An encouraging and inspiring conclusion.";
         }
 
         // Check if API key available, otherwise use dynamic contextual auto-draft
@@ -177,23 +220,23 @@ class GeminiService
         return [
             'success' => true,
             'source' => 'Brighteen AI Engine (Contextual)',
-            'content' => $this->generateContextualAutoDraft($topic, $notes)
+            'content' => $this->generateContextualAutoDraft($topic, $notes, $journalismData)
         ];
     }
 
     /**
-     * 2. Title & SEO Optimizer
+     * 2. Title & SEO Optimizer (Middle School / SMP Student Magazine)
      */
     public function optimizeTitlesAndSeo($topicOrContent)
     {
         $isIndonesian = $this->isIndonesianText($topicOrContent);
 
         if ($isIndonesian) {
-            $system = "Anda adalah pakar strategi viral hook dan SEO media digital pemuda.";
-            $prompt = "Analisis topik atau cuplikan draf ini: '{$topicOrContent}'.\nBuat:\n1. 5 judul artikel yang sangat menarik, viral, dan ramah pembaca muda (Gen-Z & pelajar) tanpa clickbait murahan.\n2. Satu ringkasan SEO Meta Description / Excerpt (maksimal 150 karakter) yang memicu rasa ingin tahu pembaca.";
+            $system = "Anda adalah pakar penulisan judul majalah siswa SMP Brighteen. Karakter Anda ceria, kreatif, dan ahli membuat judul yang membuat siswa SMP (usia 12-15 tahun) penasaran untuk membaca.";
+            $prompt = "Analisis topik atau penggalan draf ini: '{$topicOrContent}'.\nBuat:\n1. 5 judul artikel majalah siswa SMP yang sangat seru, ramah remaja, dan menarik perhatian tanpa clickbait murahan.\n2. Satu ringkasan SEO Meta Description / Excerpt (maksimal 150 karakter) yang memicu rasa ingin tahu siswa.";
         } else {
-            $system = "You are an elite SEO and viral hook strategist for modern youth media.";
-            $prompt = "Analyze this topic or draft snippet: '{$topicOrContent}'.\nGenerate:\n1. 5 irresistible, viral, Gen-Z/student-friendly article titles (punchy, high click-through rate, no boomer buzzwords).\n2. A concise 150-character SEO Meta Description / Excerpt that triggers curiosity.";
+            $system = "You are the creative headline strategist for Brighteen Middle School Magazine (junior high school, ages 12-15).";
+            $prompt = "Analyze this topic or draft snippet: '{$topicOrContent}'.\nGenerate:\n1. 5 irresistible, fun, middle school-friendly article headlines that students will love to read.\n2. A concise 150-character SEO Meta Description / Excerpt that sparks curiosity.";
         }
 
         if (!empty($this->apiKey)) {
@@ -211,7 +254,7 @@ class GeminiService
     }
 
     /**
-     * 3. Rephrase & Summarize
+     * 3. Rephrase & Summarize (Middle School Friendly)
      */
     public function rephraseAndSummarize($text, $mode = 'rephrase')
     {
@@ -219,14 +262,14 @@ class GeminiService
 
         if ($mode === 'summarize') {
             $prompt = $isIndonesian
-                ? "Ringkas teks artikel berikut menjadi 2-3 kalimat editorial yang padat, berbobot, dan mengena:\n\n\"{$text}\""
-                : "Summarize the following article text into a 2-3 sentence high-impact editorial excerpt:\n\n\"{$text}\"";
+                ? "Ringkas teks artikel berikut menjadi 2-3 kalimat yang padat, jelas, dan mudah dipahami siswa SMP:\n\n\"{$text}\""
+                : "Summarize the following article text into a 2-3 sentence clear and punchy excerpt for middle school readers:\n\n\"{$text}\"";
         } else {
             $prompt = $isIndonesian
-                ? "Tulis ulang teks berikut dengan gaya bahasa yang segar, energik, enak dibaca di layar ponsel, dan mengalir bagi pembaca muda (15-24 tahun) tanpa mengubah makna aslinya:\n\n\"{$text}\""
-                : "Rephrase the following text into punchy, vibrant, hyper-engaging prose suited for youth culture readers aged 15-24:\n\n\"{$text}\"";
+                ? "Tulis ulang teks berikut dengan gaya bahasa yang ceria, mengalir, segar, dan mudah dipahami siswa SMP (usia 12-15 tahun) tanpa mengubah makna aslinya:\n\n\"{$text}\""
+                : "Rephrase the following text into friendly, vibrant, and clear prose suited for middle school students aged 12-15:\n\n\"{$text}\"";
         }
-        $system = "You are a master editorial copy stylist for Brighteen youth magazine.";
+        $system = "You are Brighteen's copy stylist for middle school / junior high school student journalism.";
 
         if (!empty($this->apiKey)) {
             $res = $this->callGemini($prompt, $system, 0.65);
@@ -243,17 +286,17 @@ class GeminiService
     }
 
     /**
-     * 4. Grammar & Tone Checker
+     * 4. Grammar & Tone Checker (Middle School Audience)
      */
     public function checkGrammarAndTone($text)
     {
         $isIndonesian = $this->isIndonesianText($text);
 
         $prompt = $isIndonesian
-            ? "Audit teks draf berikut untuk memeriksa ejaan, ritme kalimat, kejelasan pesan, dan kesesuaian nada baca bagi audiens pelajar/pemuda:\n\n\"{$text}\"\n\nSediakan:\n- Skor Keselarasan Nada (1-100)\n- Catatan evaluasi kalimat\n- Rekomendasi versi revisi yang lebih luwes"
-            : "Audit this draft text for spelling, rhythm, clarity, and tone alignment with youth reading habits:\n\n\"{$text}\"\n\nProvide:\n- Overall Tone Score (1-100)\n- Specific phrasing improvements\n- Corrected polished version";
+            ? "Audit teks draf berikut untuk memeriksa ejaan, kejelasan kalimat, dan kesesuaian nada baca bagi pembaca majalah siswa SMP (usia 12-15 tahun):\n\n\"{$text}\"\n\nSediakan:\n- Skor Keselarasan Nada SMP (1-100)\n- Catatan evaluasi kalimat (apakah ada kata yang terlalu rumit atau kaku)\n- Rekomendasi versi revisi yang lebih ramah siswa SMP"
+            : "Audit this draft text for spelling, rhythm, clarity, and tone alignment with middle school students (ages 12-15):\n\n\"{$text}\"\n\nProvide:\n- Middle School Tone Score (1-100)\n- Friendly phrasing suggestions (avoiding overly dense adult jargon)\n- Polished revised version";
 
-        $system = "You are Brighteen's copy chief. Balance grammatical precision with authentic youth cadence.";
+        $system = "You are Brighteen's middle school writing coach, encouraging students to write clearly and confidently.";
 
         if (!empty($this->apiKey)) {
             $res = $this->callGemini($prompt, $system, 0.5);
@@ -270,17 +313,17 @@ class GeminiService
     }
 
     /**
-     * 5. Content Idea Generator
+     * 5. Content Idea Generator (Middle School Student Beats & Activities)
      */
-    public function generateContentIdeas($niche = 'General')
+    public function generateContentIdeas($niche = 'School Life & Hobbies')
     {
         $isIndonesian = $this->isIndonesianText($niche);
 
         $prompt = $isIndonesian
-            ? "Hasilkan 6 konsep artikel segar, relevan, dan berpotensi viral untuk tema '{$niche}' yang ditujukan bagi pelajar, mahasiswa, dan generasi muda. Untuk setiap ide, sertakan judul kerja, sudut pandang utama (angle), dan alasan mengapa topik ini penting dibahas saat ini."
-            : "Generate 6 fresh, viral, timely article concepts and angles for the niche '{$niche}' targeting young digital natives. For each idea, provide a working title, target angle, and why it matters to Gen-Z right now.";
+            ? "Hasilkan 6 ide artikel majalah sekolah yang seru, edukatif, dan menarik tentang tema '{$niche}' yang ditujukan bagi siswa SMP (usia 12-15 tahun). Fokus pada kehidupan sekolah, klub/ekskul, eksperimen sains sederhana, pertemanan, hobi, dan tips belajar asyik. Untuk setiap ide, sertakan judul kerja, sudut pandang utama (angle), dan mengapa siswa SMP akan tertarik membacanya."
+            : "Generate 6 exciting, educational, and fun article concepts for middle school magazine readers (ages 12-15) based on the beat '{$niche}'. Focus on school clubs, friendship, simple science experiments, study hacks, arts, and hobbies. For each idea, provide a working title, target angle, and why junior high students will love reading it.";
 
-        $system = "You are an internet trend researcher monitoring youth communities, student discussions, and indie culture.";
+        $system = "You are Brighteen's Middle School Editorial Brainstorming Lead, inspired by student curiosity and vibrant campus life.";
 
         if (!empty($this->apiKey)) {
             $res = $this->callGemini($prompt, $system, 0.8);
@@ -342,58 +385,96 @@ class GeminiService
     }
 
     /**
-     * Dynamic Contextual Auto-Draft Generator (100% relevant to prompt)
+     * Dynamic Contextual Auto-Draft Generator (Middle School SMP Student Magazine)
      */
-    protected function generateContextualAutoDraft($topic, $notes = '')
+    protected function generateContextualAutoDraft($topic, $notes = '', $journalismData = [])
     {
         $cleanTopic = trim(strip_tags($topic));
         $cleanNotes = trim(strip_tags($notes));
-        $isIndonesian = $this->isIndonesianText($cleanTopic . ' ' . $cleanNotes);
+        $what = trim($journalismData['what'] ?? '');
+        $who = trim($journalismData['who'] ?? '');
+        $where = trim($journalismData['where'] ?? '');
+        $when = trim($journalismData['when'] ?? '');
+        $why = trim($journalismData['why'] ?? '');
+        $how = trim($journalismData['how'] ?? '');
+        $quotes = trim($journalismData['interview_quotes'] ?? '');
+
+        $isIndonesian = $this->isIndonesianText($cleanTopic . ' ' . $cleanNotes . ' ' . $quotes);
 
         if ($isIndonesian) {
             $title = ucwords($cleanTopic);
             $notesSentence = !empty($cleanNotes)
-                ? "<p class=\"text-sm leading-relaxed mb-4 text-slate-700 dark:text-slate-300\">Fokus perhatian utama kali ini menyasar: <em>{$cleanNotes}</em>. Hal tersebut menuntut pendekatan yang lebih taktis dan relevan dengan dinamika keseharian kita.</p>\n"
+                ? "<p class=\"text-sm leading-relaxed mb-4 text-slate-700 dark:text-slate-300\">Sudut pandang khusus: <em>{$cleanNotes}</em>.</p>\n"
                 : "";
 
-            return "<h2>{$title}: Mengapa Ini Krusial bagi Generasi Sekarang</h2>\n" .
-                   "<p class=\"lead text-base sm:text-lg font-medium leading-relaxed mb-4 text-slate-800 dark:text-slate-200\">Membahas seputar <strong>{$cleanTopic}</strong> bukan sekadar mengikuti arus tren yang berlalu cepat di linimasa. Bagi generasi muda dan pelajar yang aktif, topik ini menyentuh aspek nyata tentang bagaimana kita mengelola waktu, potensi diri, dan menghadapi tantangan di lingkungan sekitar.</p>\n" .
+            $fiveWFacts = [];
+            if (!empty($what)) $fiveWFacts[] = "<li><strong>Peristiwa (What):</strong> {$what}</li>";
+            if (!empty($who)) $fiveWFacts[] = "<li><strong>Tokoh / Pihak Terlibat (Who):</strong> {$who}</li>";
+            if (!empty($where)) $fiveWFacts[] = "<li><strong>Lokasi (Where):</strong> {$where}</li>";
+            if (!empty($when)) $fiveWFacts[] = "<li><strong>Waktu Kejadian (When):</strong> {$when}</li>";
+            if (!empty($why)) $fiveWFacts[] = "<li><strong>Tujuan / Alasan (Why):</strong> {$why}</li>";
+            if (!empty($how)) $fiveWFacts[] = "<li><strong>Proses / Jalannya Acara (How):</strong> {$how}</li>";
+
+            $fiveWBlock = !empty($fiveWFacts)
+                ? "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Fakta Seru di Balik Layar (5W+1H)</h3>\n<ul class=\"list-disc list-inside space-y-2 mb-5 text-slate-700 dark:text-slate-300 leading-relaxed\">\n" . implode("\n", $fiveWFacts) . "\n</ul>\n"
+                : "";
+
+            $quoteBlock = !empty($quotes)
+                ? "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"{$quotes}\"</blockquote>\n"
+                : "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"Belajar dan berkarya di bangku SMP itu seru banget saat kita berani mencoba hal baru bareng teman-teman sekolah!\"</blockquote>\n";
+
+            return "<h2>{$title}: Kisah Seru & Inspiratif dari Lingkungan Sekolah Kita</h2>\n" .
+                   "<p class=\"lead text-base sm:text-lg font-medium leading-relaxed mb-4 text-slate-800 dark:text-slate-200\">Pernahkah kamu memperhatikan bagaimana serunya topik seputar <strong>{$cleanTopic}</strong> di sekolah kita? Bagi kita siswa SMP, ini bukan hanya cerita biasa, tetapi bukti nyata bahwa rasa ingin tahu dan kreativitas bisa membawa dampak positif bagi lingkungan sekitar!</p>\n" .
                    $notesSentence .
-                   "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">1. Membedah Realitas dan Tantangan Utama</h3>\n" .
-                   "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Sering kali kita melihat persoalan mengenai {$cleanTopic} dari sudut pandang yang terlalu teoretis atau kaku. Padahal di lapangan, tantangannya berkaitan erat dengan kebiasaan sehari-hari, tekanan ekspektasi sosial, dan derasnya arus informasi digital. Menemukan titik temu antara konsistensi dan fleksibilitas menjadi kunci utama untuk melangkah ke depan.</p>\n" .
-                   "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"Perubahan besar dalam {$cleanTopic} tidak selalu dimulai dari langkah revolusioner yang membebani, melainkan dari keberanian mengambil inisiatif kecil yang konsisten setiap hari.\"</blockquote>\n" .
-                   "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">2. Langkah Strategis yang Bisa Langsung Diterapkan</h3>\n" .
-                   "<p class=\"mb-3 text-slate-700 dark:text-slate-300 leading-relaxed\">Berikut adalah beberapa poin konkret yang dapat dipraktikkan langsung oleh pelajar dan pembaca muda:</p>\n" .
+                   $fiveWBlock .
+                   "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Keseruan dan Pengalaman Nyata</h3>\n" .
+                   "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Saat mendalami {$cleanTopic}, banyak hal unik yang bisa kita pelajari langsung. Mulai dari kerja sama tim di kelas, berbagi ide seru saat istirahat, hingga bimbingan asyik dari para guru yang selalu mendukung ide-ide kreatif kita.</p>\n" .
+                   $quoteBlock .
+                   "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Tips Keren yang Bisa Kamu Coba</h3>\n" .
                    "<ul class=\"list-disc list-inside space-y-2 mb-5 text-slate-700 dark:text-slate-300 leading-relaxed\">\n" .
-                   "    <li><strong>Mulai dari Eksplorasi Mandiri:</strong> Kenali kebutuhan spesifik dan jangan terjebak perbandingan semu dengan pencapaian orang lain di media sosial.</li>\n" .
-                   "    <li><strong>Terapkan Eksperimen Bertahap:</strong> Uji coba strategi seputar {$cleanTopic} selama satu hingga dua pekan untuk melihat ritme yang paling cocok.</li>\n" .
-                   "    <li><strong>Bangun Ekosistem yang Mendukung:</strong> Berdiskusilah dengan teman sebaya atau mentor yang memiliki ketertarikan sefrekuensi agar motivasi tetap terjaga.</li>\n" .
+                   "    <li><strong>Ajak Teman Satu Ekskul:</strong> Segala hal jadi lebih menyenangkan jika dikerjakan bersama teman sebaya.</li>\n" .
+                   "    <li><strong>Mulai dari Eksperimen Kecil:</strong> Jangan takut salah; rasa ingin tahu adalah awal dari penemuan besar.</li>\n" .
+                   "    <li><strong>Catat dan Bagikan Pengalamanmu:</strong> Ceritakan kisah seru ini di majalah dinding atau forum sekolah.</li>\n" .
                    "</ul>\n" .
-                   "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">3. Bergerak Maju dengan Percaya Diri</h3>\n" .
-                   "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Pada akhirnya, penguasaan atas {$cleanTopic} adalah proses bertumbuh yang berkelanjutan. Yang terpenting bukanlah kesempurnaan instan, melainkan kesediaan untuk terus berefleksi, memperbaiki kesalahan, dan merayakan progres nyata di setiap prosesnya.</p>";
+                   "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Teruslah berkreasi, nikmati setiap petualangan belajar di sekolah, dan jadilah inspirasi bagi sesama teman di Brighteen!</p>";
         }
 
         // English Contextual Draft
         $title = ucwords($cleanTopic);
         $notesSnippet = !empty($cleanNotes)
-            ? "<p class=\"text-sm leading-relaxed mb-4 text-slate-700 dark:text-slate-300\">Special editorial emphasis: <em>{$cleanNotes}</em>.</p>\n"
+            ? "<p class=\"text-sm leading-relaxed mb-4 text-slate-700 dark:text-slate-300\">Special story angle: <em>{$cleanNotes}</em>.</p>\n"
             : "";
 
-        return "<h2>{$title}: Why It Matters for the Next Generation</h2>\n" .
-               "<p class=\"lead text-base sm:text-lg font-medium leading-relaxed mb-4 text-slate-800 dark:text-slate-200\">Diving into <strong>{$cleanTopic}</strong> isn't just another fleeting trend on our social feeds. For active students and young creators, it represents a pivotal shift in how we navigate focus, productivity, and real-world impact in an interconnected culture.</p>\n" .
+        $fiveWFactsEn = [];
+        if (!empty($what)) $fiveWFactsEn[] = "<li><strong>What Happened:</strong> {$what}</li>";
+        if (!empty($who)) $fiveWFactsEn[] = "<li><strong>Who was Involved:</strong> {$who}</li>";
+        if (!empty($where)) $fiveWFactsEn[] = "<li><strong>Location:</strong> {$where}</li>";
+        if (!empty($when)) $fiveWFactsEn[] = "<li><strong>When:</strong> {$when}</li>";
+        if (!empty($why)) $fiveWFactsEn[] = "<li><strong>Why it Matters:</strong> {$why}</li>";
+        if (!empty($how)) $fiveWFactsEn[] = "<li><strong>How it Unfolded:</strong> {$how}</li>";
+
+        $fiveWBlockEn = !empty($fiveWFactsEn)
+            ? "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Fast Facts & Behind the Scenes (5W+1H)</h3>\n<ul class=\"list-disc list-inside space-y-2 mb-5 text-slate-700 dark:text-slate-300 leading-relaxed\">\n" . implode("\n", $fiveWFactsEn) . "\n</ul>\n"
+            : "";
+
+        $quoteBlockEn = !empty($quotes)
+            ? "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"{$quotes}\"</blockquote>\n"
+            : "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"Exploring new ideas together in middle school is where our best friendships and projects are born!\"</blockquote>\n";
+
+        return "<h2>{$title}: Why This School Story Inspires Us All</h2>\n" .
+               "<p class=\"lead text-base sm:text-lg font-medium leading-relaxed mb-4 text-slate-800 dark:text-slate-200\">Exploring <strong>{$cleanTopic}</strong> is one of the most exciting things happening across our middle school halls today. For active student journalists and curious classmates, it shows how simple ideas turn into real school pride!</p>\n" .
                $notesSnippet .
-               "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">1. Deconstructing the Modern Reality</h3>\n" .
-               "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Too often, conversations surrounding {$cleanTopic} are bogged down by outdated corporate clichés. In reality, modern youth face a distinct landscape shaped by digital fatigue, algorithmic pressures, and high expectations. Cutting through that noise requires an intentional strategy built on authenticity rather than performative perfection.</p>\n" .
-               "<blockquote class=\"border-l-4 border-primary pl-4 py-2 my-5 italic text-slate-700 dark:text-slate-300 bg-primary/5 rounded-r-2xl\">\"Progress in {$cleanTopic} isn't about rigid perfection; it's about building a sustainable environment that honors your genuine curiosity.\"</blockquote>\n" .
-               "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">2. Actionable Playbook for Students & Creators</h3>\n" .
-               "<p class=\"mb-3 text-slate-700 dark:text-slate-300 leading-relaxed\">Here are key principles you can implement immediately:</p>\n" .
+               $fiveWBlockEn .
+               "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Real Stories from Campus Life</h3>\n" .
+               "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Behind this topic lies genuine curiosity, student collaboration, and the excitement of discovering how things work. Whether inside the classroom, in club workshops, or during break time, great teamwork always shines through.</p>\n" .
+               $quoteBlockEn .
+               "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">Fun Takeaways for Students</h3>\n" .
                "<ul class=\"list-disc list-inside space-y-2 mb-5 text-slate-700 dark:text-slate-300 leading-relaxed\">\n" .
-               "    <li><strong>Prioritize Depth Over Volume:</strong> Focus on core essentials instead of chasing shallow validation.</li>\n" .
-               "    <li><strong>Build a Habit Loop:</strong> Test your workflow around {$cleanTopic} in manageable two-week sprints.</li>\n" .
-               "    <li><strong>Collaborate in Micro-Communities:</strong> Share experiments with fellow peers who challenge and support your vision.</li>\n" .
+               "    <li><strong>Team Up with Classmates:</strong> Big projects are always more fun when shared with good friends.</li>\n" .
+               "    <li><strong>Stay Curious:</strong> Don't hesitate to ask teachers and mentors questions that spark new ideas.</li>\n" .
+               "    <li><strong>Share the Journey:</strong> Write about your experiences and inspire other students across campus!</li>\n" .
                "</ul>\n" .
-               "<h3 class=\"text-lg sm:text-xl font-bold my-4 text-primary\">3. Moving Forward</h3>\n" .
-               "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Mastering {$cleanTopic} is a marathon, not a sprint. Celebrate your incremental wins, iterate boldly in public, and keep building the future you want to see.</p>";
+               "<p class=\"mb-4 text-slate-700 dark:text-slate-300 leading-relaxed\">Keep dreaming big, have fun learning, and celebrate every cool milestone with your classmates!</p>";
     }
 
     /**

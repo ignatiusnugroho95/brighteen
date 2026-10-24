@@ -38,7 +38,16 @@ class AiController
                 if (empty($topic)) {
                     return response()->json(['success' => false, 'error' => 'A topic or prompt is required for Auto-Draft generation.'], 422);
                 }
-                $result = $gemini->generateAutoDraft($topic, $notes);
+                $journalismData = [
+                    'what' => trim($input['what'] ?? ''),
+                    'who' => trim($input['who'] ?? ''),
+                    'where' => trim($input['where'] ?? ''),
+                    'when' => trim($input['when'] ?? ''),
+                    'why' => trim($input['why'] ?? ''),
+                    'how' => trim($input['how'] ?? ''),
+                    'interview_quotes' => trim($input['interview_quotes'] ?? ''),
+                ];
+                $result = $gemini->generateAutoDraft($topic, $notes, $journalismData);
                 break;
 
             case 'title':
