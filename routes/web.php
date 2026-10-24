@@ -93,6 +93,8 @@ Router::post('api/articles/{id}/save', [ArticleController::class, 'save']);
 Router::post('api/articles/{id}/comment', [ArticleController::class, 'comment']);
 Router::post('api/upload-image', [EditorController::class, 'uploadImage']);
 Router::post('api/ai/generate', [AiController::class, 'generate']);
+Router::get('api/ai/status', [AiController::class, 'status']);
+Router::post('api/ai/save-key', [AiController::class, 'saveKey']);
 Router::get('api/notifications', [AssignmentController::class, 'apiNotifications']);
 Router::post('api/notifications/{id}/read', [AssignmentController::class, 'apiMarkRead']);
 Router::post('api/notifications/mark-all-read', [AssignmentController::class, 'apiMarkAllRead']);
