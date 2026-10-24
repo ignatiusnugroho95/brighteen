@@ -6,11 +6,13 @@ use App\Models\Assignment;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Notification;
+use App\Models\Article;
 
 require_once __DIR__ . '/../../Models/Assignment.php';
 require_once __DIR__ . '/../../Models/Category.php';
 require_once __DIR__ . '/../../Models/User.php';
 require_once __DIR__ . '/../../Models/Notification.php';
+require_once __DIR__ . '/../../Models/Article.php';
 
 class AssignmentController
 {
@@ -18,6 +20,12 @@ class AssignmentController
     {
         if (!auth()->check()) {
             redirect('login?redirect=dashboard/assignments');
+        }
+
+        // Open to all content creators (Contributors, Journalists, Editors, Management)
+        if (!auth()->canCreateArticle()) {
+            http_response_code(403);
+            die(view('errors.403', ['message' => 'Restricted Area: Creator or editorial permissions required to access the writer workspace.']));
         }
     }
 
@@ -31,7 +39,7 @@ class AssignmentController
     }
 
     /**
-     * Journalist Assignment Center
+     * Journalist & Contributor Assignment and Draft Workspace
      * Accessible by Journalists, Contributors, and Editors
      */
     public function index()
@@ -44,7 +52,25 @@ class AssignmentController
         $userId = auth()->id();
         $assignments = Assignment::getForJournalist($userId);
 
-        // Metric counts
+        // Fetch author's own unpublished drafts (draft, pending_review, rejected)
+        $myDrafts = Article::getUnpublishedByUser($userId);
+
+        $totalDrafts = count($myDrafts);
+        $draftOnlyCount = 0;
+        $draftReviewCount = 0;
+        $draftRejectedCount = 0;
+
+        foreach ($myDrafts as $d) {
+            if ($d['status'] === 'draft') {
+                $draftOnlyCount++;
+            } elseif ($d['status'] === 'pending_review') {
+                $draftReviewCount++;
+            } elseif ($d['status'] === 'rejected') {
+                $draftRejectedCount++;
+            }
+        }
+
+        // Metric counts for assignments
         $totalAssigned = count($assignments);
         $totalPending = 0;
         $totalTurnedIn = 0;
@@ -78,6 +104,11 @@ class AssignmentController
             'activeAssignments' => $activeAssignments,
             'reviewAssignments' => $reviewAssignments,
             'publishedAssignments' => $publishedAssignments,
+            'myDrafts' => $myDrafts,
+            'totalDrafts' => $totalDrafts,
+            'draftOnlyCount' => $draftOnlyCount,
+            'draftReviewCount' => $draftReviewCount,
+            'draftRejectedCount' => $draftRejectedCount,
             'totalAssigned' => $totalAssigned,
             'totalActive' => $totalActive,
             'totalPending' => $totalPending,

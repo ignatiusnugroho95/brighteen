@@ -152,10 +152,10 @@
                                 </template>
                             </div>
 
-                            @if(auth()->isJournalist())
+                            @if(auth()->canCreateArticle())
                                 <div class="pt-2 border-t border-slate-200 dark:border-white/10 text-center">
                                     <a href="{{ url('dashboard/assignments') }}" class="text-xs text-primary hover:underline font-bold inline-flex items-center gap-1">
-                                        <span>Open Assignment Center</span>
+                                        <span>Open Assignments & Drafts</span>
                                         <span class="material-symbols-outlined text-xs">arrow_forward</span>
                                     </a>
                                 </div>

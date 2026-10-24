@@ -39,9 +39,11 @@ class ArticleController
             }
         }
 
-        // Increment views count
-        Article::incrementViews($article['id']);
-        $article['views_count']++;
+        // Increment views count (only for published articles)
+        if ($article['status'] === 'published') {
+            Article::incrementViews($article['id']);
+            $article['views_count']++;
+        }
 
         // Fetch comments and related articles
         $comments = Comment::forArticle($article['id']);

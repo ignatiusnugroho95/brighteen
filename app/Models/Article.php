@@ -163,4 +163,35 @@ class Article extends Model
         $stmt = db()->prepare("UPDATE articles SET views_count = views_count + 1 WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    /**
+     * Get all unpublished drafts (draft, pending_review, rejected) for a specific author
+     */
+    public static function getUnpublishedByUser($userId)
+    {
+        $sql = "
+            SELECT a.*, 
+                   COALESCE(NULLIF(a.featured_image, ''), 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') as featured_image,
+                   c.name as category_name, c.slug as category_slug, c.color_code as category_color, c.icon as category_icon,
+                   asg.id as linked_assignment_id, asg.topic as linked_assignment_topic, asg.submission_deadline
+            FROM articles a
+            JOIN categories c ON a.category_id = c.id
+            LEFT JOIN assignments asg ON asg.article_id = a.id
+            WHERE a.user_id = ? AND a.status IN ('draft', 'pending_review', 'rejected')
+            ORDER BY a.updated_at DESC, a.id DESC
+        ";
+        $stmt = db()->prepare($sql);
+        $stmt->execute([(int)$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Delete an unpublished draft belonging to the authenticated author
+     */
+    public static function deleteForAuthor($id, $userId)
+    {
+        $stmt = db()->prepare("DELETE FROM articles WHERE id = ? AND user_id = ? AND status IN ('draft', 'pending_review', 'rejected')");
+        return $stmt->execute([(int)$id, (int)$userId]);
+    }
 }
+

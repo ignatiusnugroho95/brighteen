@@ -44,6 +44,7 @@ Router::get('articles/create', [EditorController::class, 'create']);
 Router::post('articles', [EditorController::class, 'store']);
 Router::get('articles/{id}/edit', [EditorController::class, 'edit']);
 Router::post('articles/{id}/update', [EditorController::class, 'update']);
+Router::post('articles/{id}/delete', [EditorController::class, 'destroy']);
 
 // Article Detail View
 Router::get('articles/{slug}', [ArticleController::class, 'show']);

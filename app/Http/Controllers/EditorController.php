@@ -160,10 +160,12 @@ class EditorController
             redirect('articles/' . $slug);
         } elseif ($assignmentId > 0) {
             redirect('dashboard/assignments?notice=assignment_turned_in');
+        } elseif ($action === 'save_draft') {
+            redirect('dashboard/assignments#drafts?notice=draft_saved');
         } elseif (auth()->isEditor() || auth()->isManagement()) {
             redirect('dashboard/editorial?notice=article_saved');
         } else {
-            redirect('?notice=submitted_for_review');
+            redirect('dashboard/assignments#drafts?notice=submitted_for_review');
         }
     }
 
@@ -228,10 +230,48 @@ class EditorController
 
         if ($status === 'published') {
             redirect('articles/' . $article['slug']);
+        } elseif ($action === 'save_draft') {
+            redirect('dashboard/assignments#drafts?notice=draft_updated');
         } elseif (auth()->isEditor() || auth()->isManagement()) {
             redirect('dashboard/editorial?notice=article_updated');
         } else {
-            redirect('?notice=draft_updated');
+            redirect('dashboard/assignments#drafts?notice=submitted_for_review');
+        }
+    }
+
+    public function destroy($id)
+    {
+        $this->checkCreatorAccess();
+        $article = Article::find($id);
+
+        if (!$article) {
+            http_response_code(404);
+            return view('errors.404', ['message' => 'Article not found.']);
+        }
+
+        $isOwner = ((int)$article['user_id'] === (int)auth()->id());
+        $isPrivileged = (auth()->isEditor() || auth()->isManagement());
+
+        if (!$isOwner && !$isPrivileged) {
+            http_response_code(403);
+            return view('errors.403', ['message' => 'Unauthorized action.']);
+        }
+
+        if (!$isPrivileged && $article['status'] === 'published') {
+            http_response_code(403);
+            return view('errors.403', ['message' => 'Published articles cannot be deleted directly.']);
+        }
+
+        if ($isPrivileged && !in_array($article['status'], ['draft', 'pending_review', 'rejected'])) {
+            Article::delete($id);
+        } else {
+            Article::deleteForAuthor($id, $article['user_id']);
+        }
+
+        if ($isPrivileged && isset($_GET['from']) && $_GET['from'] === 'editorial') {
+            redirect('dashboard/editorial?notice=article_deleted');
+        } else {
+            redirect('dashboard/assignments#drafts?notice=draft_deleted');
         }
     }
 

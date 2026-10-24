@@ -171,8 +171,8 @@
                         </a>
                     @endif
 
-                    {{-- Assignment Center (Journalist, Editor & Management) --}}
-                    @if(auth()->isJournalist())
+                    {{-- Assignment Center & Drafts (Contributor, Journalist, Editor & Management) --}}
+                    @if(auth()->canCreateArticle())
                         <a href="{{ url('dashboard/assignments') }}" 
                            class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-indigo-500/10 border border-slate-200/80 dark:border-white/10 hover:border-indigo-500/30 text-slate-800 dark:text-slate-200 transition-all group min-w-0">
                             <span class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
@@ -180,10 +180,10 @@
                             </span>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Assignment Center</span>
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Assignments & Drafts</span>
                                     <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 shrink-0">Tasks</span>
                                 </div>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Pitches, deadlines & briefs</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Pitches, drafts & deadlines</p>
                             </div>
                         </a>
                     @endif
