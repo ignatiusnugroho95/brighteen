@@ -18,7 +18,7 @@ class GeminiService
         $this->apiKey = !empty($dbKey) ? $dbKey : (getenv('GEMINI_API_KEY') ?: '');
 
         $dbModel = class_exists(SystemSetting::class) ? SystemSetting::get('gemini_model') : null;
-        $this->model = !empty($dbModel) ? $dbModel : (getenv('GEMINI_MODEL') ?: 'gemini-1.5-flash');
+        $this->model = !empty($dbModel) ? $dbModel : (getenv('GEMINI_MODEL') ?: 'gemini-3.5-flash');
     }
 
     public function getApiKey()
@@ -75,7 +75,13 @@ class GeminiService
     public function callGemini($prompt, $systemInstruction = null, $temperature = 0.7)
     {
         if (!empty($this->apiKey)) {
-            $modelsToTry = array_unique([$this->model, 'gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-1.5-pro']);
+            // Active Free-Tier models supported by Google Gemini API
+            $modelsToTry = array_unique(array_filter([
+                $this->model,
+                'gemini-3.5-flash',
+                'gemini-3.5-flash-lite',
+                'gemini-3.8-flash'
+            ]));
 
             foreach ($modelsToTry as $candidateModel) {
                 $endpoint = "https://generativelanguage.googleapis.com/v1beta/models/{$candidateModel}:generateContent?key=" . urlencode($this->apiKey);
@@ -93,7 +99,7 @@ class GeminiService
                         'temperature' => $temperature,
                         'topK' => 40,
                         'topP' => 0.95,
-                        'maxOutputTokens' => 2500,
+                        'maxOutputTokens' => 3500,
                     ]
                 ];
 
@@ -122,10 +128,15 @@ class GeminiService
                     $data = json_decode($response, true);
                     $candidate = $data['candidates'][0]['content']['parts'][0]['text'] ?? null;
                     if (!empty($candidate)) {
+                        // Strip wrapping markdown code blocks if the model enclosed its HTML response in ```html ... ```
+                        $cleanContent = trim($candidate);
+                        $cleanContent = preg_replace('/^```(?:html|markdown)?\s*/i', '', $cleanContent);
+                        $cleanContent = preg_replace('/```$/', '', trim($cleanContent));
+
                         return [
                             'success' => true,
                             'source' => "Google Gemini ({$candidateModel})",
-                            'content' => $candidate
+                            'content' => trim($cleanContent)
                         ];
                     }
                 }

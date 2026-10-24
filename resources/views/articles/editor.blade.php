@@ -59,7 +59,7 @@
          aiViewMode: 'preview', // 'preview' | 'code'
          aiSettingsOpen: false,
          aiApiKeyInput: '',
-         aiModelInput: 'gemini-1.5-flash',
+         aiModelInput: 'gemini-3.5-flash',
          aiHasKey: false,
          aiEngineName: 'Detecting AI Engine...',
          aiKeySaving: false,
@@ -71,7 +71,7 @@
                  .then(data => {
                      if (data.success) {
                          this.aiHasKey = data.has_key;
-                         this.aiModelInput = data.model || 'gemini-1.5-flash';
+                         this.aiModelInput = data.model || 'gemini-3.5-flash';
                          this.aiEngineName = data.engine;
                      }
                  })
@@ -560,9 +560,9 @@
                     <div>
                         <select x-model="aiModelInput" 
                                 class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#151923] border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
-                            <option value="gemini-1.5-flash">gemini-1.5-flash (Cepat)</option>
-                            <option value="gemini-2.0-flash">gemini-2.0-flash (Terbaru)</option>
-                            <option value="gemini-1.5-pro">gemini-1.5-pro (Riset)</option>
+                            <option value="gemini-3.5-flash">gemini-3.5-flash (Rekomendasi - Cepat & Stabil)</option>
+                            <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Ringan & Cepat)</option>
+                            <option value="gemini-3.8-flash">gemini-3.8-flash (Versi 3.8 Terbaru)</option>
                         </select>
                     </div>
                 </div>

@@ -1050,8 +1050,9 @@ function managementDesk() {
                                     </select>
                                 @elseif($st['key'] === 'gemini_model')
                                     <select name="settings[{{ $st['key'] }}]" class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-background border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
-                                        <option value="gemini-1.5-flash" {{ $st['value'] === 'gemini-1.5-flash' ? 'selected' : '' }}>gemini-1.5-flash (Fast & Creative)</option>
-                                        <option value="gemini-1.5-pro" {{ $st['value'] === 'gemini-1.5-pro' ? 'selected' : '' }}>gemini-1.5-pro (High Reasoning)</option>
+                                        <option value="gemini-3.5-flash" {{ $st['value'] === 'gemini-3.5-flash' ? 'selected' : '' }}>gemini-3.5-flash (Fast & Stable - Recommended)</option>
+                                        <option value="gemini-3.5-flash-lite" {{ $st['value'] === 'gemini-3.5-flash-lite' ? 'selected' : '' }}>gemini-3.5-flash-lite (Lightweight & Rapid)</option>
+                                        <option value="gemini-3.8-flash" {{ $st['value'] === 'gemini-3.8-flash' ? 'selected' : '' }}>gemini-3.8-flash (Latest Model)</option>
                                     </select>
                                 @else
                                     <input type="text" name="settings[{{ $st['key'] }}]" value="{{ $st['value'] }}" 

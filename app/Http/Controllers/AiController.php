@@ -124,7 +124,7 @@ class AiController
         }
 
         $key = trim($input['api_key'] ?? '');
-        $model = trim($input['model'] ?? 'gemini-1.5-flash');
+        $model = trim($input['model'] ?? 'gemini-3.5-flash');
 
         $gemini = new GeminiService();
         $gemini->saveApiKey($key, $model);
