@@ -49,6 +49,7 @@
      x-data="{
          aiModalOpen: false,
          aiActiveSection: 'ideas', // 'ideas' | 'draft' | 'title' | 'rephrase' | 'grammar'
+         aiLanguage: 'en', // 'en' (default) | 'id' | 'other'
          aiLoading: false,
          aiPrompt: '',
          aiNotes: '',
@@ -174,7 +175,8 @@
                  how: this.aiHow,
                  interview_quotes: this.aiInterviewQuotes,
                  text: this.aiSelectedText || plainContent || excerptVal || titleVal,
-                 niche: this.aiPrompt || 'School Life & Hobbies'
+                 niche: this.aiPrompt || 'School Life & Hobbies',
+                 language: this.aiLanguage || 'en'
              };
 
              fetch('{{ url('api/ai/generate') }}', {
@@ -607,11 +609,31 @@
             <!-- Modal Body Content: Stacked Vertical Collapsible Sections (Accordion Pattern) -->
             <div class="p-4 sm:p-6 overflow-y-auto space-y-3.5 flex-1">
 
-                <div class="flex items-center justify-between text-xs pb-1">
-                    <span class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">
-                        Editorial AI Tools
-                    </span>
-                    <span class="text-[11px] text-slate-400 font-semibold">Middle School Magazine Edition (SMP)</span>
+                <div class="flex items-center justify-between text-xs pb-1 flex-wrap gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-[11px]">
+                            Editorial AI Tools
+                        </span>
+                        <span class="text-[11px] text-slate-400 font-semibold hidden sm:inline">• Middle School Magazine</span>
+                    </div>
+
+                    <!-- Output Language Selector (Restricted to English unless Indonesian requested) -->
+                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/10 text-[11px]">
+                        <span class="text-slate-500 dark:text-slate-400 px-1 font-medium flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[13px]">translate</span>
+                            <span>Output:</span>
+                        </span>
+                        <button type="button" @click="aiLanguage = 'en'" 
+                                class="px-2 py-0.5 rounded-lg font-bold transition-all text-[11px]"
+                                :class="aiLanguage === 'en' ? 'bg-white dark:bg-surface-card text-primary shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'">
+                            English (Default)
+                        </button>
+                        <button type="button" @click="aiLanguage = 'id'" 
+                                class="px-2 py-0.5 rounded-lg font-bold transition-all text-[11px]"
+                                :class="aiLanguage === 'id' ? 'bg-white dark:bg-surface-card text-primary shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:hover:text-white'">
+                            Bahasa Indonesia
+                        </button>
+                    </div>
                 </div>
 
                 <!-- 1. SECTION: Story Ideas (First Tab / Top Accordion) -->
@@ -924,9 +946,8 @@
                 <div x-show="aiResult" class="space-y-3 pt-3 border-t border-slate-200 dark:border-white/10">
                     <div class="flex items-center justify-between flex-wrap gap-2">
                         <div class="flex items-center gap-2">
-                            <span class="text-xs font-black uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-base">sparkles</span>
-                                <span>AI Generated Output</span>
+                            <span class="text-xs font-black uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                                AI Generated Output
                             </span>
                             <span class="px-2 py-0.5 rounded-md text-[10px] font-mono bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-white/10" 
                                   x-text="'Engine: ' + aiSource"></span>

@@ -30,6 +30,7 @@ class AiController
         $topic = trim($input['topic'] ?? $prompt);
         $notes = trim($input['notes'] ?? '');
         $niche = trim($input['niche'] ?? 'Tech & Youth Culture');
+        $language = trim($input['language'] ?? 'en');
 
         $gemini = new GeminiService();
 
@@ -47,7 +48,7 @@ class AiController
                     'how' => trim($input['how'] ?? ''),
                     'interview_quotes' => trim($input['interview_quotes'] ?? ''),
                 ];
-                $result = $gemini->generateAutoDraft($topic, $notes, $journalismData);
+                $result = $gemini->generateAutoDraft($topic, $notes, $journalismData, $language);
                 break;
 
             case 'title':
@@ -56,21 +57,21 @@ class AiController
                 if (empty($target)) {
                     return response()->json(['success' => false, 'error' => 'Draft text or topic is required to optimize titles.'], 422);
                 }
-                $result = $gemini->optimizeTitlesAndSeo($target);
+                $result = $gemini->optimizeTitlesAndSeo($target, $language);
                 break;
 
             case 'rephrase':
                 if (empty($text)) {
                     return response()->json(['success' => false, 'error' => 'Selected text is required to rephrase.'], 422);
                 }
-                $result = $gemini->rephraseAndSummarize($text, 'rephrase');
+                $result = $gemini->rephraseAndSummarize($text, 'rephrase', $language);
                 break;
 
             case 'summarize':
                 if (empty($text)) {
                     return response()->json(['success' => false, 'error' => 'Selected text is required to summarize.'], 422);
                 }
-                $result = $gemini->rephraseAndSummarize($text, 'summarize');
+                $result = $gemini->rephraseAndSummarize($text, 'summarize', $language);
                 break;
 
             case 'grammar':
@@ -78,11 +79,11 @@ class AiController
                 if (empty($text)) {
                     return response()->json(['success' => false, 'error' => 'Draft text is required to check grammar and tone.'], 422);
                 }
-                $result = $gemini->checkGrammarAndTone($text);
+                $result = $gemini->checkGrammarAndTone($text, $language);
                 break;
 
             case 'ideas':
-                $result = $gemini->generateContentIdeas($niche);
+                $result = $gemini->generateContentIdeas($niche, $language);
                 break;
 
             default:
