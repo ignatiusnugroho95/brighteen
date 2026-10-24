@@ -37,6 +37,7 @@ Router::get('bookmarks', [ArticleController::class, 'bookmarks']);
 
 // Journalist Assignment Center
 Router::get('dashboard/assignments', [AssignmentController::class, 'index']);
+Router::get('assignments', [AssignmentController::class, 'index']);
 
 // Articles Workbench & Creation (Must precede articles/{slug})
 Router::get('articles/create', [EditorController::class, 'create']);

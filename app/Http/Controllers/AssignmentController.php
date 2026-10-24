@@ -51,21 +51,35 @@ class AssignmentController
         $totalApproved = 0;
         $totalExpired = 0;
 
+        $activeAssignments = [];
+        $reviewAssignments = [];
+        $publishedAssignments = [];
+
         foreach ($assignments as $a) {
             if ($a['effective_status'] === 'expired') {
                 $totalExpired++;
+                $activeAssignments[] = $a;
             } elseif ($a['effective_status'] === 'pending') {
                 $totalPending++;
+                $activeAssignments[] = $a;
             } elseif ($a['effective_status'] === 'turned_in') {
                 $totalTurnedIn++;
+                $reviewAssignments[] = $a;
             } elseif ($a['effective_status'] === 'approved') {
                 $totalApproved++;
+                $publishedAssignments[] = $a;
             }
         }
 
+        $totalActive = $totalPending + $totalExpired;
+
         return view('dashboard.assignments', [
             'assignments' => $assignments,
+            'activeAssignments' => $activeAssignments,
+            'reviewAssignments' => $reviewAssignments,
+            'publishedAssignments' => $publishedAssignments,
             'totalAssigned' => $totalAssigned,
+            'totalActive' => $totalActive,
             'totalPending' => $totalPending,
             'totalTurnedIn' => $totalTurnedIn,
             'totalApproved' => $totalApproved,
