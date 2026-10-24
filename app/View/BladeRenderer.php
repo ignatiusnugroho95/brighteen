@@ -103,9 +103,11 @@ class BladeRenderer
         $content = $this->replaceBalancedDirective($content, 'if', '<?php if (%s): ?>');
         $content = $this->replaceBalancedDirective($content, 'elseif', '<?php elseif (%s): ?>');
         $content = $this->replaceBalancedDirective($content, 'foreach', '<?php foreach (%s): ?>');
+        $content = $this->replaceBalancedDirective($content, 'for', '<?php for (%s): ?>');
         $content = preg_replace('/@else/', '<?php else: ?>', $content);
         $content = preg_replace('/@endif/', '<?php endif; ?>', $content);
         $content = preg_replace('/@endforeach/', '<?php endforeach; ?>', $content);
+        $content = preg_replace('/@endfor/', '<?php endfor; ?>', $content);
 
         // 8. Unescaped Output: {!! $var !!}
         $content = preg_replace('/\{!!\s*(.+?)\s*!!\}/s', '<?php echo $1; ?>', $content);

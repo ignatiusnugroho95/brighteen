@@ -71,6 +71,7 @@ Router::post('dashboard/editorial/assignments/{id}/delete', [AssignmentControlle
 
 // Platform Management Dashboard (Management Only)
 Router::get('dashboard/management', [ManagementDashboardController::class, 'index']);
+Router::get('management', [ManagementDashboardController::class, 'index']);
 Router::post('dashboard/management/users/{id}/role', [ManagementDashboardController::class, 'updateUserRole']);
 Router::post('dashboard/management/settings', [ManagementDashboardController::class, 'updateSettings']);
 Router::post('dashboard/management/articles/{id}/delete', [ManagementDashboardController::class, 'deleteArticle']);
