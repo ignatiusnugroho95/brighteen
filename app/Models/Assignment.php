@@ -49,10 +49,13 @@ class Assignment extends Model
             $isOverdue = ($deadlineTs < $now);
 
             // Compute visual/operational status
-            if ($row['status'] === 'pending' && $isOverdue) {
-                $row['effective_status'] = 'expired';
-            } elseif ($row['article_status'] === 'published') {
+            if ($row['article_status'] === 'published') {
                 $row['effective_status'] = 'approved';
+            } elseif ($row['article_status'] === 'rejected' || $row['article_status'] === 'draft') {
+                // Draft in progress or revision requested is NOT in review queue
+                $row['effective_status'] = $isOverdue ? 'expired' : 'pending';
+            } elseif ($row['status'] === 'pending' && $isOverdue) {
+                $row['effective_status'] = 'expired';
             } else {
                 $row['effective_status'] = $row['status'];
             }

@@ -40,7 +40,7 @@ function assignmentsDesk() {
 
         searchQuery: '',
         activeSubFilter: 'all', // 'all' | 'pending' | 'expired'
-        draftSubFilter: 'all',  // 'all' | 'draft' | 'pending_review' | 'rejected'
+        draftSubFilter: 'all',  // 'all' | 'draft' | 'rejected'
 
         init() {
             // Activate initial tab and mobile section
@@ -187,7 +187,7 @@ function assignmentsDesk() {
                     @elseif($notice === 'draft_deleted')
                         Draft has been deleted successfully.
                     @elseif($notice === 'submitted_for_review')
-                        Your story draft has been submitted to the Editorial Review Queue!
+                        Your story draft has been submitted to the Editorial Review Queue and notifications sent to editors for review & publishing!
                     @else
                         Action completed successfully.
                     @endif
@@ -258,11 +258,11 @@ function assignmentsDesk() {
             <div class="mt-2 flex items-center justify-between text-[10px] sm:text-[11px]">
                 <span class="text-slate-500 dark:text-slate-400 font-semibold">{{ $draftOnlyCount }} WIP</span>
                 @if($draftRejectedCount > 0)
-                    <span class="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-rose-500/20 text-rose-500 dark:text-rose-400 shrink-0">
+                    <span class="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-rose-500/20 text-rose-500 dark:text-rose-400 shrink-0">
                         {{ $draftRejectedCount }} Revision
                     </span>
                 @else
-                    <span class="text-slate-400 dark:text-slate-500 font-medium">{{ $draftReviewCount }} In Review</span>
+                    <span class="text-slate-400 dark:text-slate-500 font-medium">Draft Desk</span>
                 @endif
             </div>
         </button>
@@ -360,12 +360,6 @@ function assignmentsDesk() {
                         :class="draftSubFilter === 'draft' ? 'bg-amber-500 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
                         class="px-2.5 sm:px-3 py-1 rounded-xl text-[11px] transition-all">
                     WIP ({{ $draftOnlyCount }})
-                </button>
-                <button type="button" 
-                        @click="draftSubFilter = 'pending_review'" 
-                        :class="draftSubFilter === 'pending_review' ? 'bg-purple-600 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                        class="px-2.5 sm:px-3 py-1 rounded-xl text-[11px] transition-all">
-                    In Review ({{ $draftReviewCount }})
                 </button>
                 @if($draftRejectedCount > 0)
                     <button type="button" 
@@ -749,7 +743,7 @@ function assignmentsDesk() {
                         </span>
                         <div>
                             <h2 class="text-lg font-black font-display text-slate-900 dark:text-white">Saved Drafts & Work In Progress</h2>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">All your unfinished stories, queued submissions, and returned drafts. Pick up right where you left off!</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">All your work-in-progress drafts and returned revisions. Ready for you to edit and submit for review!</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2.5">
@@ -772,7 +766,7 @@ function assignmentsDesk() {
                         <div class="space-y-1">
                             <h3 class="text-base font-bold text-slate-900 dark:text-white">No Saved Drafts Yet</h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
-                                You don't have any saved drafts or unpublished articles right now. Every time you save your work or submit for review, it will be securely accessible here.
+                                You don't have any saved drafts right now. Click "Save Draft" while writing or editing a story to keep it here, or click "Submit for Editorial Review" to send it to Under Review.
                             </p>
                         </div>
                         <div class="pt-2">
@@ -791,14 +785,10 @@ function assignmentsDesk() {
                                  class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-surface-card border border-slate-200/90 dark:border-white/10 hover:border-sky-500/40 transition-all shadow-sm space-y-4 relative overflow-hidden group">
 
                                 <!-- Status Color Ribbon -->
-                                @if($draft['status'] === 'draft')
-                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-sky-400"></div>
-                                @elseif($draft['status'] === 'pending_review')
-                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-500"></div>
-                                @elseif($draft['status'] === 'rejected')
+                                @if($draft['status'] === 'rejected')
                                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-pink-500"></div>
                                 @else
-                                    <div class="absolute top-0 left-0 right-0 h-1 bg-slate-300 dark:bg-slate-700"></div>
+                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-sky-400"></div>
                                 @endif
 
                                 <!-- Top Row: Category Tag, Linked Brief & Status Badge -->
@@ -825,20 +815,15 @@ function assignmentsDesk() {
 
                                     <!-- Status Pill -->
                                     <div>
-                                        @if($draft['status'] === 'draft')
-                                            <span class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1.5 shadow-xs">
-                                                <span class="material-symbols-outlined text-xs">edit_note</span>
-                                                <span>Work In Progress</span>
-                                            </span>
-                                        @elseif($draft['status'] === 'pending_review')
-                                            <span class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/30 flex items-center gap-1.5 shadow-xs">
-                                                <span class="w-2 h-2 rounded-full bg-purple-500 animate-ping"></span>
-                                                <span>In Editorial Review</span>
-                                            </span>
-                                        @elseif($draft['status'] === 'rejected')
+                                        @if($draft['status'] === 'rejected')
                                             <span class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/30 flex items-center gap-1.5 shadow-xs">
                                                 <span class="material-symbols-outlined text-xs">refresh</span>
                                                 <span>Needs Revision</span>
+                                            </span>
+                                        @else
+                                            <span class="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30 flex items-center gap-1.5 shadow-xs">
+                                                <span class="material-symbols-outlined text-xs">edit_note</span>
+                                                <span>Work In Progress</span>
                                             </span>
                                         @endif
                                     </div>

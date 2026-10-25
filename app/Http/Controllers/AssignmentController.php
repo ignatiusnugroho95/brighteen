@@ -52,8 +52,8 @@ class AssignmentController
         $userId = auth()->id();
         $assignments = Assignment::getForJournalist($userId);
 
-        // Fetch author's own unpublished drafts (draft, pending_review, rejected)
-        $myDrafts = Article::getUnpublishedByUser($userId);
+        // Fetch author's own saved drafts (strictly draft and rejected - NEVER pending_review)
+        $myDrafts = Article::getSavedDraftsByUser($userId);
 
         $totalDrafts = count($myDrafts);
         $draftOnlyCount = 0;
@@ -63,8 +63,6 @@ class AssignmentController
         foreach ($myDrafts as $d) {
             if ($d['status'] === 'draft') {
                 $draftOnlyCount++;
-            } elseif ($d['status'] === 'pending_review') {
-                $draftReviewCount++;
             } elseif ($d['status'] === 'rejected') {
                 $draftRejectedCount++;
             }
@@ -105,9 +103,10 @@ class AssignmentController
             }
         }
 
-        // Also include all author's articles currently in pending_review that don't originate from an existing assigned brief
-        foreach ($myDrafts as $d) {
-            if ($d['status'] === 'pending_review' && !in_array((int)$d['id'], $assignedArticleIds)) {
+        // Fetch all author's articles currently in pending_review (Under Review)
+        $pendingReviewArticles = Article::getPendingReviewByUser($userId);
+        foreach ($pendingReviewArticles as $d) {
+            if (!in_array((int)$d['id'], $assignedArticleIds)) {
                 $totalTurnedIn++;
                 $reviewAssignments[] = [
                     'id' => 'STORY-' . $d['id'],

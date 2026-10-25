@@ -107,4 +107,64 @@ class Notification extends Model
         $stmt->execute([(int)$userId, $type, $link]);
         return (bool)$stmt->fetchColumn();
     }
+
+    /**
+     * Notify editors and management when a story is submitted for editorial review and publishing
+     */
+    public static function notifyEditorsForReview($articleId, $articleTitle, $authorName, $assignmentId = 0)
+    {
+        $currentUserId = auth()->id();
+        
+        // Find assigned editor if assignmentId > 0
+        $assignedEditorId = 0;
+        if ($assignmentId > 0) {
+            $stmt = db()->prepare("SELECT assigned_by_user_id FROM assignments WHERE id = ?");
+            $stmt->execute([(int)$assignmentId]);
+            $assignedEditorId = (int)$stmt->fetchColumn();
+        }
+
+        // Query all users with role 'editor' and 'management'
+        $stmt = db()->query("
+            SELECT u.id 
+            FROM users u 
+            JOIN roles r ON u.role_id = r.id 
+            WHERE r.name IN ('editor', 'management')
+        ");
+        $recipientIds = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+        if ($assignedEditorId > 0 && !in_array($assignedEditorId, $recipientIds)) {
+            $recipientIds[] = $assignedEditorId;
+        }
+
+        $cleanTitle = trim($articleTitle) ?: 'Story Submission';
+        $shortTitle = mb_substr($cleanTitle, 0, 45);
+        if (mb_strlen($cleanTitle) > 45) {
+            $shortTitle .= '...';
+        }
+        $title = "Story Ready to Review & Publish: {$shortTitle}";
+        $message = "{$authorName} has submitted '{$cleanTitle}' for review and publishing. Waiting in your Editorial Review Desk!";
+        $link = "dashboard/editorial#review";
+
+        foreach ($recipientIds as $recipientId) {
+            $recipientId = (int)$recipientId;
+            // Never notify author themselves if they are editor/management
+            if ($recipientId === (int)$currentUserId) {
+                continue;
+            }
+
+            // If assignmentId > 0 and this is the assigned editor, Assignment::markTurnedIn already notified them of turned in
+            if ($assignmentId > 0 && $recipientId === $assignedEditorId) {
+                continue;
+            }
+
+            self::send(
+                $recipientId,
+                'article_submitted_for_review',
+                $title,
+                $message,
+                $link
+            );
+        }
+    }
 }
+

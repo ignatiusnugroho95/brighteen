@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\Assignment;
+use App\Models\Notification;
 
 require_once __DIR__ . '/../../Models/Article.php';
 require_once __DIR__ . '/../../Models/Category.php';
 require_once __DIR__ . '/../../Models/Assignment.php';
+require_once __DIR__ . '/../../Models/Notification.php';
 
 class EditorController
 {
@@ -156,6 +158,12 @@ class EditorController
             Assignment::markTurnedIn($assignmentId, $id);
         }
 
+        // Send review notification to editors when submitted for review
+        if ($status === 'pending_review') {
+            $authorName = auth()->user()['name'] ?? 'Author';
+            Notification::notifyEditorsForReview($id, $title, $authorName, $assignmentId);
+        }
+
         if ($status === 'published') {
             redirect('articles/' . $slug);
         } elseif ($action === 'save_draft') {
@@ -209,6 +217,8 @@ class EditorController
                 }
             } else {
                 $status = 'pending_review';
+                $authorName = auth()->user()['name'] ?? 'Author';
+                Notification::notifyEditorsForReview($id, $title, $authorName, $assignmentId);
             }
         } elseif ($action === 'submit_review') {
             $status = 'pending_review';
@@ -220,9 +230,14 @@ class EditorController
                 $stmt->execute([(int)$id]);
                 $linkedAsg = $stmt->fetch(\PDO::FETCH_ASSOC);
                 if ($linkedAsg) {
-                    Assignment::markTurnedIn((int)$linkedAsg['id'], $id);
+                    $assignmentId = (int)$linkedAsg['id'];
+                    Assignment::markTurnedIn($assignmentId, $id);
                 }
             }
+
+            // Send review notification to editors when submitted for review
+            $authorName = auth()->user()['name'] ?? 'Author';
+            Notification::notifyEditorsForReview($id, $title, $authorName, $assignmentId);
         } elseif ($action === 'save_draft') {
             if ($status !== 'published') {
                 $status = 'draft';

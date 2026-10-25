@@ -165,9 +165,10 @@ class Article extends Model
     }
 
     /**
-     * Get all unpublished drafts (draft, pending_review, rejected) for a specific author
+     * Get author's saved drafts (strictly 'draft' and 'rejected' for revision).
+     * Excludes 'pending_review' so an article is never in both Saved Drafts and Under Review.
      */
-    public static function getUnpublishedByUser($userId)
+    public static function getSavedDraftsByUser($userId)
     {
         $sql = "
             SELECT a.*, 
@@ -177,7 +178,36 @@ class Article extends Model
             FROM articles a
             JOIN categories c ON a.category_id = c.id
             LEFT JOIN assignments asg ON asg.article_id = a.id
-            WHERE a.user_id = ? AND a.status IN ('draft', 'pending_review', 'rejected')
+            WHERE a.user_id = ? AND a.status IN ('draft', 'rejected')
+            ORDER BY a.updated_at DESC, a.id DESC
+        ";
+        $stmt = db()->prepare($sql);
+        $stmt->execute([(int)$userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * Backward-compatible alias for getSavedDraftsByUser
+     */
+    public static function getUnpublishedByUser($userId)
+    {
+        return self::getSavedDraftsByUser($userId);
+    }
+
+    /**
+     * Get author's articles currently waiting in Editorial Review Queue (strictly 'pending_review').
+     */
+    public static function getPendingReviewByUser($userId)
+    {
+        $sql = "
+            SELECT a.*, 
+                   COALESCE(NULLIF(a.featured_image, ''), 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') as featured_image,
+                   c.name as category_name, c.slug as category_slug, c.color_code as category_color, c.icon as category_icon,
+                   asg.id as linked_assignment_id, asg.topic as linked_assignment_topic, asg.submission_deadline
+            FROM articles a
+            JOIN categories c ON a.category_id = c.id
+            LEFT JOIN assignments asg ON asg.article_id = a.id
+            WHERE a.user_id = ? AND a.status = 'pending_review'
             ORDER BY a.updated_at DESC, a.id DESC
         ";
         $stmt = db()->prepare($sql);
@@ -190,8 +220,9 @@ class Article extends Model
      */
     public static function deleteForAuthor($id, $userId)
     {
-        $stmt = db()->prepare("DELETE FROM articles WHERE id = ? AND user_id = ? AND status IN ('draft', 'pending_review', 'rejected')");
+        $stmt = db()->prepare("DELETE FROM articles WHERE id = ? AND user_id = ? AND status IN ('draft', 'rejected')");
         return $stmt->execute([(int)$id, (int)$userId]);
     }
 }
+
 
