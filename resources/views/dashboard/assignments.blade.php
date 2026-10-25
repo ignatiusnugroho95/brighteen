@@ -10,6 +10,15 @@ function assignmentsDesk() {
             if (['drafts', 'draft', 'wip', 'saved'].includes(hash)) return 'drafts';
             if (['review', 'turned-in', 'turned_in', 'queue'].includes(hash)) return 'review';
             if (['published', 'approved', 'portfolio', 'dispatches'].includes(hash)) return 'published';
+
+            // Query parameter fallback if hash is missing or erased by browser
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const notice = urlParams.get('notice');
+                if (notice === 'submitted_for_review' || notice === 'assignment_turned_in') return 'review';
+                if (notice === 'draft_saved' || notice === 'draft_updated' || notice === 'draft_deleted') return 'drafts';
+            } catch(e) {}
+
             return 'active';
         })(),
 
@@ -1005,7 +1014,11 @@ function assignmentsDesk() {
                                             <span>{{ $asg['category_name'] }}</span>
                                         </span>
                                         <span class="text-xs text-slate-400 font-mono bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-white/10">
-                                            #BRIEF-{{ $asg['id'] }}
+                                            @if(!empty($asg['is_independent']))
+                                                #STORY-{{ $asg['article_id'] }}
+                                            @else
+                                                #BRIEF-{{ $asg['id'] }}
+                                            @endif
                                         </span>
                                     </div>
 
@@ -1021,7 +1034,7 @@ function assignmentsDesk() {
                                         {{ $asg['topic'] }}
                                     </h3>
                                     
-                                    @if(!empty($asg['article_title']))
+                                    @if(!empty($asg['article_title']) && $asg['article_title'] !== $asg['topic'])
                                         <div class="p-3.5 rounded-2xl bg-purple-500/[0.04] border border-purple-500/20 text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2.5">
                                             <span class="material-symbols-outlined text-base text-purple-500 shrink-0 mt-0.5">article</span>
                                             <div>
@@ -1029,6 +1042,10 @@ function assignmentsDesk() {
                                                 <strong class="text-slate-900 dark:text-white">{{ $asg['article_title'] }}</strong>
                                             </div>
                                         </div>
+                                    @elseif(!empty($asg['description']))
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+                                            {{ $asg['description'] }}
+                                        </p>
                                     @endif
                                 </div>
 
@@ -1049,8 +1066,17 @@ function assignmentsDesk() {
                                         </div>
                                     </div>
 
-                                    <!-- Action: Edit Draft -->
+                                    <!-- Action: Preview & Edit Draft -->
                                     <div class="shrink-0 w-full sm:w-auto flex items-center gap-2">
+                                        @if(!empty($asg['article_slug']))
+                                            <a href="{{ url('articles/' . $asg['article_slug']) }}" 
+                                               target="_blank"
+                                               class="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 text-xs font-bold transition-all shadow-xs"
+                                               title="Preview submitted story">
+                                                <span class="material-symbols-outlined text-sm">visibility</span>
+                                                <span>Preview</span>
+                                            </a>
+                                        @endif
                                         @if(!empty($asg['article_id']))
                                             <a href="{{ url('articles/' . $asg['article_id'] . '/edit') }}" 
                                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-purple-50 dark:bg-purple-950/30 hover:bg-purple-100 dark:hover:bg-purple-900/40 text-purple-600 dark:text-purple-300 border border-purple-500/20 text-xs font-bold transition-all shadow-xs">

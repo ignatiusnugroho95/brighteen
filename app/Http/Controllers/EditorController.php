@@ -158,14 +158,14 @@ class EditorController
 
         if ($status === 'published') {
             redirect('articles/' . $slug);
-        } elseif ($assignmentId > 0) {
-            redirect('dashboard/assignments?notice=assignment_turned_in');
         } elseif ($action === 'save_draft') {
-            redirect('dashboard/assignments#drafts?notice=draft_saved');
+            redirect('dashboard/assignments?notice=draft_saved#drafts');
+        } elseif ($assignmentId > 0) {
+            redirect('dashboard/assignments?notice=assignment_turned_in#review');
         } elseif (auth()->isEditor() || auth()->isManagement()) {
             redirect('dashboard/editorial?notice=article_saved');
         } else {
-            redirect('dashboard/assignments#drafts?notice=submitted_for_review');
+            redirect('dashboard/assignments?notice=submitted_for_review#review');
         }
     }
 
@@ -189,6 +189,7 @@ class EditorController
 
         $title = trim($_POST['title'] ?? $article['title']);
         $categoryId = (int)($_POST['category_id'] ?? $article['category_id']);
+        $assignmentId = (int)($_POST['assignment_id'] ?? 0);
         $content = $_POST['content'] ?? $article['content'];
         $excerpt = trim($_POST['excerpt'] ?? $article['excerpt']);
         $featuredImage = trim($_POST['featured_image'] ?? $article['featured_image']);
@@ -211,6 +212,17 @@ class EditorController
             }
         } elseif ($action === 'submit_review') {
             $status = 'pending_review';
+            // Mark assignment as turned in if assigned
+            if ($assignmentId > 0) {
+                Assignment::markTurnedIn($assignmentId, $id);
+            } else {
+                $stmt = db()->prepare("SELECT id FROM assignments WHERE article_id = ? LIMIT 1");
+                $stmt->execute([(int)$id]);
+                $linkedAsg = $stmt->fetch(\PDO::FETCH_ASSOC);
+                if ($linkedAsg) {
+                    Assignment::markTurnedIn((int)$linkedAsg['id'], $id);
+                }
+            }
         } elseif ($action === 'save_draft') {
             if ($status !== 'published') {
                 $status = 'draft';
@@ -231,11 +243,13 @@ class EditorController
         if ($status === 'published') {
             redirect('articles/' . $article['slug']);
         } elseif ($action === 'save_draft') {
-            redirect('dashboard/assignments#drafts?notice=draft_updated');
+            redirect('dashboard/assignments?notice=draft_updated#drafts');
+        } elseif ($assignmentId > 0 && $action === 'submit_review') {
+            redirect('dashboard/assignments?notice=assignment_turned_in#review');
         } elseif (auth()->isEditor() || auth()->isManagement()) {
             redirect('dashboard/editorial?notice=article_updated');
         } else {
-            redirect('dashboard/assignments#drafts?notice=submitted_for_review');
+            redirect('dashboard/assignments?notice=submitted_for_review#review');
         }
     }
 

@@ -97,6 +97,38 @@ class AssignmentController
             }
         }
 
+        // Collect article IDs that are already in reviewAssignments from assigned briefs
+        $assignedArticleIds = [];
+        foreach ($reviewAssignments as $ra) {
+            if (!empty($ra['article_id'])) {
+                $assignedArticleIds[] = (int)$ra['article_id'];
+            }
+        }
+
+        // Also include all author's articles currently in pending_review that don't originate from an existing assigned brief
+        foreach ($myDrafts as $d) {
+            if ($d['status'] === 'pending_review' && !in_array((int)$d['id'], $assignedArticleIds)) {
+                $totalTurnedIn++;
+                $reviewAssignments[] = [
+                    'id' => 'STORY-' . $d['id'],
+                    'assignment_id' => $d['linked_assignment_id'] ?? null,
+                    'topic' => $d['title'] ?: 'Independent Story Pitch',
+                    'description' => $d['excerpt'] ?: '',
+                    'category_id' => $d['category_id'],
+                    'category_name' => $d['category_name'],
+                    'category_color' => $d['category_color'],
+                    'category_icon' => $d['category_icon'] ?? 'tag',
+                    'editor_name' => 'Editorial Review Desk',
+                    'article_id' => $d['id'],
+                    'article_title' => $d['title'],
+                    'article_slug' => $d['slug'],
+                    'turned_in_at' => $d['updated_at'],
+                    'effective_status' => 'turned_in',
+                    'is_independent' => empty($d['linked_assignment_id'])
+                ];
+            }
+        }
+
         $totalActive = $totalPending + $totalExpired;
 
         return view('dashboard.assignments', [
