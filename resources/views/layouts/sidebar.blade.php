@@ -135,21 +135,7 @@
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Management Panel</span>
                                     <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 shrink-0">Admin</span>
                                 </div>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Staff, settings & metrics</p>
-                            </div>
-                        </a>
-
-                        <a href="{{ url('dashboard/management#readers') }}" 
-                           class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-purple-500/10 border border-slate-200/80 dark:border-white/10 hover:border-purple-500/30 text-slate-800 dark:text-slate-200 transition-all group min-w-0">
-                            <span class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
-                                <span class="material-symbols-outlined text-lg">how_to_reg</span>
-                            </span>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Reader Administration</span>
-                                    <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-purple-500/15 text-purple-600 dark:text-purple-400 shrink-0">Readers</span>
-                                </div>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Registered readers & applications</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Staff, readers, settings & metrics</p>
                             </div>
                         </a>
                     @endif
