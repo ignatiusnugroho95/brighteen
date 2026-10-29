@@ -46,7 +46,7 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">Hardware startups like The Light Phone and Punkt are noticing the surge, reporting triple-digit sales growth specifically driven by buyers aged 16 to 24. Expect more hybrid gadgets in late 2026 that prioritize monochrome e-ink displays, privacy-first operating systems, and zero-algorithm utility.</p>',
 'Tired of algorithmic dopamine traps, millions of teens are trading 120Hz flagships for nostalgic flip phones. Here is why the tactile revolution is booming.',
 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
-'published', 14280, '2026-10-12 10:30:00', NULL, NOW(), NOW()),
+'published', 0, '2026-10-12 10:30:00', NULL, NOW(), NOW()),
 
 (2, 4, 3, 'The Unreal Engine 5 Indie Surge: How Two High Schoolers Built a Viral Roguelite', 'how-two-high-schoolers-built-a-viral-ue5-roguelite',
 '<p class="text-lg leading-relaxed font-medium mb-4">Armed with free YouTube tutorials, community Discord servers, and a shared laptop GPU, two 17-year-olds from Bristol just clocked over 250,000 wishlist additions on Steam in under 72 hours.</p>
@@ -58,7 +58,7 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">You do not need a publisher advance or venture capital seed money to create work that connects with millions. The internet rewards authenticity, snappy game loops, and genuine community engagement above all else.</p>',
 'Two 17-year-olds turned after-school coding marathons into a Steam top-seller. Inside the democratization of AAA game engines.',
 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1200&q=80',
-'published', 8920, '2026-10-13 14:15:00', NULL, NOW(), NOW()),
+'published', 0, '2026-10-13 14:15:00', NULL, NOW(), NOW()),
 
 (3, 3, 2, 'Deconstructing "Brainrot": How Surrealist TikTok Humor Is Rewiring Global Slang', 'deconstructing-brainrot-tiktok-surrealism-slang',
 '<p class="text-lg leading-relaxed font-medium mb-4">From "skibidi" to "fanum tax" and ironic sigma edits, older generations often dismiss current internet humor as senseless linguistic degeneration. But linguists say something much deeper is happening.</p>
@@ -68,7 +68,7 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">Rather than signaling a decline in verbal eloquence, youth speech patterns exhibit sophisticated phonetic compression, emotional nuance, and rapid communal bonding.</p>',
 'Beyond the cringe: why the hyper-fast, layered surrealism of Gen-Z meme language is actually the purest form of modern digital folklore.',
 'https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=1200&q=80',
-'published', 19450, '2026-10-14 08:00:00', NULL, NOW(), NOW()),
+'published', 0, '2026-10-14 08:00:00', NULL, NOW(), NOW()),
 
 (4, 4, 4, 'Stop Pitching Brands: How Teenage Micro-Creators Earn $5k/mo on Niche Newsletters', 'how-micro-creators-monetize-niche-newsletters',
 '<p class="text-lg leading-relaxed font-medium mb-4">You do not need 100,000 TikTok followers to build a sustainable media empire from your bedroom desk.</p>
@@ -77,7 +77,7 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">With open rates pushing past 60%, micro-curators charge $250 to $500 per sponsored shoutout from boutique brands who know every single reader is an eager buyer. Combined with premium subscriber tiers, young writers are earning steady revenue without dancing for short-form video algorithms.</p>',
 'Forget chasing 100k followers on TikTok. Discover the silent cohort of teen curators monetizing high-retention micro-publications.',
 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80',
-'published', 6120, '2026-10-14 11:20:00', NULL, NOW(), NOW()),
+'published', 0, '2026-10-14 11:20:00', NULL, NOW(), NOW()),
 
 (5, 3, 5, 'The "Frutiger Aero" Aesthetic Is Back: Why We Miss the Optimistic Glass Future', 'frutiger-aero-aesthetic-revival-optimistic-future',
 '<p class="text-lg leading-relaxed font-medium mb-4">Gleaming water droplets on glossy touchscreens, tropical fish swimming inside Windows Vista wallpapers, and vibrant green hillscapes under crystal-clear blue skies.</p>
@@ -86,7 +86,7 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">Today''s digital design language is overwhelmingly sterile: dark mode, monochrome gray cards, and muted corporate aesthetics. Frutiger Aero represents a lost era of tech optimism—where humanity envisioned clean solar energy, clear skies, and friendly, translucent technology.</p>',
 'Glossy buttons, tropical fish screensavers, and sky-blue glass: why teens are ditching gloomy dark minimalism for early 2000s eco-optimism.',
 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-'published', 11300, '2026-10-15 09:00:00', NULL, NOW(), NOW()),
+'published', 0, '2026-10-15 09:00:00', NULL, NOW(), NOW()),
 
 (6, 4, 6, 'The 20-Minute Protocol: Restoring Deep REM Sleep in High-Stress Exam Weeks', 'the-20-minute-protocol-restoring-rem-sleep',
 '<p class="text-lg leading-relaxed font-medium mb-4">Late-night cram sessions and blue light from dual monitors wreak havoc on teenage circadian biology. Here is a scientifically grounded 20-minute wind-down routine.</p>
@@ -116,35 +116,35 @@ INSERT INTO `articles` (`id`, `user_id`, `category_id`, `title`, `slug`, `conten
 <p class="mb-4">The team now qualifies to represent Indonesia at the ASEAN Youth Robotics Invitational in Singapore this December.</p>',
 'Overcoming 42 regional secondary schools, Brighton\'s 9th-grade engineers deployed their autonomous \'Garuda-IX\' robot to seize 1st place in the Bandung Tech Olympiad.',
 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=80',
-'published', 1840, NOW() - INTERVAL 1 HOUR, NULL, NOW(), NOW()),
+'published', 0, NOW() - INTERVAL 1 HOUR, NULL, NOW(), NOW()),
 
 (10, 4, 6, 'Inside Brighton\'s Green Campus: Zero-Waste Canteen Experiment', 'inside-brightons-green-campus-zero-waste-canteen-experiment',
 '<p class="text-lg leading-relaxed font-medium mb-4">Brighton High’s cafeteria just crossed day 30 of its total single-use plastic ban. And despite early skepticism, student satisfaction is at an all-time high.</p>
 <p class="mb-4">By introducing RFID-tagged reusable stainless steel bento boxes and bamboo cutlery return stations, landfill waste has plummeted by an astonishing 86% across the campus food pavilion.</p>',
 'Single-use plastics have been officially banned from food court vendors. Here\'s how peer pressure and eco-loyalty cards created a cleaner pavilion.',
 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1000&q=80',
-'published', 940, NOW() - INTERVAL 3 HOUR, NULL, NOW(), NOW()),
+'published', 0, NOW() - INTERVAL 3 HOUR, NULL, NOW(), NOW()),
 
 (11, 3, 1, 'AI Tools Every Junior High Student Is Secretly Using for Homework', 'ai-tools-every-junior-high-student-is-secretly-using-for-homework',
 '<p class="text-lg leading-relaxed font-medium mb-4">Is AI a cognitive crutch or the modern scientific calculator? A confidential campus-wide poll of 250 students sheds light on how Gen-Z navigates study tools in 2026.</p>
 <p class="mb-4">From conversational Socratic tutors to neural equation solvers, students share how smart prompting actually accelerates their comprehension when used intentionally.</p>',
 'From math equation solvers to AI literature summarizers, we survey 250 classmates on the new boundary between smart study habits and digital shortcuts.',
 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1000&q=80',
-'published', 1420, NOW() - INTERVAL 5 HOUR, NULL, NOW(), NOW()),
+'published', 0, NOW() - INTERVAL 5 HOUR, NULL, NOW(), NOW()),
 
 (12, 2, 3, 'Basketball Tigers Win Semifinals Against SMP 2 Depok', 'basketball-tigers-win-semifinals-against-smp-2-depok',
 '<p class="text-lg leading-relaxed font-medium mb-4">With 4.2 seconds on the game clock and down by two points, point guard Kevin Chandra sank a contested baseline step-back three to send the Tigers to the finals.</p>
 <p class="mb-4">The gymnasium roared as the buzzer sounded, capping off a thrilling 68-67 comeback triumph against rivals SMP 2 Depok.</p>',
 'With a buzzer-beater 3-pointer in the fourth quarter, Brighton secured a dramatic victory to punch their championship ticket at the Youth League.',
 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1000&q=80',
-'published', 850, NOW() - INTERVAL 12 HOUR, NULL, NOW(), NOW()),
+'published', 0, NOW() - INTERVAL 12 HOUR, NULL, NOW(), NOW()),
 
 (13, 4, 5, 'Manga & Digital Art Showcase: Best Student Sketches of Q3', 'manga-and-digital-art-showcase-best-student-sketches-q3',
 '<p class="text-lg leading-relaxed font-medium mb-4">This quarter’s student gallery spotlights over sixty extraordinary digital illustrations created entirely on tablets during art lab sessions.</p>
 <p class="mb-4">Featuring neon-soaked cyberpunk reimaginings of Indonesian street lore and cozy lo-fi character designs, the exhibition highlights the astonishing creative depth of Brighton’s visual creators.</p>',
 'Cyberpunk Bandung to whimsical folklore: explore how sixty creative students transform simple sketchpads into stunning digital illustrations.',
 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80',
-'published', 1120, NOW() - INTERVAL 1 DAY, NULL, NOW(), NOW())
+'published', 0, NOW() - INTERVAL 1 DAY, NULL, NOW(), NOW())
 ON DUPLICATE KEY UPDATE `title` = VALUES(`title`);
 
 -- 5. Seed Comments

@@ -6,7 +6,7 @@
          liked: {{ $article['is_liked'] ? 'true' : 'false' }},
          likeCount: {{ $article['likes_count'] }},
          saved: {{ $article['is_saved'] ? 'true' : 'false' }},
-         saveCount: {{ $article['saves_count'] ?: 26 }},
+         saveCount: {{ (int)($article['saves_count'] ?? 0) }},
          heartAnimating: false,
          saveAnimating: false,
          heartPopping: false,

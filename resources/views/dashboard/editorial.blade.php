@@ -1669,12 +1669,12 @@ function editorialDesk() {
                             <div class="flex items-center gap-3.5 text-slate-600 dark:text-slate-300">
                                 <span class="flex items-center gap-1 text-xs font-bold">
                                     <span class="material-symbols-outlined text-lg text-rose-500 font-fill">favorite</span>
-                                    <span x-text="previewCuratedData.likes_count || 28"></span>
+                                    <span x-text="previewCuratedData.likes_count || 0"></span>
                                 </span>
 
                                 <span class="flex items-center gap-1 text-xs font-bold">
                                     <span class="material-symbols-outlined text-lg">chat_bubble</span>
-                                    <span x-text="previewCuratedData.comments_count || 12"></span>
+                                    <span x-text="previewCuratedData.comments_count || 0"></span>
                                 </span>
 
                                 <span class="text-slate-400">
@@ -1683,7 +1683,7 @@ function editorialDesk() {
 
                                 <span class="flex items-center gap-1 text-xs font-bold">
                                     <span class="material-symbols-outlined text-lg text-primary font-fill">bookmark</span>
-                                    <span x-text="previewCuratedData.saves_count || 14"></span>
+                                    <span x-text="previewCuratedData.saves_count || 0"></span>
                                 </span>
                             </div>
 

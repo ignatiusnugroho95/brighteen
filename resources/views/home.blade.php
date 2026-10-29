@@ -152,9 +152,9 @@
         <section class="relative rounded-3xl overflow-hidden glass-panel border border-slate-200/80 dark:border-white/10 shadow-2xl transition-all duration-300 group"
                  x-data="{
                      liked: {{ $headline['is_liked'] ? 'true' : 'false' }},
-                     likeCount: {{ $headline['likes_count'] ?: 1240 }},
+                     likeCount: {{ (int)($headline['likes_count'] ?? 0) }},
                      saved: {{ $headline['is_saved'] ? 'true' : 'false' }},
-                     saveCount: {{ $headline['saves_count'] ?: 312 }},
+                     saveCount: {{ (int)($headline['saves_count'] ?? 0) }},
                      heartAnimating: false,
                      saveAnimating: false,
                      toggleLike() {
@@ -213,7 +213,7 @@
                     </span>
                     <span class="flex items-center gap-1 text-[11px] font-semibold text-slate-300 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full">
                         <span class="material-symbols-outlined text-xs">visibility</span>
-                        <span>{{ number_format($headline['views_count'] ?: 1840) }} views</span>
+                        <span>{{ number_format((int)($headline['views_count'] ?? 0)) }} views</span>
                     </span>
                 </div>
 
@@ -267,7 +267,7 @@
                            class="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-2xl bg-black/40 hover:bg-black/60 backdrop-blur-md transition-all text-xs font-bold text-white hover:text-primary"
                            title="Read full article to comment">
                             <span class="material-symbols-outlined text-base">chat_bubble</span>
-                            <span>{{ $headline['comments_count'] ?: 48 }}</span><span class="hidden sm:inline">&nbsp;comments</span>
+                            <span>{{ (int)($headline['comments_count'] ?? 0) }}</span><span class="hidden sm:inline">&nbsp;comments</span>
                         </a>
 
                         <!-- Save Bookmark Button (Radiant Glow on Click) -->
@@ -329,9 +329,9 @@
                     <article class="rounded-3xl glass-panel border border-slate-200 dark:border-white/10 shadow-lg overflow-hidden flex flex-col justify-between group hover:shadow-2xl hover:border-slate-300 dark:hover:border-white/20 transition-all duration-300"
                              x-data="{
                                  liked: {{ $sub['is_liked'] ? 'true' : 'false' }},
-                                 likeCount: {{ $sub['likes_count'] ?: 28 }},
+                                 likeCount: {{ (int)($sub['likes_count'] ?? 0) }},
                                  saved: {{ $sub['is_saved'] ? 'true' : 'false' }},
-                                 saveCount: {{ $sub['saves_count'] ?: ($idx * 4 + 14) }},
+                                 saveCount: {{ (int)($sub['saves_count'] ?? 0) }},
                                  heartAnimating: false,
                                  saveAnimating: false,
                                  toggleLike() {
@@ -387,7 +387,7 @@
                                 <!-- Views Counter Bottom-Right -->
                                 <span class="absolute bottom-3 right-3 flex items-center gap-1 text-[11px] font-bold text-white bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full">
                                     <span class="material-symbols-outlined text-xs">visibility</span>
-                                    <span>{{ number_format($sub['views_count'] ?: 940) }} views</span>
+                                    <span>{{ number_format((int)($sub['views_count'] ?? 0)) }} views</span>
                                 </span>
                             </div>
 
@@ -436,7 +436,7 @@
                                    class="flex items-center gap-1 text-xs font-bold hover:text-primary transition-transform active:scale-125"
                                    title="Comments">
                                     <span class="material-symbols-outlined text-lg">chat_bubble</span>
-                                    <span>{{ $sub['comments_count'] ?: 24 }}</span>
+                                    <span>{{ (int)($sub['comments_count'] ?? 0) }}</span>
                                 </a>
 
                                 <!-- Share Button -->
@@ -546,7 +546,7 @@
                              liked: {{ $art['is_liked'] ? 'true' : 'false' }},
                              likeCount: {{ $art['likes_count'] }},
                              saved: {{ $art['is_saved'] ? 'true' : 'false' }},
-                             saveCount: {{ $art['saves_count'] ?: 14 }},
+                             saveCount: {{ (int)($art['saves_count'] ?? 0) }},
                              heartAnimating: false,
                              saveAnimating: false,
                              commentsCount: {{ $art['comments_count'] }},

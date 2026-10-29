@@ -63,9 +63,8 @@ class DashboardController
         $stmt = db()->query("SELECT COUNT(*) FROM comments");
         $totalComments = (int) $stmt->fetchColumn();
 
-        // Estimated social shares based on reading activity
-        $totalShares = (int) ceil($totalLikes * 2.5 + $totalComments * 0.8);
-        $totalInteractions = $totalLikes + $totalSaves + $totalComments + $totalShares;
+        // Total real interactions: sum of authentic likes, saves, and comments
+        $totalInteractions = $totalLikes + $totalSaves + $totalComments;
         $engagementRate = $totalViews > 0 ? round(($totalInteractions / $totalViews) * 100, 2) : 0;
 
         // F. Jumlah reader (registered readers)
@@ -202,7 +201,6 @@ class DashboardController
             'totalLikes' => $totalLikes,
             'totalSaves' => $totalSaves,
             'totalComments' => $totalComments,
-            'totalShares' => $totalShares,
             'totalInteractions' => $totalInteractions,
             'engagementRate' => $engagementRate,
             'totalRegisteredReaders' => $totalRegisteredReaders,
