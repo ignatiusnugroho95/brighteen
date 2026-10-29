@@ -36,7 +36,7 @@ class Article extends Model
         $sql = "
             SELECT a.*, 
                    COALESCE(NULLIF(a.featured_image, ''), 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') as featured_image,
-                   u.name as author_name, u.avatar as author_avatar, u.bio as author_bio,
+                   COALESCE(NULLIF(u.author_name, ''), u.name) as author_name, u.avatar as author_avatar, u.bio as author_bio,
                    c.name as category_name, c.slug as category_slug, c.color_code as category_color, c.icon as category_icon,
                    (SELECT COUNT(*) FROM comments cm WHERE cm.article_id = a.id) as comments_count,
                    (SELECT COUNT(*) FROM likes lk WHERE lk.article_id = a.id) as likes_count,
@@ -78,7 +78,7 @@ class Article extends Model
         $sql = "
             SELECT a.*, 
                    COALESCE(NULLIF(a.featured_image, ''), 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') as featured_image,
-                   u.name as author_name, u.avatar as author_avatar,
+                   COALESCE(NULLIF(u.author_name, ''), u.name) as author_name, u.avatar as author_avatar,
                    c.name as category_name, c.slug as category_slug, c.color_code as category_color, c.icon as category_icon,
                    (SELECT COUNT(*) FROM comments cm WHERE cm.article_id = a.id) as comments_count,
                    (SELECT COUNT(*) FROM likes lk WHERE lk.article_id = a.id) as likes_count,
@@ -107,7 +107,7 @@ class Article extends Model
         $sql = "
             SELECT a.*, 
                    COALESCE(NULLIF(a.featured_image, ''), 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') as featured_image,
-                   u.name as author_name, u.avatar as author_avatar, u.bio as author_bio,
+                   COALESCE(NULLIF(u.author_name, ''), u.name) as author_name, u.avatar as author_avatar, u.bio as author_bio,
                    c.name as category_name, c.slug as category_slug, c.color_code as category_color, c.icon as category_icon,
                    (SELECT COUNT(*) FROM comments cm WHERE cm.article_id = a.id) as comments_count,
                    (SELECT COUNT(*) FROM likes lk WHERE lk.article_id = a.id) as likes_count,
@@ -130,7 +130,7 @@ class Article extends Model
     {
         $sql = "
             SELECT a.*, 
-                   u.name as author_name, u.email as author_email, u.avatar as author_avatar,
+                   COALESCE(NULLIF(u.author_name, ''), u.name) as author_name, u.email as author_email, u.avatar as author_avatar,
                    c.name as category_name, c.color_code as category_color
             FROM articles a
             JOIN users u ON a.user_id = u.id

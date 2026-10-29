@@ -49,12 +49,12 @@
 
             <!-- Profile Summary Card (Auth) / Guest Invitation (Guest) -->
             @auth
-                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 shadow-sm min-w-0">
+                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 shadow-sm min-w-0 space-y-2.5">
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="relative shrink-0">
-                            <img src="{{ auth()->user()['avatar'] ?: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80' }}" 
+                            <img src="{{ auth()->user()['avatar'] ?: url('uploads/avatars/default-avatar.svg') }}" 
                                  alt="{{ auth()->user()['name'] }}" 
-                                 class="w-11 h-11 rounded-xl object-cover ring-2 ring-primary/40 shadow-sm">
+                                 class="w-11 h-11 rounded-xl object-cover ring-2 ring-primary/40 shadow-sm bg-slate-800">
                             <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#121620]"></span>
                         </div>
                         <div class="flex-1 min-w-0">
@@ -73,6 +73,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <a href="{{ url('profile') }}" 
+                       class="w-full flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold transition-all border border-primary/20">
+                        <span class="material-symbols-outlined text-sm">manage_accounts</span>
+                        <span>Edit Profile & Account</span>
+                    </a>
                 </div>
             @endauth
 
@@ -239,6 +245,14 @@
                     <span class="material-symbols-outlined text-lg text-indigo-400 shrink-0">info</span>
                     <span class="truncate">About Us</span>
                 </a>
+
+                @auth
+                    <a href="{{ url('profile') }}" 
+                       class="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 text-xs font-bold text-slate-700 dark:text-slate-300 transition-all min-w-0">
+                        <span class="material-symbols-outlined text-lg text-emerald-500 shrink-0">account_circle</span>
+                        <span class="truncate">My Profile & Account</span>
+                    </a>
+                @endauth
             </div>
 
             <!-- Demo Role Switcher (Compact & Neatly Structured) -->

@@ -283,6 +283,13 @@ class DashboardController
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ],
                     [
+                        'title' => 'My Profile & Account',
+                        'desc' => 'Update your platform administrator credentials, contact, and profile avatar.',
+                        'url' => 'profile',
+                        'icon' => 'manage_accounts',
+                        'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
+                    ],
+                    [
                         'title' => 'Reading Bookmarks',
                         'desc' => 'Curated collection of saved articles and reading bookmarks.',
                         'url' => 'bookmarks',
@@ -352,6 +359,13 @@ class DashboardController
                         'url' => '',
                         'icon' => 'visibility',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
+                    ],
+                    [
+                        'title' => 'My Profile & Account',
+                        'desc' => 'Update your editor byline, email, school role, and profile photo.',
+                        'url' => 'profile',
+                        'icon' => 'manage_accounts',
+                        'color' => 'text-purple-500 bg-purple-500/10 border-purple-500/20'
                     ]
                 ]
             ],
@@ -402,6 +416,13 @@ class DashboardController
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
+                    ],
+                    [
+                        'title' => 'My Profile & Account',
+                        'desc' => 'Update your journalist byline, contact details, school credentials, and avatar photo.',
+                        'url' => 'profile',
+                        'icon' => 'manage_accounts',
+                        'color' => 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
                     ]
                 ]
             ],
@@ -452,6 +473,13 @@ class DashboardController
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
+                    ],
+                    [
+                        'title' => 'My Profile & Account',
+                        'desc' => 'Update your author byline, school credentials, birth date, and avatar photo.',
+                        'url' => 'profile',
+                        'icon' => 'manage_accounts',
+                        'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ]
                 ]
             ],
@@ -488,6 +516,13 @@ class DashboardController
                         'url' => 'about',
                         'icon' => 'info',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
+                    ],
+                    [
+                        'title' => 'My Profile & Account',
+                        'desc' => 'Manage your name, school credentials, WhatsApp number, and avatar photo.',
+                        'url' => 'profile',
+                        'icon' => 'manage_accounts',
+                        'color' => 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
                     ]
                 ]
             ]

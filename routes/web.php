@@ -11,6 +11,7 @@ use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ProfileController;
 
 require_once __DIR__ . '/../app/Http/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Http/Controllers/DashboardController.php';
@@ -22,6 +23,7 @@ require_once __DIR__ . '/../app/Http/Controllers/AssignmentController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AiController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AboutController.php';
+require_once __DIR__ . '/../app/Http/Controllers/ProfileController.php';
 
 // Public Homepage & Feeds
 Router::get('', [HomeController::class, 'index']);
@@ -84,6 +86,12 @@ Router::post('dashboard/management/settings', [ManagementDashboardController::cl
 Router::post('dashboard/management/articles/{id}/delete', [ManagementDashboardController::class, 'deleteArticle']);
 Router::post('dashboard/management/applications/{id}/approve', [ManagementDashboardController::class, 'approveApplication']);
 Router::post('dashboard/management/applications/{id}/reject', [ManagementDashboardController::class, 'rejectApplication']);
+
+// User Profile & Account Settings (All Registered Roles)
+Router::get('profile', [ProfileController::class, 'show']);
+Router::post('profile', [ProfileController::class, 'update']);
+Router::get('account', [ProfileController::class, 'show']);
+Router::post('account', [ProfileController::class, 'update']);
 
 // Authentication & Demo Role Switcher
 Router::get('login', [AuthController::class, 'showLogin']);
