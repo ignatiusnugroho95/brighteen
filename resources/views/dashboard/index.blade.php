@@ -33,7 +33,7 @@ function centralDashboard() {
                         labels: catLabels,
                         datasets: [
                             {
-                                label: 'Jumlah Artikel',
+                                label: 'Total Articles',
                                 data: catArticles,
                                 backgroundColor: catColors.map(c => c + 'cc'),
                                 borderColor: catColors,
@@ -42,7 +42,7 @@ function centralDashboard() {
                                 yAxisID: 'y'
                             },
                             {
-                                label: 'Total Views (Pembaca)',
+                                label: 'Total Views (Readers)',
                                 data: catViews,
                                 type: 'line',
                                 borderColor: '#38bdf8',
@@ -95,7 +95,7 @@ function centralDashboard() {
                                 position: 'left',
                                 title: {
                                     display: true,
-                                    text: 'Artikel',
+                                    text: 'Articles',
                                     font: { size: 10, weight: 'bold' },
                                     color: '#94a3b8'
                                 },
@@ -133,7 +133,7 @@ function centralDashboard() {
                 new Chart(healthCtx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['Terbit (Live)', 'Under Review', 'Draf Penulis', 'Tugas Brief'],
+                        labels: ['Published (Live)', 'Under Review', 'Writer Drafts', 'Active Briefs'],
                         datasets: [{
                             data: [published, review, drafts, assignments],
                             backgroundColor: [
@@ -184,7 +184,7 @@ function centralDashboard() {
                         labels: timeLabels,
                         datasets: [
                             {
-                                label: 'Views Bertambah',
+                                label: 'View Growth',
                                 data: timeViews,
                                 borderColor: '#8b5cf6',
                                 backgroundColor: 'rgba(139, 92, 246, 0.18)',
@@ -195,7 +195,7 @@ function centralDashboard() {
                                 yAxisID: 'yViews'
                             },
                             {
-                                label: 'Karya Terbit',
+                                label: 'Published Works',
                                 data: timeCounts,
                                 borderColor: '#10b981',
                                 backgroundColor: '#10b981',
@@ -250,61 +250,31 @@ function centralDashboard() {
         <div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -bottom-12 -left-12 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div class="space-y-2">
-                <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-primary-light border border-white/15 backdrop-blur-md">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                        Executive & Editorial Hub
-                    </span>
-                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-200 border border-purple-500/30 capitalize">
-                        Role: {{ auth()->user()['role_name'] ?? 'Guest' }}
-                    </span>
-                    <span class="text-xs text-slate-300 font-medium">Brighteen SMP Digital Magazine</span>
-                </div>
-
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-black font-display tracking-tight text-white leading-tight">
-                    Halo, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-300">{{ auth()->user()['name'] ?? 'Kreator Muda' }}</span>!
-                </h1>
-
-                <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-                    Selamat datang di pusat kendali terpadu Brighteen. Akses instan ke seluruh meja kerja redaksi, statistik progresif majalah, kurasi naskah, dan direktori karya siswa berprestasi.
-                </p>
+        <div class="relative z-10 space-y-2">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-primary-light border border-white/15 backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Executive & Editorial Hub
+                </span>
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-200 border border-purple-500/30 capitalize">
+                    Role: {{ auth()->user()['role_name'] ?? 'Guest' }}
+                </span>
             </div>
 
-            <!-- Quick Action Hub (Right Side) -->
-            <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
-                @if(auth()->canCreateArticle())
-                    <a href="{{ url('articles/create') }}" 
-                       class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary-hover hover:to-indigo-700 text-white text-xs sm:text-sm font-bold shadow-lg shadow-primary/25 transition-all transform hover:-translate-y-0.5">
-                        <span class="material-symbols-outlined text-lg">edit_square</span>
-                        <span>Tulis Artikel Baru</span>
-                    </a>
-                @endif
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-black font-display tracking-tight text-white leading-tight">
+                Hello, <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-300 to-purple-300">{{ auth()->user()['name'] ?? 'Young Creator' }}</span>!
+            </h1>
 
-                @if(auth()->isEditor())
-                    <a href="{{ url('dashboard/editorial') }}" 
-                       class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-2xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/30 text-white text-xs sm:text-sm font-bold backdrop-blur-md transition-all">
-                        <span class="material-symbols-outlined text-lg">rule</span>
-                        <span>Editorial Desk</span>
-                    </a>
-                @endif
-
-                @if(auth()->isManagement())
-                    <a href="{{ url('dashboard/management') }}" 
-                       class="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-2xl bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/30 text-white text-xs sm:text-sm font-bold backdrop-blur-md transition-all">
-                        <span class="material-symbols-outlined text-lg">admin_panel_settings</span>
-                        <span>Management Panel</span>
-                    </a>
-                @endif
-            </div>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                Welcome to the centralized Brighteen command hub. Instant access to your editorial workspaces, progressive magazine analytics, story curation, and outstanding student achievements.
+            </p>
         </div>
 
         <!-- Role Preview Selector Bar -->
         <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between flex-wrap gap-3 text-xs">
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-sm text-purple-300">swap_horiz</span>
-                <span class="font-bold text-slate-300">Jelajahi Pintasan Role:</span>
+                <span class="font-bold text-slate-300">Explore Role Shortcuts:</span>
             </div>
             <div class="flex items-center gap-1.5 flex-wrap">
                 @foreach(['management' => 'Management', 'editor' => 'Editor', 'journalist' => 'Journalist', 'contributor' => 'Contributor'] as $roleKey => $roleLabel)
@@ -331,11 +301,11 @@ function centralDashboard() {
                         <span class="material-symbols-outlined text-lg">bolt</span>
                     </span>
                     <h2 class="text-lg sm:text-xl font-black font-display text-slate-900 dark:text-white">
-                        Pintasan Kerja & Meja Redaksi
+                        Quick Access & Workspaces
                     </h2>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                    Akses cepat ke modul dan laman operasional sesuai wewenang role Anda.
+                    Direct access to operational tools and desks tailored to your role.
                 </p>
             </div>
 
@@ -343,22 +313,22 @@ function centralDashboard() {
             <div class="flex items-center gap-2">
                 <template x-if="selectedRoleTab === 'management'">
                     <span class="px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-                        Mode Pintasan: Platform Director
+                        Shortcuts: Platform Director
                     </span>
                 </template>
                 <template x-if="selectedRoleTab === 'editor'">
                     <span class="px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
-                        Mode Pintasan: Managing Editor
+                        Shortcuts: Managing Editor
                     </span>
                 </template>
                 <template x-if="selectedRoleTab === 'journalist'">
                     <span class="px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                        Mode Pintasan: Staff Journalist
+                        Shortcuts: Staff Journalist
                     </span>
                 </template>
                 <template x-if="selectedRoleTab === 'contributor'">
                     <span class="px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">
-                        Mode Pintasan: Student Contributor
+                        Shortcuts: Student Contributor
                     </span>
                 </template>
             </div>
@@ -394,7 +364,7 @@ function centralDashboard() {
                         </div>
 
                         <div class="pt-2 border-t border-slate-100 dark:border-white/5 flex items-center text-[10px] font-bold text-primary">
-                            <span>Buka Laman</span>
+                            <span>Open Page</span>
                             <span class="material-symbols-outlined text-xs ml-1">chevron_right</span>
                         </div>
                     </a>
@@ -411,7 +381,7 @@ function centralDashboard() {
                     <span class="material-symbols-outlined text-lg">insights</span>
                 </span>
                 <h2 class="text-lg sm:text-xl font-black font-display text-slate-900 dark:text-white">
-                    Statistik & Metrik Publikasi Majalah
+                    Publication Statistics & Metrics
                 </h2>
             </div>
             <span class="text-xs text-slate-400 dark:text-slate-500 hidden sm:inline font-mono">
@@ -427,7 +397,7 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Artikel Terbit
+                            Published Articles
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-emerald-600 dark:text-emerald-400 mt-1">
                             {{ number_format($totalPublishedArticles) }}
@@ -438,7 +408,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>Live di website</span>
+                    <span>Live on website</span>
                     <span class="px-2 py-0.5 rounded-md text-[10px] font-black bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
                         100% Curated
                     </span>
@@ -450,7 +420,7 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Jumlah Rubrik
+                            Total Beats
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-sky-500 dark:text-sky-400 mt-1">
                             {{ number_format($totalCategories) }}
@@ -461,7 +431,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>Kanal Liputan</span>
+                    <span>Editorial Channels</span>
                     <span class="text-sky-500 font-bold text-[10px]">Active Beats</span>
                 </div>
             </div>
@@ -471,10 +441,10 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Waktu Membaca
+                            Reading Time
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-amber-500 dark:text-amber-400 mt-1">
-                            {{ $totalReadingMinutes }} <span class="text-base font-bold text-slate-400">Menit</span>
+                            {{ $totalReadingMinutes }} <span class="text-base font-bold text-slate-400">Min</span>
                         </h3>
                     </div>
                     <span class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
@@ -482,7 +452,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>Total ~{{ number_format($totalWordCount) }} kata</span>
+                    <span>~{{ number_format($totalWordCount) }} words total</span>
                     <span class="text-amber-500 font-bold text-[10px]">200 WPM</span>
                 </div>
             </div>
@@ -503,7 +473,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>Total Pembaca</span>
+                    <span>Total Readers</span>
                     <span class="text-purple-500 font-bold text-[10px] flex items-center gap-0.5">
                         <span class="material-symbols-outlined text-xs">trending_up</span> Viral
                     </span>
@@ -515,7 +485,7 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Total Interaksi
+                            Total Interactions
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-rose-500 dark:text-rose-400 mt-1">
                             {{ number_format($totalInteractions) }}
@@ -526,9 +496,9 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>{{ $totalLikes }} suka · {{ $totalComments }} komen</span>
+                    <span>{{ $totalLikes }} likes · {{ $totalComments }} comments</span>
                     <span class="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-500 font-bold">
-                        {{ $totalSaves }} simpan
+                        {{ $totalSaves }} saves
                     </span>
                 </div>
             </div>
@@ -538,7 +508,7 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Komunitas Reader
+                            Reader Community
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-indigo-500 dark:text-indigo-400 mt-1">
                             {{ number_format($totalRegisteredReaders) }}
@@ -549,7 +519,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>Siswa terdaftar</span>
+                    <span>Registered Students</span>
                     <span class="text-indigo-400 font-bold text-[10px]">Bright Students</span>
                 </div>
             </div>
@@ -559,7 +529,7 @@ function centralDashboard() {
                 <div class="flex items-center justify-between">
                     <div>
                         <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                            Kontributor Aktif
+                            Active Contributors
                         </span>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-teal-500 dark:text-teal-400 mt-1">
                             {{ number_format($totalContributors) }}
@@ -570,7 +540,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
-                    <span>{{ $totalJournalists }} jurnalis staf</span>
+                    <span>{{ $totalJournalists }} staff journalists</span>
                     <span class="text-teal-500 font-bold text-[10px]">Creators</span>
                 </div>
             </div>
@@ -581,14 +551,14 @@ function centralDashboard() {
                     <div>
                         <div class="flex items-center gap-1.5">
                             <span class="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                                Donasi Pembaca
+                                Reader Donations
                             </span>
                             <span class="px-1.5 py-0.2 rounded text-[8px] font-black bg-amber-500 text-slate-900 uppercase">
                                 Soon
                             </span>
                         </div>
                         <h3 class="text-2xl sm:text-3xl font-black font-display text-slate-400 dark:text-slate-500 mt-1">
-                            Rp 0
+                            $0
                         </h3>
                     </div>
                     <span class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
@@ -596,7 +566,7 @@ function centralDashboard() {
                     </span>
                 </div>
                 <div class="mt-2.5 text-[11px] text-amber-600 dark:text-amber-400/90 font-medium leading-tight">
-                    <span>Pool dana apresiasi siswa & mading cetak</span>
+                    <span>Student appreciation fund for print edition</span>
                 </div>
             </div>
 
@@ -612,10 +582,10 @@ function centralDashboard() {
                 <div>
                     <h3 class="text-base font-black font-display text-slate-900 dark:text-white flex items-center gap-2">
                         <span class="material-symbols-outlined text-primary text-xl">bar_chart</span>
-                        <span>Komparasi Konten & Views per Rubrik</span>
+                        <span>Content & Readership by Beat</span>
                     </h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400">
-                        Perbandingan volume cerita terbit dengan akumulasi pembaca di tiap rubrik.
+                        Comparison of published article volume against accumulated readers per beat.
                     </p>
                 </div>
                 <span class="text-xs font-bold px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300">
@@ -635,7 +605,7 @@ function centralDashboard() {
                         <span class="w-3 h-3 rounded-full shrink-0" style="background-color: {{ $cat['color_code'] }}"></span>
                         <div class="min-w-0 flex-1">
                             <div class="font-bold text-slate-800 dark:text-slate-200 truncate">{{ $cat['name'] }}</div>
-                            <div class="text-[10px] text-slate-500">{{ $cat['article_count'] }} naskah · {{ number_format($cat['total_views']) }} views</div>
+                            <div class="text-[10px] text-slate-500">{{ $cat['article_count'] }} articles · {{ number_format($cat['total_views']) }} views</div>
                         </div>
                     </div>
                 @endforeach
@@ -650,7 +620,7 @@ function centralDashboard() {
                     <span>Editorial Room Pipeline</span>
                 </h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">
-                    Kesehatan perputaran naskah dari brief hingga terbit.
+                    Manuscript lifecycle health from active briefs to publication.
                 </p>
             </div>
 
@@ -661,19 +631,19 @@ function centralDashboard() {
             <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-white/5 text-xs">
                 <div class="flex items-center justify-between text-slate-600 dark:text-slate-300">
                     <span class="flex items-center gap-1.5 font-medium">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Artikel Terbit
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Published Articles
                     </span>
                     <strong class="text-slate-900 dark:text-white">{{ $articleStatusCounts['published'] ?? 0 }}</strong>
                 </div>
                 <div class="flex items-center justify-between text-slate-600 dark:text-slate-300">
                     <span class="flex items-center gap-1.5 font-medium">
-                        <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Menunggu Review
+                        <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> Pending Review
                     </span>
                     <strong class="text-slate-900 dark:text-white">{{ $articleStatusCounts['pending_review'] ?? 0 }}</strong>
                 </div>
                 <div class="flex items-center justify-between text-slate-600 dark:text-slate-300">
                     <span class="flex items-center gap-1.5 font-medium">
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Draf Dalam Pengerjaan
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Drafts in Progress
                     </span>
                     <strong class="text-slate-900 dark:text-white">{{ $articleStatusCounts['draft'] ?? 0 }}</strong>
                 </div>
@@ -688,10 +658,10 @@ function centralDashboard() {
             <div>
                 <h3 class="text-base font-black font-display text-slate-900 dark:text-white flex items-center gap-2">
                     <span class="material-symbols-outlined text-indigo-500 text-xl">show_chart</span>
-                    <span>Progressive Growth: Tren Publikasi & Pertumbuhan Pembaca</span>
+                    <span>Progressive Growth: Publication Velocity & Traffic</span>
                 </h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400">
-                    Trajektori lonjakan trafik pembaca majalah siswa dan kecepatan terbit naskah harian.
+                    Trajectory of student readership momentum alongside daily publication output.
                 </p>
             </div>
             <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 border border-indigo-500/20">
@@ -715,8 +685,8 @@ function centralDashboard() {
                         <span class="material-symbols-outlined text-lg">local_fire_department</span>
                     </span>
                     <div>
-                        <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Top 5 Artikel Terpopuler (Views)</h3>
-                        <p class="text-xs text-slate-500">Artikel yang paling banyak dibaca oleh siswa dan pembaca.</p>
+                        <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Top 5 Most-Read Articles (Views)</h3>
+                        <p class="text-xs text-slate-500">Highest readership across all student readers and visitors.</p>
                     </div>
                 </div>
             </div>
@@ -740,7 +710,7 @@ function centralDashboard() {
                                       style="background-color: {{ $art['category_color'] }}15; color: {{ $art['category_color'] }};">
                                     {{ $art['category_name'] }}
                                 </span>
-                                <span class="text-[10px] text-slate-400">oleh {{ $art['author_name'] }}</span>
+                                <span class="text-[10px] text-slate-400">by {{ $art['author_name'] }}</span>
                             </div>
                             <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors truncate">
                                 <a href="{{ url('articles/' . $art['slug']) }}" class="hover:underline">
@@ -769,8 +739,8 @@ function centralDashboard() {
                         <span class="material-symbols-outlined text-lg">thumb_up</span>
                     </span>
                     <div>
-                        <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Top 5 Most Liked Artikel</h3>
-                        <p class="text-xs text-slate-500">Artikel dengan respon suka dan apresiasi tertinggi dari pembaca.</p>
+                        <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Top 5 Most Liked Articles</h3>
+                        <p class="text-xs text-slate-500">Stories receiving the strongest student acclaim and appreciation.</p>
                     </div>
                 </div>
             </div>
@@ -794,7 +764,7 @@ function centralDashboard() {
                                       style="background-color: {{ $art['category_color'] }}15; color: {{ $art['category_color'] }};">
                                     {{ $art['category_name'] }}
                                 </span>
-                                <span class="text-[10px] text-slate-400">oleh {{ $art['author_name'] }}</span>
+                                <span class="text-[10px] text-slate-400">by {{ $art['author_name'] }}</span>
                             </div>
                             <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-rose-500 transition-colors truncate">
                                 <a href="{{ url('articles/' . $art['slug']) }}" class="hover:underline">
@@ -831,7 +801,7 @@ function centralDashboard() {
                     <div>
                         <div class="flex items-center gap-1.5">
                             <h3 class="text-sm sm:text-base font-black font-display text-slate-900 dark:text-white">
-                                Top Nilai Tertinggi
+                                Top Rated Articles
                             </h3>
                             <span class="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-amber-500 text-slate-950">
                                 Coming Soon
@@ -843,31 +813,31 @@ function centralDashboard() {
             </div>
 
             <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                Sistem penilaian mutu naskah otomatis dan bintang review kurasi dewan redaksi sedang dalam tahap integrasi.
+                Automated manuscript quality assessment and editorial review scoring criteria are currently in active rollout.
             </p>
 
             <div class="space-y-2 text-xs">
                 <div class="p-2.5 rounded-xl bg-white/60 dark:bg-white/5 border border-amber-500/20 flex items-center justify-between">
-                    <span class="text-slate-600 dark:text-slate-400 font-medium">Orisinalitas & Nilai Berita</span>
-                    <span class="font-bold text-amber-500">Bobot 25%</span>
+                    <span class="text-slate-600 dark:text-slate-400 font-medium">Originality & News Value</span>
+                    <span class="font-bold text-amber-500">Weight 25%</span>
                 </div>
                 <div class="p-2.5 rounded-xl bg-white/60 dark:bg-white/5 border border-amber-500/20 flex items-center justify-between">
-                    <span class="text-slate-600 dark:text-slate-400 font-medium">Kedalaman Riset & Wawancara</span>
-                    <span class="font-bold text-amber-500">Bobot 30%</span>
+                    <span class="text-slate-600 dark:text-slate-400 font-medium">Research Depth & Interviews</span>
+                    <span class="font-bold text-amber-500">Weight 30%</span>
                 </div>
                 <div class="p-2.5 rounded-xl bg-white/60 dark:bg-white/5 border border-amber-500/20 flex items-center justify-between">
-                    <span class="text-slate-600 dark:text-slate-400 font-medium">Gaya Bahasa Majalah Remaja</span>
-                    <span class="font-bold text-amber-500">Bobot 25%</span>
+                    <span class="text-slate-600 dark:text-slate-400 font-medium">Youth Tone & Clarity</span>
+                    <span class="font-bold text-amber-500">Weight 25%</span>
                 </div>
                 <div class="p-2.5 rounded-xl bg-white/60 dark:bg-white/5 border border-amber-500/20 flex items-center justify-between">
-                    <span class="text-slate-600 dark:text-slate-400 font-medium">Estetika & Visual Majalah</span>
-                    <span class="font-bold text-amber-500">Bobot 20%</span>
+                    <span class="text-slate-600 dark:text-slate-400 font-medium">Visual Aesthetics & Layout</span>
+                    <span class="font-bold text-amber-500">Weight 20%</span>
                 </div>
             </div>
 
             <div class="text-[11px] text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1.5 pt-1">
                 <span class="material-symbols-outlined text-sm">verified_user</span>
-                <span>Standar Mutu Dewan Jurnalistik Sekolah</span>
+                <span>School Journalism Council Quality Standards</span>
             </div>
         </div>
 
@@ -880,13 +850,13 @@ function centralDashboard() {
                     </span>
                     <div>
                         <h3 class="text-base font-black font-display text-slate-900 dark:text-white">
-                            Hall of Fame Kontributor & Jurnalis Siswa
+                            Student Contributors & Journalists Hall of Fame
                         </h3>
-                        <p class="text-xs text-slate-500">Kreator paling produktif dengan capaian pembaca tertinggi.</p>
+                        <p class="text-xs text-slate-500">Most prolific creators with the highest total readership.</p>
                     </div>
                 </div>
                 <span class="text-xs font-bold text-indigo-500 bg-indigo-500/10 px-3 py-1 rounded-full border border-indigo-500/20">
-                    Leaderboard Kreator
+                    Creator Leaderboard
                 </span>
             </div>
 
@@ -908,7 +878,7 @@ function centralDashboard() {
                             </div>
                             <p class="text-[10px] text-slate-500 truncate">{{ $authItem['role_display_name'] }}</p>
                             <div class="flex items-center gap-2 pt-1 text-[10px] text-slate-600 dark:text-slate-400 font-semibold">
-                                <span class="text-emerald-500 font-bold">{{ $authItem['published_count'] }} Karya Terbit</span>
+                                <span class="text-emerald-500 font-bold">{{ $authItem['published_count'] }} Published Works</span>
                                 <span>·</span>
                                 <span>{{ number_format($authItem['total_views']) }} Views</span>
                             </div>
@@ -922,3 +892,4 @@ function centralDashboard() {
 
 </div>
 @endsection
+

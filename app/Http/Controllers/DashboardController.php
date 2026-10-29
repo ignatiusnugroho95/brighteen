@@ -231,60 +231,60 @@ class DashboardController
                 'title' => 'Management Portal',
                 'badge' => 'Platform Director',
                 'badge_color' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
-                'desc' => 'Akses kontrol penuh ke tata kelola staf, administrasi pembaca, pengaturan redaksi, dan analitik publikasi.',
+                'desc' => 'Full control over staff management, reader administration, editorial policies, and publication analytics.',
                 'items' => [
                     [
                         'title' => 'Platform Management Panel',
-                        'desc' => 'Kelola akun staf redaksi, peran pengguna, pengaturan sistem & profil sekolah.',
+                        'desc' => 'Manage editorial staff accounts, user permissions, system settings, and school profiles.',
                         'url' => 'dashboard/management',
                         'icon' => 'admin_panel_settings',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
                     ],
                     [
                         'title' => 'Reader Administration',
-                        'desc' => 'Daftar akun pembaca terdaftar dan verifikasi aplikasi pengajuan kontributor siswa.',
+                        'desc' => 'Directory of registered readers and verification of student contributor applications.',
                         'url' => 'dashboard/management#readers',
                         'icon' => 'how_to_reg',
                         'color' => 'text-purple-500 bg-purple-500/10 border-purple-500/20'
                     ],
                     [
                         'title' => 'Editorial Review Desk',
-                        'desc' => 'Review antrean naskah masuk, kurasi headline utama, kelola rubrik & pengumuman.',
+                        'desc' => 'Review incoming manuscripts, curate frontpage headlines, manage beats and announcements.',
                         'url' => 'dashboard/editorial',
                         'icon' => 'rule',
                         'color' => 'text-purple-600 bg-purple-600/10 border-purple-600/20'
                     ],
                     [
                         'title' => 'Editorial Assignment Center',
-                        'desc' => 'Pantau penugasan liputan jurnalis, tenggat waktu, dan brief liputan siswa.',
+                        'desc' => 'Monitor journalist coverage assignments, deadlines, and student story briefs.',
                         'url' => 'dashboard/assignments',
                         'icon' => 'assignment',
                         'color' => 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
                     ],
                     [
                         'title' => 'Write Article with Gemini AI',
-                        'desc' => 'Tulis artikel atau berita baru didukung AI Assistant dengan persona majalah SMP.',
+                        'desc' => 'Draft articles or news reports assisted by the youth magazine AI persona.',
                         'url' => 'articles/create',
                         'icon' => 'edit_square',
                         'color' => 'text-primary bg-primary/10 border-primary/20'
                     ],
                     [
                         'title' => 'Edit About Us & Vision',
-                        'desc' => 'Perbarui manifesto, visi misi, statistik sekolah, dan formulir ajakan kontributor.',
+                        'desc' => 'Update editorial manifesto, vision & mission, school statistics, and contributor call-to-action.',
                         'url' => 'about/edit',
                         'icon' => 'info',
                         'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Live Magazine Edition',
-                        'desc' => 'Buka beranda publikasi live untuk melihat tampilan yang dinikmati pembaca.',
+                        'desc' => 'Open the public magazine edition to preview how readers experience published content.',
                         'url' => '',
                         'icon' => 'dynamic_feed',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ],
                     [
                         'title' => 'Reading Bookmarks',
-                        'desc' => 'Daftar koleksi bacaan dan artikel yang disimpan oleh akun Anda.',
+                        'desc' => 'Curated collection of saved articles and reading bookmarks.',
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
@@ -295,60 +295,60 @@ class DashboardController
                 'title' => 'Editorial Workspace',
                 'badge' => 'Senior Managing Editor',
                 'badge_color' => 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30',
-                'desc' => 'Pusat kendali redaksi untuk menilai kualitas naskah, menetapkan headline, kurasi rubrik, dan penugasan jurnalis.',
+                'desc' => 'Command center for story quality assessments, headline curation, category taxonomies, and coverage commissions.',
                 'items' => [
                     [
                         'title' => 'Editorial Review Queue',
-                        'desc' => 'Evaluasi, beri masukan perbaikan, atau setujui artikel yang dikirim jurnalis/kontributor.',
+                        'desc' => 'Evaluate, provide revision feedback, or approve submissions from journalists and contributors.',
                         'url' => 'dashboard/editorial#review',
                         'icon' => 'rate_review',
                         'color' => 'text-purple-500 bg-purple-500/10 border-purple-500/20'
                     ],
                     [
                         'title' => 'Headline & Curated Stories',
-                        'desc' => 'Pilih naskah unggulan untuk tayang sebagai headline utama beranda dan rubrik pilihan.',
+                        'desc' => 'Select standout stories for frontpage hero banners and spotlight placements.',
                         'url' => 'dashboard/editorial#curated',
                         'icon' => 'star',
                         'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Manage Rubrics & Categories',
-                        'desc' => 'Kelola tema rubrik majalah, ubah warna aksen, ikon, dan deskripsi rubrik.',
+                        'desc' => 'Configure magazine beat channels, accent badges, icons, and taxonomy descriptions.',
                         'url' => 'dashboard/editorial#categories',
                         'icon' => 'category',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ],
                     [
                         'title' => 'Commission New Assignment',
-                        'desc' => 'Buat brief liputan baru dan tugaskan ke jurnalis tertentu dengan tenggat waktu.',
+                        'desc' => 'Craft new reporting briefs and assign them to staff journalists with due dates.',
                         'url' => 'dashboard/assignments',
                         'icon' => 'add_task',
                         'color' => 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20'
                     ],
                     [
                         'title' => 'Write & Direct Publish',
-                        'desc' => 'Editor dapat langsung menerbitkan artikel secara instan atau menyimpannya sebagai draf.',
+                        'desc' => 'Draft and publish articles directly with instant editorial publishing privileges.',
                         'url' => 'articles/create',
                         'icon' => 'edit_document',
                         'color' => 'text-primary bg-primary/10 border-primary/20'
                     ],
                     [
                         'title' => 'Edit About Us & Manifesto',
-                        'desc' => 'Ubah profil redaksi, teks sambutan pimpinan, dan panduan gaya selingkung.',
+                        'desc' => 'Refine the editorial board profile, welcome letters, and youth journalism style guide.',
                         'url' => 'about/edit',
                         'icon' => 'menu_book',
                         'color' => 'text-amber-600 bg-amber-600/10 border-amber-600/20'
                     ],
                     [
                         'title' => 'My Drafts & Submitted Works',
-                        'desc' => 'Pantau draf penulisan dan karya Anda sendiri di meja penugasan.',
+                        'desc' => 'Keep track of your own writing drafts, reviews, and published pieces.',
                         'url' => 'dashboard/assignments#drafts',
                         'icon' => 'note_alt',
                         'color' => 'text-teal-500 bg-teal-500/10 border-teal-500/20'
                     ],
                     [
                         'title' => 'Live Feed Preview',
-                        'desc' => 'Lihat tata letak live publikasi di sisi pembaca.',
+                        'desc' => 'View the live frontpage layout and reader experience in real time.',
                         'url' => '',
                         'icon' => 'visibility',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
@@ -359,46 +359,46 @@ class DashboardController
                 'title' => 'Journalist Reporter Desk',
                 'badge' => 'Staff Journalist',
                 'badge_color' => 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
-                'desc' => 'Meja kerja jurnalis staf untuk menerima penugasan liputan, menyusun draf cerita, dan memantau status publikasi.',
+                'desc' => 'Staff workspace to receive reporting assignments, draft news pieces, and track publication progress.',
                 'items' => [
                     [
                         'title' => 'Active Assigned Briefs',
-                        'desc' => 'Lihat penugasan liputan aktif dari editor, batas waktu pengumpulan, dan instruksi.',
+                        'desc' => 'View active assignments from editors, instructions, and upcoming filing deadlines.',
                         'url' => 'dashboard/assignments#active',
                         'icon' => 'assignment_turned_in',
                         'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Saved Drafts (WIP)',
-                        'desc' => 'Lanjutkan penulisan draf cerita Anda yang belum disubmit atau perlu revisi.',
+                        'desc' => 'Resume work on saved drafts before submitting for editorial examination.',
                         'url' => 'dashboard/assignments#drafts',
                         'icon' => 'edit_note',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ],
                     [
                         'title' => 'In Editorial Review',
-                        'desc' => 'Pantau artikel yang sudah Anda submit dan sedang menunggu pemeriksaan editor.',
+                        'desc' => 'Track your submitted stories currently being evaluated by the editorial team.',
                         'url' => 'dashboard/assignments#review',
                         'icon' => 'hourglass_top',
                         'color' => 'text-purple-500 bg-purple-500/10 border-purple-500/20'
                     ],
                     [
                         'title' => 'Write New Story with AI',
-                        'desc' => 'Buka meja penulisan dengan bantuan riset 5W+1H dan kutipan wawancara otomatis.',
+                        'desc' => 'Launch writer workspace with 5W+1H structure tools and interview quote integration.',
                         'url' => 'articles/create',
                         'icon' => 'draw',
                         'color' => 'text-primary bg-primary/10 border-primary/20'
                     ],
                     [
                         'title' => 'My Published Portfolio',
-                        'desc' => 'Koleksi seluruh artikel karya Anda yang telah sukses diterbitkan redaksi.',
+                        'desc' => 'Showcase of all your successfully published articles and reader reach.',
                         'url' => 'dashboard/assignments#published',
                         'icon' => 'verified',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
                     ],
                     [
                         'title' => 'Bookmarks & Saved Lore',
-                        'desc' => 'Buka artikel referensi yang pernah Anda simpan untuk bahan riset berita.',
+                        'desc' => 'Access reference stories and saved reading pieces for background reporting.',
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
@@ -409,46 +409,46 @@ class DashboardController
                 'title' => 'Contributor Creative Corner',
                 'badge' => 'Community Contributor',
                 'badge_color' => 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/30',
-                'desc' => 'Ruang kreasi kontributor siswa untuk mengirimkan opini, cerita pendek, karya seni, dan liputan mandiri.',
+                'desc' => 'Creative corner for student contributors to pitch ideas, submit stories, and contribute art.',
                 'items' => [
                     [
                         'title' => 'Write New Pitch / Story',
-                        'desc' => 'Mulai menulis karya baru, kembangkan ide dengan AI Assistant, dan submit ke dewan redaksi.',
+                        'desc' => 'Draft new stories, brainstorm ideas with AI assistance, and submit to the editorial board.',
                         'url' => 'articles/create',
                         'icon' => 'stylus',
                         'color' => 'text-primary bg-primary/10 border-primary/20'
                     ],
                     [
                         'title' => 'My Saved Drafts',
-                        'desc' => 'Simpan draf tulisan sementara dan perbaiki catatan masukan dari editor.',
+                        'desc' => 'Keep work-in-progress drafts safe and address feedback provided by editors.',
                         'url' => 'dashboard/assignments#drafts',
                         'icon' => 'drafts',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
                     ],
                     [
                         'title' => 'Stories Under Review',
-                        'desc' => 'Periksa status tulisan Anda yang sedang dibaca dan dievaluasi oleh editor.',
+                        'desc' => 'Check the review status of your submitted works awaiting editor feedback.',
                         'url' => 'dashboard/assignments#review',
                         'icon' => 'pending_actions',
                         'color' => 'text-purple-500 bg-purple-500/10 border-purple-500/20'
                     ],
                     [
                         'title' => 'Published Articles Portfolio',
-                        'desc' => 'Lihat karya Anda yang sudah tayang di majalah Brighteen beserta statistik pembacanya.',
+                        'desc' => 'Explore your published articles in Brighteen Magazine along with readership metrics.',
                         'url' => 'dashboard/assignments#published',
                         'icon' => 'auto_awesome',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
                     ],
                     [
                         'title' => 'Contributor Lore & Guidelines',
-                        'desc' => 'Pelajari panduan menulis artikel remaja dan kriteria tulisan yang disukai pembaca.',
+                        'desc' => 'Learn writing tips, youth journalism ethical codes, and style guides.',
                         'url' => 'about',
                         'icon' => 'lightbulb',
                         'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Reading Bookmarks',
-                        'desc' => 'Buka kembali artikel majalah yang Anda simpan untuk dibaca kembali.',
+                        'desc' => 'Access your saved bookmarks and favorite school magazine articles.',
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
@@ -459,32 +459,32 @@ class DashboardController
                 'title' => 'Student Reader Hub',
                 'badge' => 'Registered Reader',
                 'badge_color' => 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-500/30',
-                'desc' => 'Ruang membaca interaktif untuk menjelajah berita sekolah, menyimpan artikel favorit, dan bergabung menjadi kontributor.',
+                'desc' => 'Interactive reading space to discover school stories, bookmark favorites, and apply as a contributor.',
                 'items' => [
                     [
                         'title' => 'Explore Live Magazine',
-                        'desc' => 'Baca berita terbaru seputar teknologi, seni, gaya hidup, dan kegiatan sekolah.',
+                        'desc' => 'Read trending articles on technology, school events, student achievements, and youth arts.',
                         'url' => '',
                         'icon' => 'newspaper',
                         'color' => 'text-primary bg-primary/10 border-primary/20'
                     ],
                     [
                         'title' => 'My Bookmarks List',
-                        'desc' => 'Daftar seluruh cerita dan artikel yang telah Anda bookmark untuk dibaca nanti.',
+                        'desc' => 'All stories and articles bookmarked to read later at your convenience.',
                         'url' => 'bookmarks',
                         'icon' => 'bookmark',
                         'color' => 'text-rose-500 bg-rose-500/10 border-rose-500/20'
                     ],
                     [
                         'title' => 'Apply to Become Contributor',
-                        'desc' => 'Daftarkan diri Anda untuk mulai menulis karya sendiri dan terbit di majalah Brighteen!',
+                        'desc' => 'Apply to become a student contributor and get your stories published in Brighteen!',
                         'url' => 'about#apply',
                         'icon' => 'how_to_reg',
                         'color' => 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20'
                     ],
                     [
                         'title' => 'About Brighteen Vision',
-                        'desc' => 'Ketahui lebih banyak tentang visi majalah siswa SMP Brighteen.',
+                        'desc' => 'Discover the mission and vision behind Brighteen Digital School Magazine.',
                         'url' => 'about',
                         'icon' => 'info',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
@@ -494,3 +494,4 @@ class DashboardController
         ];
     }
 }
+
