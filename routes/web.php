@@ -2,6 +2,7 @@
 
 use App\Http\Router;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\EditorController;
 use App\Http\Controllers\EditorialDashboardController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\AiController;
 use App\Http\Controllers\AboutController;
 
 require_once __DIR__ . '/../app/Http/Controllers/HomeController.php';
+require_once __DIR__ . '/../app/Http/Controllers/DashboardController.php';
 require_once __DIR__ . '/../app/Http/Controllers/ArticleController.php';
 require_once __DIR__ . '/../app/Http/Controllers/EditorController.php';
 require_once __DIR__ . '/../app/Http/Controllers/EditorialDashboardController.php';
@@ -34,6 +36,9 @@ Router::post('about/contributor-apply', [AboutController::class, 'applyContribut
 
 // Bookmarks / Saved Posts
 Router::get('bookmarks', [ArticleController::class, 'bookmarks']);
+
+// Central Role Dashboard (Management, Editor, Journalist, Contributor)
+Router::get('dashboard', [DashboardController::class, 'index']);
 
 // Journalist Assignment Center
 Router::get('dashboard/assignments', [AssignmentController::class, 'index']);

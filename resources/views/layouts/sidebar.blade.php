@@ -123,6 +123,23 @@
                         <span>Role Workspaces</span>
                     </div>
 
+                    {{-- Central Dashboard Hub (All Creators) --}}
+                    @if(auth()->canCreateArticle())
+                        <a href="{{ url('dashboard') }}" 
+                           class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-sky-500/10 border border-slate-200/80 dark:border-white/10 hover:border-sky-500/30 text-slate-800 dark:text-slate-200 transition-all group min-w-0">
+                            <span class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                                <span class="material-symbols-outlined text-lg">dashboard</span>
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Central Dashboard</span>
+                                    <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 shrink-0">Hub</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Statistik, analitik & pintasan</p>
+                            </div>
+                        </a>
+                    @endif
+
                     {{-- Management Panel (Management Only) --}}
                     @if(auth()->isManagement())
                         <a href="{{ url('dashboard/management') }}" 
