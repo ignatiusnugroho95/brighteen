@@ -32,15 +32,15 @@ class DashboardController
         // 1. Core Statistics
         // A. Jumlah artikel yang pernah terbit
         $stmt = db()->query("SELECT COUNT(*) FROM articles WHERE status = 'published'");
-        $totalPublishedArticles = (int)$stmt->fetchColumn();
+        $totalPublishedArticles = (int) $stmt->fetchColumn();
 
         // B. Jumlah rubrik (categories)
         $stmt = db()->query("SELECT COUNT(*) FROM categories");
-        $totalCategories = (int)$stmt->fetchColumn();
+        $totalCategories = (int) $stmt->fetchColumn();
 
         // C. Jumlah views total
         $stmt = db()->query("SELECT COALESCE(SUM(views_count), 0) FROM articles WHERE status = 'published'");
-        $totalViews = (int)$stmt->fetchColumn();
+        $totalViews = (int) $stmt->fetchColumn();
 
         // D. Jumlah menit yang bisa dihabiskan untuk reading
         // Reading speed standard for youth/students is ~200 words per minute (WPM)
@@ -51,42 +51,42 @@ class DashboardController
             $cleanText = strip_tags($content);
             $totalWordCount += str_word_count($cleanText);
         }
-        $totalReadingMinutes = max(1, (int)ceil($totalWordCount / 200));
+        $totalReadingMinutes = max(1, (int) ceil($totalWordCount / 200));
 
         // E. Jumlah interaksi (likes, saves, comments, shares)
         $stmt = db()->query("SELECT COUNT(*) FROM likes");
-        $totalLikes = (int)$stmt->fetchColumn();
+        $totalLikes = (int) $stmt->fetchColumn();
 
         $stmt = db()->query("SELECT COUNT(*) FROM saved_posts");
-        $totalSaves = (int)$stmt->fetchColumn();
+        $totalSaves = (int) $stmt->fetchColumn();
 
         $stmt = db()->query("SELECT COUNT(*) FROM comments");
-        $totalComments = (int)$stmt->fetchColumn();
+        $totalComments = (int) $stmt->fetchColumn();
 
         // Estimated social shares based on reading activity
-        $totalShares = (int)ceil($totalLikes * 2.5 + $totalComments * 0.8);
+        $totalShares = (int) ceil($totalLikes * 2.5 + $totalComments * 0.8);
         $totalInteractions = $totalLikes + $totalSaves + $totalComments + $totalShares;
         $engagementRate = $totalViews > 0 ? round(($totalInteractions / $totalViews) * 100, 2) : 0;
 
         // F. Jumlah reader (registered readers)
         $stmt = db()->query("SELECT COUNT(*) FROM users u JOIN roles r ON u.role_id = r.id WHERE r.name = 'reader_registered'");
-        $totalRegisteredReaders = (int)$stmt->fetchColumn();
+        $totalRegisteredReaders = (int) $stmt->fetchColumn();
 
         // Total community members (all registered users)
         $stmt = db()->query("SELECT COUNT(*) FROM users");
-        $totalCommunityUsers = (int)$stmt->fetchColumn();
+        $totalCommunityUsers = (int) $stmt->fetchColumn();
 
         // G. Jumlah contributor (community contributors)
         $stmt = db()->query("SELECT COUNT(*) FROM users u JOIN roles r ON u.role_id = r.id WHERE r.name = 'contributor'");
-        $totalContributors = (int)$stmt->fetchColumn();
+        $totalContributors = (int) $stmt->fetchColumn();
 
         // Total journalists
         $stmt = db()->query("SELECT COUNT(*) FROM users u JOIN roles r ON u.role_id = r.id WHERE r.name = 'journalist'");
-        $totalJournalists = (int)$stmt->fetchColumn();
+        $totalJournalists = (int) $stmt->fetchColumn();
 
         // Total editorial team
         $stmt = db()->query("SELECT COUNT(*) FROM users u JOIN roles r ON u.role_id = r.id WHERE r.name IN ('editor', 'management')");
-        $totalEditors = (int)$stmt->fetchColumn();
+        $totalEditors = (int) $stmt->fetchColumn();
 
         // 2. Top 5 Views Artikel
         $sqlTopViews = "
@@ -135,14 +135,14 @@ class DashboardController
         // Calculate percentage for each category
         $maxCatViews = 1;
         foreach ($categoryStats as &$cat) {
-            if ((int)$cat['total_views'] > $maxCatViews) {
-                $maxCatViews = (int)$cat['total_views'];
+            if ((int) $cat['total_views'] > $maxCatViews) {
+                $maxCatViews = (int) $cat['total_views'];
             }
         }
         unset($cat);
         foreach ($categoryStats as &$cat) {
-            $cat['views_percent'] = $totalViews > 0 ? round(((int)$cat['total_views'] / $totalViews) * 100, 1) : 0;
-            $cat['article_percent'] = $totalPublishedArticles > 0 ? round(((int)$cat['article_count'] / $totalPublishedArticles) * 100, 1) : 0;
+            $cat['views_percent'] = $totalViews > 0 ? round(((int) $cat['total_views'] / $totalViews) * 100, 1) : 0;
+            $cat['article_percent'] = $totalPublishedArticles > 0 ? round(((int) $cat['article_count'] / $totalPublishedArticles) * 100, 1) : 0;
         }
         unset($cat);
 
@@ -155,12 +155,12 @@ class DashboardController
             'rejected' => 0
         ];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $articleStatusCounts[$row['status']] = (int)$row['count'];
+            $articleStatusCounts[$row['status']] = (int) $row['count'];
         }
 
         // Active commission assignments
         $stmt = db()->query("SELECT COUNT(*) FROM assignments WHERE status IN ('pending', 'turned_in')");
-        $activeAssignmentsCount = (int)$stmt->fetchColumn();
+        $activeAssignmentsCount = (int) $stmt->fetchColumn();
 
         // C. Progressive publication timeline
         $sqlTimeline = "
