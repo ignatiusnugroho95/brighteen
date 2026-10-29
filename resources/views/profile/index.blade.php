@@ -2,8 +2,9 @@
 
 @section('content')
 @php
+    $defaultAvatar = url('uploads/avatars/default-avatar.svg');
     $currentAvatar = $user['avatar'] ?: $defaultAvatar;
-    $hasCustomAvatar = !empty($user['avatar']) && $user['avatar'] !== $defaultAvatar;
+    $hasCustomAvatar = !empty($user['avatar']) && strpos($user['avatar'], 'default-avatar.svg') === false;
     
     // Preset detection for School / Institution
     $userInst = $user['institution'] ?: 'Brighton JHS Depok';
@@ -119,6 +120,7 @@
                 <div class="relative shrink-0 group">
                     <img :src="avatarPreview" 
                          alt="{{ $user['name'] }}" 
+                         onerror="this.onerror=null; this.src='{{ $defaultAvatar }}';"
                          class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl object-cover ring-4 ring-white/20 shadow-2xl transition-transform group-hover:scale-105 bg-slate-800">
                     <button type="button" 
                             @click="document.getElementById('avatarFileInput').click()"
@@ -240,6 +242,7 @@
                         <div class="relative group">
                             <img :src="avatarPreview" 
                                  alt="Avatar Preview" 
+                                 onerror="this.onerror=null; this.src='{{ $defaultAvatar }}';"
                                  class="w-28 h-28 rounded-3xl object-cover ring-4 ring-slate-100 dark:ring-white/10 shadow-lg bg-slate-800 transition-all">
                             <div class="absolute inset-0 rounded-3xl bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer"
                                  @click="document.getElementById('avatarFileInput').click()">
@@ -547,3 +550,4 @@
 
 </div>
 @endsection
+

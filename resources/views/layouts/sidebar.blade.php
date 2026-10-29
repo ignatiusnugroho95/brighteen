@@ -54,6 +54,7 @@
                         <div class="relative shrink-0">
                             <img src="{{ auth()->user()['avatar'] ?: url('uploads/avatars/default-avatar.svg') }}" 
                                  alt="{{ auth()->user()['name'] }}" 
+                                 onerror="this.onerror=null; this.src='{{ url('uploads/avatars/default-avatar.svg') }}';"
                                  class="w-11 h-11 rounded-xl object-cover ring-2 ring-primary/40 shadow-sm bg-slate-800">
                             <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#121620]"></span>
                         </div>

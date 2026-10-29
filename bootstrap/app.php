@@ -171,23 +171,28 @@ if (!function_exists('config')) {
 
 if (!function_exists('asset')) {
     function asset($path) {
-        $baseUrl = rtrim(getenv('APP_URL') ?: '', '/');
-        if (empty($baseUrl)) {
-            $script = dirname($_SERVER['SCRIPT_NAME'] ?? '');
-            $baseUrl = rtrim($script, '/\\');
-        }
-        return $baseUrl . '/' . ltrim($path, '/');
+        return url($path);
     }
 }
 
 if (!function_exists('url')) {
     function url($path = '') {
-        $baseUrl = rtrim(getenv('APP_URL') ?: '', '/');
-        if (empty($baseUrl)) {
+        $envUrl = rtrim(getenv('APP_URL') ?: '', '/');
+        $subPath = parse_url($envUrl, PHP_URL_PATH) ?: '';
+        if (empty($subPath)) {
             $script = dirname($_SERVER['SCRIPT_NAME'] ?? '');
-            $baseUrl = rtrim($script, '/\\');
+            $subPath = rtrim($script, '/\\');
         }
-        return $baseUrl . '/' . ltrim($path, '/');
+
+        if (!empty($_SERVER['HTTP_HOST'])) {
+            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            $scheme = $isHttps ? 'https://' : 'http://';
+            $baseUrl = $scheme . $_SERVER['HTTP_HOST'] . $subPath;
+        } else {
+            $baseUrl = $envUrl ?: $subPath;
+        }
+
+        return rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
     }
 }
 

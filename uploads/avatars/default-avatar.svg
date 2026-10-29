@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="50%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="skinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa"/>
+      <stop offset="100%" stop-color="#fcd34d"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <rect width="200" height="200" rx="100" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle decorative stars/sparkles in background -->
+  <circle cx="45" cy="55" r="4" fill="#ffffff" opacity="0.4"/>
+  <circle cx="155" cy="45" r="3" fill="#ffffff" opacity="0.3"/>
+  <circle cx="165" cy="85" r="5" fill="#ffffff" opacity="0.3"/>
+
+  <!-- Body / Shoulders -->
+  <path d="M 40 200 C 40 155, 65 135, 100 135 C 135 135, 160 155, 160 200 Z" fill="url(#shirtGrad)"/>
+  <!-- Collar Accent -->
+  <polygon points="90,135 100,150 110,135" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Neck -->
+  <rect x="88" y="115" width="24" height="25" rx="6" fill="url(#skinGrad)"/>
+
+  <!-- Head -->
+  <ellipse cx="100" cy="85" rx="36" ry="42" fill="url(#skinGrad)"/>
+
+  <!-- Youthful Hair -->
+  <path d="M 64 85 C 64 45, 80 40, 100 40 C 122 40, 136 45, 136 85 C 136 70, 130 55, 120 52 C 105 52, 95 62, 80 62 C 72 62, 66 70, 64 85 Z" fill="#1e1b4b"/>
+  <path d="M 64 82 C 60 76, 60 62, 70 54 C 80 44, 115 42, 132 52 C 140 58, 138 72, 136 80 C 133 70, 125 60, 115 60 C 100 60, 95 68, 85 68 C 75 68, 68 74, 64 82 Z" fill="#312e81"/>
+
+  <!-- Glasses / Friendly eyes -->
+  <circle cx="85" cy="85" r="8" fill="none" stroke="#1e1b4b" stroke-width="2.5"/>
+  <circle cx="115" cy="85" r="8" fill="none" stroke="#1e1b4b" stroke-width="2.5"/>
+  <line x1="93" y1="85" x2="107" y2="85" stroke="#1e1b4b" stroke-width="2.5"/>
+  <!-- Eyes -->
+  <circle cx="85" cy="85" r="3.5" fill="#1e1b4b"/>
+  <circle cx="115" cy="85" r="3.5" fill="#1e1b4b"/>
+  <circle cx="86.5" cy="83.5" r="1.2" fill="#ffffff"/>
+  <circle cx="116.5" cy="83.5" r="1.2" fill="#ffffff"/>
+
+  <!-- Cheerful Smile -->
+  <path d="M 91 103 Q 100 112 109 103" fill="none" stroke="#e11d48" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Rosy Cheeks -->
+  <circle cx="76" cy="95" r="4.5" fill="#f43f5e" opacity="0.3"/>
+  <circle cx="124" cy="95" r="4.5" fill="#f43f5e" opacity="0.3"/>
+</svg>
+

@@ -150,13 +150,25 @@ class ProfileController
             }
 
             $filename = 'avatar_' . $userId . '_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
-            $uploadDir = __DIR__ . '/../../public/uploads/avatars/';
+            
+            // Project root is c:\xampp\htdocs\brighteen
+            $projectRoot = realpath(__DIR__ . '/../../..');
+            $uploadDir = $projectRoot . '/uploads/avatars/';
+            $publicUploadDir = $projectRoot . '/public/uploads/avatars/';
+
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
             }
+            if (!is_dir($publicUploadDir)) {
+                mkdir($publicUploadDir, 0777, true);
+            }
 
             $destination = $uploadDir . $filename;
+            $publicDestination = $publicUploadDir . $filename;
+
             if (move_uploaded_file($file['tmp_name'], $destination)) {
+                // Ensure mirrored to both root uploads and public uploads
+                copy($destination, $publicDestination);
                 $avatarUrl = url('uploads/avatars/' . $filename);
             } else {
                 redirect('profile?error=upload_failed');
@@ -187,7 +199,10 @@ class ProfileController
             $avatarSql = ", avatar = ?";
             $avatarParams[] = $avatarUrl;
         } elseif ($removeAvatar) {
-            $avatarSql = ", avatar = NULL";
+            // Set explicitly to default template avatar
+            $defaultAvatarUrl = url('uploads/avatars/default-avatar.svg');
+            $avatarSql = ", avatar = ?";
+            $avatarParams[] = $defaultAvatarUrl;
         }
 
         $sql = "
@@ -259,3 +274,4 @@ class ProfileController
         redirect('profile?notice=saved');
     }
 }
+

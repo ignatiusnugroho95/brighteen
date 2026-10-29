@@ -177,9 +177,10 @@
                     <button type="button" @click="$dispatch('open-sidebar')" 
                             class="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-surface-card dark:hover:bg-surface-high border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40 group shadow-sm"
                             title="Open Sidebar Menu & Profile">
-                        <img src="{{ auth()->user()['avatar'] ?: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80' }}" 
+                        <img src="{{ auth()->user()['avatar'] ?: url('uploads/avatars/default-avatar.svg') }}" 
                              alt="{{ auth()->user()['name'] }}" 
-                             class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl object-cover ring-2 ring-primary/40 group-hover:scale-105 transition-transform">
+                             onerror="this.onerror=null; this.src='{{ url('uploads/avatars/default-avatar.svg') }}';"
+                             class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl object-cover ring-2 ring-primary/40 group-hover:scale-105 transition-transform bg-slate-800">
                         <div class="hidden sm:flex flex-col text-left leading-tight">
                             <span class="text-xs font-bold text-slate-900 dark:text-white truncate max-w-[90px]">{{ auth()->user()['name'] }}</span>
                             <span class="text-[10px] text-primary font-bold capitalize">{{ auth()->user()['role_name'] }}</span>

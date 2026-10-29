@@ -320,13 +320,19 @@ class EditorController
 
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = 'img_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
-        $uploadDir = __DIR__ . '/../../public/uploads/';
+        $projectRoot = realpath(__DIR__ . '/../../..');
+        $uploadDir = $projectRoot . '/uploads/';
+        $publicUploadDir = $projectRoot . '/public/uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
+        }
+        if (!is_dir($publicUploadDir)) {
+            mkdir($publicUploadDir, 0777, true);
         }
 
         $destination = $uploadDir . $filename;
         if (move_uploaded_file($file['tmp_name'], $destination)) {
+            copy($destination, $publicUploadDir . $filename);
             $url = url('uploads/' . $filename);
             return response()->json([
                 'url' => $url
