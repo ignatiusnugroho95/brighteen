@@ -62,8 +62,13 @@ CREATE TABLE `articles` (
     `content` LONGTEXT NOT NULL,
     `excerpt` TEXT NULL,
     `featured_image` VARCHAR(500) NULL,
+    `post_format` ENUM('article', 'carousel', 'video', 'poll') NOT NULL DEFAULT 'article',
+    `video_url` VARCHAR(500) NULL,
+    `video_type` VARCHAR(30) NULL,
+    `carousel_images` LONGTEXT NULL,
     `status` ENUM('draft', 'pending_review', 'published', 'rejected') NOT NULL DEFAULT 'draft',
     `is_headline` TINYINT(1) NOT NULL DEFAULT 0,
+    `is_curated` TINYINT(1) NOT NULL DEFAULT 0,
     `views_count` INT UNSIGNED NOT NULL DEFAULT 0,
     `published_at` DATETIME NULL,
     `editorial_feedback` TEXT NULL,
@@ -187,6 +192,42 @@ CREATE TABLE `contributor_applications` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT `fk_contrib_app_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 13. Polls Table (Interactive Instagram-style Polls and Quizzes)
+CREATE TABLE `polls` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `article_id` BIGINT UNSIGNED NOT NULL,
+    `question` VARCHAR(255) NOT NULL,
+    `poll_type` ENUM('poll', 'quiz') NOT NULL DEFAULT 'poll',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_polls_article` FOREIGN KEY (`article_id`) REFERENCES `articles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 14. Poll Options Table
+CREATE TABLE `poll_options` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `poll_id` BIGINT UNSIGNED NOT NULL,
+    `option_text` VARCHAR(255) NOT NULL,
+    `is_correct` TINYINT(1) NOT NULL DEFAULT 0,
+    `order_num` INT NOT NULL DEFAULT 0,
+    `votes_count` INT UNSIGNED NOT NULL DEFAULT 0,
+    CONSTRAINT `fk_poll_options_poll` FOREIGN KEY (`poll_id`) REFERENCES `polls` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 15. Poll Votes Table (Supports Guest & Registered Voting with Fraud Prevention)
+CREATE TABLE `poll_votes` (
+    `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    `poll_id` BIGINT UNSIGNED NOT NULL,
+    `option_id` BIGINT UNSIGNED NOT NULL,
+    `user_id` BIGINT UNSIGNED NULL,
+    `ip_address` VARCHAR(45) NOT NULL,
+    `session_id` VARCHAR(100) NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY `unique_poll_vote` (`poll_id`, `ip_address`, `session_id`),
+    CONSTRAINT `fk_poll_votes_poll` FOREIGN KEY (`poll_id`) REFERENCES `polls` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_poll_votes_option` FOREIGN KEY (`option_id`) REFERENCES `poll_options` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Useful Indexes

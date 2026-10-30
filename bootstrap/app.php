@@ -258,6 +258,26 @@ if (!function_exists('reading_time')) {
     }
 }
 
+if (!function_exists('youtube_embed_url')) {
+    function youtube_embed_url($url) {
+        if (empty($url)) return '';
+        $pattern = '#(?:https?://)?(?:www\.)?(?:youtube\.com/(?:watch\?.*?v=|embed/|v/|shorts/)|youtu\.be/)([a-zA-Z0-9_-]{11})#i';
+        if (preg_match($pattern, $url, $matches)) {
+            return 'https://www.youtube-nocookie.com/embed/' . $matches[1];
+        }
+        return $url;
+    }
+}
+
+if (!function_exists('parse_carousel_images')) {
+    function parse_carousel_images($data) {
+        if (empty($data)) return [];
+        if (is_array($data)) return array_values(array_filter($data));
+        $decoded = json_decode($data, true);
+        return is_array($decoded) ? array_values(array_filter($decoded)) : [];
+    }
+}
+
 require_once __DIR__ . '/../app/View/BladeRenderer.php';
 require_once __DIR__ . '/../app/Http/Router.php';
 

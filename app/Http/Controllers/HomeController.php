@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\SystemSetting;
+use App\Models\Poll;
 
 require_once __DIR__ . '/../../Models/Article.php';
 require_once __DIR__ . '/../../Models/Category.php';
 require_once __DIR__ . '/../../Models/SystemSetting.php';
+require_once __DIR__ . '/../../Models/Poll.php';
 
 class HomeController
 {
@@ -174,6 +176,13 @@ class HomeController
             ORDER BY ca.reviewed_at DESC, ca.id DESC
             LIMIT 2
         ")->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Attach interactive poll/quiz data
+        if ($headline) {
+            Poll::attachToArticle($headline);
+        }
+        Poll::attachToArticles($subHeadlines);
+        Poll::attachToArticles($feedPosts);
 
         return view('home', [
             'headline' => $headline,

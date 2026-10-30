@@ -7,12 +7,14 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\SavedPost;
+use App\Models\Poll;
 
 require_once __DIR__ . '/../../Models/Article.php';
 require_once __DIR__ . '/../../Models/Category.php';
 require_once __DIR__ . '/../../Models/Comment.php';
 require_once __DIR__ . '/../../Models/Like.php';
 require_once __DIR__ . '/../../Models/SavedPost.php';
+require_once __DIR__ . '/../../Models/Poll.php';
 
 class ArticleController
 {
@@ -46,6 +48,7 @@ class ArticleController
         }
 
         // Fetch comments and related articles
+        Poll::attachToArticle($article);
         $comments = Comment::forArticle($article['id']);
         $related = Article::getPublished(4, $article['category_id']);
 

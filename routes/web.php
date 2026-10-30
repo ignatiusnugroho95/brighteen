@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PollController;
 
 require_once __DIR__ . '/../app/Http/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Http/Controllers/DashboardController.php';
@@ -24,6 +25,7 @@ require_once __DIR__ . '/../app/Http/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AiController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AboutController.php';
 require_once __DIR__ . '/../app/Http/Controllers/ProfileController.php';
+require_once __DIR__ . '/../app/Http/Controllers/PollController.php';
 
 // Public Homepage & Feeds
 Router::get('', [HomeController::class, 'index']);
@@ -106,6 +108,10 @@ Router::post('api/articles/{id}/like', [ArticleController::class, 'like']);
 Router::post('api/articles/{id}/save', [ArticleController::class, 'save']);
 Router::post('api/articles/{id}/comment', [ArticleController::class, 'comment']);
 Router::post('api/upload-image', [EditorController::class, 'uploadImage']);
+Router::post('api/upload-video', [EditorController::class, 'uploadVideo']);
+Router::post('api/upload-carousel', [EditorController::class, 'uploadCarousel']);
+Router::post('api/polls/{id}/vote', [PollController::class, 'vote']);
+Router::get('api/polls/{id}', [PollController::class, 'show']);
 Router::post('api/ai/generate', [AiController::class, 'generate']);
 Router::get('api/ai/status', [AiController::class, 'status']);
 Router::post('api/ai/save-key', [AiController::class, 'saveKey']);

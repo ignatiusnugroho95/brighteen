@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Assignment;
 use App\Models\Notification;
+use App\Models\Poll;
 
 require_once __DIR__ . '/../../Models/Article.php';
 require_once __DIR__ . '/../../Models/Category.php';
@@ -49,6 +50,7 @@ class EditorController
 
         return view('articles.editor', [
             'article' => $prefillArticle,
+            'poll' => null,
             'categories' => $categories,
             'isEdit' => false,
             'userAssignments' => $userAssignments,
@@ -77,9 +79,11 @@ class EditorController
 
         $categories = Category::all('name ASC');
         $userAssignments = auth()->check() ? Assignment::getActivePendingForJournalist(auth()->id()) : [];
+        $poll = Poll::forArticle($id);
 
         return view('articles.editor', [
             'article' => $article,
+            'poll' => $poll,
             'categories' => $categories,
             'isEdit' => true,
             'userAssignments' => $userAssignments,
@@ -138,6 +142,30 @@ class EditorController
             $status = 'pending_review';
         }
 
+        // Handle media formats (video, carousel, poll)
+        $postFormat = trim($_POST['post_format'] ?? 'article');
+        $videoUrl = trim($_POST['video_url'] ?? '');
+        $videoType = trim($_POST['video_type'] ?? '');
+        if ($videoUrl) {
+            if (preg_match('#(youtube\.com|youtu\.be)#i', $videoUrl)) {
+                $videoType = 'youtube';
+            } elseif (empty($videoType)) {
+                $videoType = 'upload';
+            }
+        }
+
+        $carouselImages = [];
+        if (!empty($_POST['carousel_images'])) {
+            $decoded = is_array($_POST['carousel_images']) ? $_POST['carousel_images'] : json_decode($_POST['carousel_images'], true);
+            if (is_array($decoded)) {
+                $carouselImages = array_values(array_filter(array_map('trim', $decoded)));
+            }
+        }
+
+        if ($postFormat === 'carousel' && empty($featuredImage) && !empty($carouselImages[0])) {
+            $featuredImage = $carouselImages[0];
+        }
+
         $id = Article::create([
             'user_id' => auth()->id(),
             'category_id' => $categoryId,
@@ -146,12 +174,30 @@ class EditorController
             'content' => $content,
             'excerpt' => $excerpt,
             'featured_image' => $featuredImage ?: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+            'post_format' => $postFormat,
+            'video_url' => $videoUrl ?: null,
+            'video_type' => $videoType ?: null,
+            'carousel_images' => !empty($carouselImages) ? json_encode($carouselImages) : null,
             'status' => $status,
             'views_count' => 0,
             'published_at' => $publishedAt,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
+
+        // Save Poll / Quiz if provided
+        if (!empty($_POST['poll_question'])) {
+            $pollOptions = $_POST['poll_options'] ?? [];
+            if (is_string($pollOptions)) {
+                $pollOptions = json_decode($pollOptions, true) ?: [];
+            }
+            Poll::saveForArticle($id, [
+                'question' => $_POST['poll_question'],
+                'poll_type' => $_POST['poll_type'] ?? 'poll',
+                'options' => $pollOptions,
+                'correct_index' => isset($_POST['poll_correct_index']) ? (int)$_POST['poll_correct_index'] : -1,
+            ]);
+        }
 
         // Link and Turn In Assignment if assigned
         if ($assignmentId > 0) {
@@ -244,16 +290,63 @@ class EditorController
             }
         }
 
+        // Handle media formats (video, carousel, poll)
+        $postFormat = trim($_POST['post_format'] ?? ($article['post_format'] ?? 'article'));
+        $videoUrl = trim($_POST['video_url'] ?? ($article['video_url'] ?? ''));
+        $videoType = trim($_POST['video_type'] ?? ($article['video_type'] ?? ''));
+        if ($videoUrl) {
+            if (preg_match('#(youtube\.com|youtu\.be)#i', $videoUrl)) {
+                $videoType = 'youtube';
+            } elseif (empty($videoType)) {
+                $videoType = 'upload';
+            }
+        }
+
+        $carouselImages = [];
+        if (isset($_POST['carousel_images'])) {
+            $decoded = is_array($_POST['carousel_images']) ? $_POST['carousel_images'] : json_decode($_POST['carousel_images'], true);
+            if (is_array($decoded)) {
+                $carouselImages = array_values(array_filter(array_map('trim', $decoded)));
+            }
+        } elseif (!empty($article['carousel_images'])) {
+            $decoded = json_decode($article['carousel_images'], true);
+            if (is_array($decoded)) {
+                $carouselImages = $decoded;
+            }
+        }
+
+        if ($postFormat === 'carousel' && empty($featuredImage) && !empty($carouselImages[0])) {
+            $featuredImage = $carouselImages[0];
+        }
+
         Article::update($id, [
             'category_id' => $categoryId,
             'title' => $title,
             'content' => $content,
             'excerpt' => $excerpt,
             'featured_image' => $featuredImage,
+            'post_format' => $postFormat,
+            'video_url' => $videoUrl ?: null,
+            'video_type' => $videoType ?: null,
+            'carousel_images' => !empty($carouselImages) ? json_encode($carouselImages) : null,
             'status' => $status,
             'published_at' => $publishedAt,
             'updated_at' => date('Y-m-d H:i:s')
         ]);
+
+        // Save Poll / Quiz if provided
+        if (isset($_POST['poll_question'])) {
+            $pollOptions = $_POST['poll_options'] ?? [];
+            if (is_string($pollOptions)) {
+                $pollOptions = json_decode($pollOptions, true) ?: [];
+            }
+            Poll::saveForArticle($id, [
+                'question' => $_POST['poll_question'],
+                'poll_type' => $_POST['poll_type'] ?? 'poll',
+                'options' => $pollOptions,
+                'correct_index' => isset($_POST['poll_correct_index']) ? (int)$_POST['poll_correct_index'] : -1,
+            ]);
+        }
 
         if ($status === 'published') {
             redirect('articles/' . $article['slug']);
@@ -340,5 +433,104 @@ class EditorController
         }
 
         return response()->json(['error' => ['message' => 'Upload failed']], 500);
+    }
+
+    /**
+     * Upload an embedded or featured video (MP4, WebM, Ogg, QuickTime)
+     */
+    public function uploadVideo()
+    {
+        $this->checkCreatorAccess();
+
+        $file = $_FILES['video'] ?? ($_FILES['upload'] ?? null);
+        if (!$file || empty($file['tmp_name'])) {
+            return response()->json(['error' => ['message' => 'No video file uploaded']], 400);
+        }
+
+        $allowedMimes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $detectedMime = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+
+        if (!in_array($detectedMime, $allowedMimes) && !in_array($file['type'], $allowedMimes)) {
+            return response()->json(['error' => ['message' => 'Invalid video type. MP4, WebM, and Ogg formats only.']], 422);
+        }
+
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION) ?: 'mp4');
+        $filename = 'vid_' . time() . '_' . rand(1000, 9999) . '.' . $ext;
+        $projectRoot = realpath(__DIR__ . '/../../..');
+        $uploadDir = $projectRoot . '/uploads/videos/';
+        $publicUploadDir = $projectRoot . '/public/uploads/videos/';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        if (!is_dir($publicUploadDir)) {
+            mkdir($publicUploadDir, 0777, true);
+        }
+
+        $destination = $uploadDir . $filename;
+        if (move_uploaded_file($file['tmp_name'], $destination)) {
+            copy($destination, $publicUploadDir . $filename);
+            $url = url('uploads/videos/' . $filename);
+            return response()->json([
+                'success' => true,
+                'url' => $url,
+                'default' => $url
+            ]);
+        }
+
+        return response()->json(['error' => ['message' => 'Video upload failed']], 500);
+    }
+
+    /**
+     * Batch upload multi-images for Instagram Carousel
+     */
+    public function uploadCarousel()
+    {
+        $this->checkCreatorAccess();
+
+        $files = $_FILES['images'] ?? null;
+        if (!$files || empty($files['name'])) {
+            return response()->json(['error' => ['message' => 'No images uploaded']], 400);
+        }
+
+        $uploadedUrls = [];
+        $projectRoot = realpath(__DIR__ . '/../../..');
+        $uploadDir = $projectRoot . '/uploads/carousel/';
+        $publicUploadDir = $projectRoot . '/public/uploads/carousel/';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        if (!is_dir($publicUploadDir)) {
+            mkdir($publicUploadDir, 0777, true);
+        }
+
+        $count = is_array($files['name']) ? count($files['name']) : 1;
+        for ($i = 0; $i < $count; $i++) {
+            $tmp = is_array($files['tmp_name']) ? $files['tmp_name'][$i] : $files['tmp_name'];
+            $name = is_array($files['name']) ? $files['name'][$i] : $files['name'];
+
+            if (empty($tmp) || !is_uploaded_file($tmp)) continue;
+
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION) ?: 'jpg');
+            $filename = 'slide_' . time() . '_' . $i . '_' . rand(100, 999) . '.' . $ext;
+            $destination = $uploadDir . $filename;
+
+            if (move_uploaded_file($tmp, $destination)) {
+                copy($destination, $publicUploadDir . $filename);
+                $uploadedUrls[] = url('uploads/carousel/' . $filename);
+            }
+        }
+
+        if (empty($uploadedUrls)) {
+            return response()->json(['error' => ['message' => 'Failed to process images']], 500);
+        }
+
+        return response()->json([
+            'success' => true,
+            'urls' => $uploadedUrls
+        ]);
     }
 }

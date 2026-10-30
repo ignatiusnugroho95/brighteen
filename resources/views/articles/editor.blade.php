@@ -245,6 +245,187 @@
                      body.__x.$data.showToast('Excerpt updated!');
                  }
              }
+         },
+
+         // --- Media, Carousel, Video & Poll Extensions ---
+         postFormat: '{{ $article['post_format'] ?? 'article' }}',
+         coverImageUrl: '{{ $article['featured_image'] ?? '' }}',
+         videoUrl: '{{ $article['video_url'] ?? '' }}',
+         videoType: '{{ $article['video_type'] ?? 'youtube' }}',
+         carouselImages: {!! json_encode(!empty($article['carousel_images']) ? parse_carousel_images($article['carousel_images']) : []) !!},
+         carouselInputUrl: '',
+         isUploadingCarousel: false,
+
+         // Video Embed Modal State
+         videoModalOpen: false,
+         videoTab: 'youtube', // 'youtube' | 'upload'
+         youtubeInputUrl: '',
+         isUploadingVideo: false,
+         videoUploadError: '',
+
+         // Poll / Quiz State
+         pollEnabled: {{ (!empty($poll) || ($article['post_format'] ?? '') === 'poll') ? 'true' : 'false' }},
+         pollType: '{{ $poll['poll_type'] ?? 'poll' }}', // 'poll' | 'quiz'
+         pollQuestion: {!! json_encode($poll['question'] ?? '') !!},
+         pollOptions: {!! json_encode(!empty($poll['options']) ? array_column($poll['options'], 'option_text') : ['', '']) !!},
+         pollCorrectIndex: {{ !empty($poll['options']) ? (function() use ($poll) { foreach($poll['options'] as $i => $opt) { if (!empty($opt['is_correct'])) return $i; } return 0; })() : 0 }},
+
+         getYoutubeId(url) {
+             if (!url) return null;
+             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?.*?v=|shorts\/)([^#&?]*).*/;
+             const match = url.match(regExp);
+             return (match && match[2].length === 11) ? match[2] : null;
+         },
+
+         getYoutubeEmbedUrl(url) {
+             const id = this.getYoutubeId(url);
+             return id ? 'https://www.youtube-nocookie.com/embed/' + id : '';
+         },
+
+         openVideoModal() {
+             this.videoModalOpen = true;
+             this.videoUploadError = '';
+         },
+
+         insertVideoIntoEditor(htmlSnippet) {
+             if (window.brighteenEditor) {
+                 const viewFragment = window.brighteenEditor.data.processor.toView(htmlSnippet);
+                 const modelFragment = window.brighteenEditor.data.toModel(viewFragment);
+                 window.brighteenEditor.model.insertContent(modelFragment);
+                 const body = document.querySelector('body');
+                 if (body && body.__x && body.__x.$data.showToast) {
+                     body.__x.$data.showToast('Video embedded into story content!');
+                 }
+             }
+         },
+
+         embedYoutubeVideo(setAsFeatured = false) {
+             const ytId = this.getYoutubeId(this.youtubeInputUrl);
+             if (!ytId) {
+                 this.videoUploadError = 'Please enter a valid YouTube or YouTube Shorts URL.';
+                 return;
+             }
+             const embedUrl = 'https://www.youtube-nocookie.com/embed/' + ytId;
+             const snippet = '<div class="video-embed-box my-6 aspect-video w-full rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-white/10"><iframe src="' + embedUrl + '" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+             
+             this.insertVideoIntoEditor(snippet);
+
+             if (setAsFeatured || this.postFormat === 'video') {
+                 this.videoUrl = this.youtubeInputUrl;
+                 this.videoType = 'youtube';
+                 if (!this.coverImageUrl) {
+                     this.coverImageUrl = 'https://img.youtube.com/vi/' + ytId + '/hqdefault.jpg';
+                 }
+             }
+             this.youtubeInputUrl = '';
+             this.videoModalOpen = false;
+         },
+
+         uploadVideoFile(event, setAsFeatured = false) {
+             const file = event.target.files[0];
+             if (!file) return;
+
+             this.isUploadingVideo = true;
+             this.videoUploadError = '';
+
+             const formData = new FormData();
+             formData.append('video', file);
+
+             fetch('{{ url('api/upload-video') }}', {
+                 method: 'POST',
+                 body: formData
+             })
+             .then(res => res.json())
+             .then(data => {
+                 this.isUploadingVideo = false;
+                 if (data.url) {
+                     const snippet = '<div class="video-player-box my-6 rounded-2xl overflow-hidden shadow-xl bg-black border border-slate-200 dark:border-white/10"><video controls class="w-full max-h-[500px]" playsinline preload="metadata"><source src="' + data.url + '" type="video/mp4">Your browser does not support video.</video></div>';
+                     this.insertVideoIntoEditor(snippet);
+
+                     if (setAsFeatured || this.postFormat === 'video') {
+                         this.videoUrl = data.url;
+                         this.videoType = 'upload';
+                     }
+                     this.videoModalOpen = false;
+                     event.target.value = '';
+                 } else {
+                     this.videoUploadError = data.error?.message || 'Video upload failed.';
+                 }
+             })
+             .catch(() => {
+                 this.isUploadingVideo = false;
+                 this.videoUploadError = 'Network error while uploading video.';
+             });
+         },
+
+         uploadCarouselImages(event) {
+             const files = event.target.files;
+             if (!files || files.length === 0) return;
+
+             this.isUploadingCarousel = true;
+             const formData = new FormData();
+             for (let i = 0; i < files.length; i++) {
+                 formData.append('images[]', files[i]);
+             }
+
+             fetch('{{ url('api/upload-carousel') }}', {
+                 method: 'POST',
+                 body: formData
+             })
+             .then(res => res.json())
+             .then(data => {
+                 this.isUploadingCarousel = false;
+                 if (data.urls && data.urls.length) {
+                     data.urls.forEach(url => this.carouselImages.push(url));
+                     if (!this.coverImageUrl && this.carouselImages.length) {
+                         this.coverImageUrl = this.carouselImages[0];
+                     }
+                     const body = document.querySelector('body');
+                     if (body && body.__x && body.__x.$data.showToast) {
+                         body.__x.$data.showToast(data.urls.length + ' slides added to carousel!');
+                     }
+                 }
+                 event.target.value = '';
+             })
+             .catch(() => {
+                 this.isUploadingCarousel = false;
+                 alert('Error uploading carousel images.');
+             });
+         },
+
+         addCarouselUrl() {
+             if (!this.carouselInputUrl.trim()) return;
+             this.carouselImages.push(this.carouselInputUrl.trim());
+             if (!this.coverImageUrl) {
+                 this.coverImageUrl = this.carouselInputUrl.trim();
+             }
+             this.carouselInputUrl = '';
+         },
+
+         removeCarouselImage(idx) {
+             this.carouselImages.splice(idx, 1);
+         },
+
+         moveCarouselImage(idx, dir) {
+             const target = idx + dir;
+             if (target < 0 || target >= this.carouselImages.length) return;
+             const item = this.carouselImages.splice(idx, 1)[0];
+             this.carouselImages.splice(target, 0, item);
+         },
+
+         addPollOption() {
+             if (this.pollOptions.length < 4) {
+                 this.pollOptions.push('');
+             }
+         },
+
+         removePollOption(idx) {
+             if (this.pollOptions.length > 2) {
+                 this.pollOptions.splice(idx, 1);
+                 if (this.pollCorrectIndex >= this.pollOptions.length) {
+                     this.pollCorrectIndex = this.pollOptions.length - 1;
+                 }
+             }
          }
      }">
 
@@ -342,6 +523,58 @@
             <!-- Left Column: Title & CKEditor (2 Cols) -->
             <div class="lg:col-span-2 space-y-6">
                 
+                <!-- Hidden inputs for media & formats -->
+                <input type="hidden" name="post_format" :value="postFormat">
+                <input type="hidden" name="video_url" :value="videoUrl">
+                <input type="hidden" name="video_type" :value="videoType">
+                <input type="hidden" name="carousel_images" :value="JSON.stringify(carouselImages)">
+
+                <!-- Story Format Selector -->
+                <div class="p-4 sm:p-5 rounded-3xl glass-panel border border-slate-200 dark:border-white/10 shadow-xs">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <label class="block text-xs font-black uppercase tracking-wider text-slate-400">Story Format</label>
+                        <span class="text-[10px] text-slate-400 font-medium">Select primary media layout</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        <button type="button" @click="postFormat = 'article'"
+                                class="p-3 rounded-2xl border text-left transition-all flex flex-col gap-1.5 focus:outline-none"
+                                :class="postFormat === 'article' ? 'bg-primary/10 border-primary text-primary font-bold shadow-xs ring-1 ring-primary' : 'bg-slate-50 dark:bg-surface-card border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/20'">
+                            <span class="material-symbols-outlined text-2xl">article</span>
+                            <div>
+                                <div class="text-xs font-bold">Standard</div>
+                                <div class="text-[10px] opacity-75">Article story</div>
+                            </div>
+                        </button>
+                        <button type="button" @click="postFormat = 'carousel'"
+                                class="p-3 rounded-2xl border text-left transition-all flex flex-col gap-1.5 focus:outline-none"
+                                :class="postFormat === 'carousel' ? 'bg-indigo-500/10 border-indigo-500 text-indigo-500 font-bold shadow-xs ring-1 ring-indigo-500' : 'bg-slate-50 dark:bg-surface-card border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/20'">
+                            <span class="material-symbols-outlined text-2xl">view_carousel</span>
+                            <div>
+                                <div class="text-xs font-bold">Carousel</div>
+                                <div class="text-[10px] opacity-75">Multi-image slides</div>
+                            </div>
+                        </button>
+                        <button type="button" @click="postFormat = 'video'; if(!videoUrl) openVideoModal()"
+                                class="p-3 rounded-2xl border text-left transition-all flex flex-col gap-1.5 focus:outline-none"
+                                :class="postFormat === 'video' ? 'bg-rose-500/10 border-rose-500 text-rose-500 font-bold shadow-xs ring-1 ring-rose-500' : 'bg-slate-50 dark:bg-surface-card border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/20'">
+                            <span class="material-symbols-outlined text-2xl">play_circle</span>
+                            <div>
+                                <div class="text-xs font-bold">Video Story</div>
+                                <div class="text-[10px] opacity-75">YouTube / MP4</div>
+                            </div>
+                        </button>
+                        <button type="button" @click="postFormat = 'poll'; pollEnabled = true"
+                                class="p-3 rounded-2xl border text-left transition-all flex flex-col gap-1.5 focus:outline-none"
+                                :class="postFormat === 'poll' ? 'bg-purple-500/10 border-purple-500 text-purple-500 font-bold shadow-xs ring-1 ring-purple-500' : 'bg-slate-50 dark:bg-surface-card border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/20'">
+                            <span class="material-symbols-outlined text-2xl">how_to_vote</span>
+                            <div>
+                                <div class="text-xs font-bold">Poll / Quiz</div>
+                                <div class="text-[10px] opacity-75">Interactive sticker</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Title Field -->
                 <div>
                     <label class="block text-xs font-black uppercase tracking-wider text-slate-400 mb-2">Headline</label>
@@ -359,14 +592,18 @@
 
                 <!-- Rich Text CKEditor Container -->
                 <div class="relative">
-                    <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
                         <label class="text-xs font-black uppercase tracking-wider text-slate-400">Article Content</label>
-                        <!-- Quick AI Actions toolbar above editor -->
-                        <div class="flex items-center gap-2 text-xs">
+                        <!-- Quick Editor Actions toolbar above editor -->
+                        <div class="flex items-center gap-2.5 text-xs">
+                            <button type="button" @click="openVideoModal()" class="text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 font-bold flex items-center gap-1 transition-colors">
+                                <span class="material-symbols-outlined text-base">play_circle</span> Embed Video
+                            </button>
+                            <span class="text-slate-400">&bull;</span>
                             <button type="button" @click="openAiModal('rephrase')" class="text-purple-400 hover:underline flex items-center gap-1">
                                 <span class="material-symbols-outlined text-sm">magic_button</span> Rephrase
                             </button>
-                            <span class="text-slate-500">&bull;</span>
+                            <span class="text-slate-400">&bull;</span>
                             <button type="button" @click="openAiModal('grammar')" class="text-purple-400 hover:underline flex items-center gap-1">
                                 <span class="material-symbols-outlined text-sm">spellcheck</span> Tone Audit
                             </button>
@@ -382,6 +619,120 @@
                             <span class="material-symbols-outlined text-base text-purple-400">auto_awesome</span>
                             <span>AI Tools</span>
                         </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Instagram Poll / Quiz Creator -->
+                <div class="p-6 rounded-3xl glass-panel border border-slate-200 dark:border-white/10 space-y-5">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="w-9 h-9 rounded-2xl bg-purple-500/10 text-purple-500 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-xl">how_to_vote</span>
+                            </span>
+                            <div>
+                                <h3 class="text-sm font-black font-display text-slate-900 dark:text-white">Instagram-Style Poll / Quiz</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Anyone can vote directly on the feed without logging in</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" x-model="pollEnabled" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-surface-high peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+
+                    <!-- Hidden inputs for Poll submission when enabled -->
+                    <template x-if="pollEnabled && pollQuestion.trim() !== ''">
+                        <div>
+                            <input type="hidden" name="poll_question" :value="pollQuestion">
+                            <input type="hidden" name="poll_type" :value="pollType">
+                            <input type="hidden" name="poll_correct_index" :value="pollCorrectIndex">
+                            <template x-for="(opt, oIdx) in pollOptions" :key="oIdx">
+                                <input type="hidden" name="poll_options[]" :value="opt">
+                            </template>
+                        </div>
+                    </template>
+
+                    <div x-show="pollEnabled" x-transition class="space-y-4 pt-2 border-t border-slate-100 dark:border-white/5">
+                        <!-- Mode Selector (Poll vs Quiz) -->
+                        <div class="flex items-center gap-2">
+                            <button type="button" @click="pollType = 'poll'"
+                                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                                    :class="pollType === 'poll' ? 'bg-purple-500 text-white shadow-xs' : 'bg-slate-100 dark:bg-surface-card text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
+                                <span class="material-symbols-outlined text-base">bar_chart</span>
+                                <span>Opinion Poll</span>
+                            </button>
+                            <button type="button" @click="pollType = 'quiz'"
+                                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
+                                    :class="pollType === 'quiz' ? 'bg-emerald-500 text-white shadow-xs' : 'bg-slate-100 dark:bg-surface-card text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
+                                <span class="material-symbols-outlined text-base">quiz</span>
+                                <span>Trivia Quiz (With Answer Key)</span>
+                            </button>
+                        </div>
+
+                        <!-- Question Input -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Question / Prompt</label>
+                            <input type="text" x-model="pollQuestion" placeholder="e.g. Which study technique actually gets you through exam weeks?"
+                                   class="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-surface-card border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/40 font-medium">
+                        </div>
+
+                        <!-- Options List -->
+                        <div class="space-y-2.5">
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                                <span x-text="pollType === 'quiz' ? 'Options (Select the correct answer)' : 'Poll Options (2 to 4)'"></span>
+                            </label>
+
+                            <template x-for="(opt, idx) in pollOptions" :key="idx">
+                                <div class="flex items-center gap-2">
+                                    <!-- Quiz Correct Radio -->
+                                    <template x-if="pollType === 'quiz'">
+                                        <label class="cursor-pointer flex items-center shrink-0" title="Mark as correct answer">
+                                            <input type="radio" name="_quiz_correct_radio" :value="idx" :checked="pollCorrectIndex === idx" @change="pollCorrectIndex = idx" class="sr-only peer">
+                                            <span class="w-6 h-6 rounded-full border-2 border-slate-300 dark:border-white/20 peer-checked:border-emerald-500 peer-checked:bg-emerald-500 text-white flex items-center justify-center transition-all text-xs font-bold">✓</span>
+                                        </label>
+                                    </template>
+
+                                    <!-- Option Text Input -->
+                                    <div class="relative flex-1">
+                                        <input type="text" x-model="pollOptions[idx]" :placeholder="'Option ' + (idx + 1) + '...'"
+                                               class="w-full px-4 py-2 rounded-xl bg-white dark:bg-surface-card border border-slate-300 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-purple-500/40">
+                                    </div>
+
+                                    <!-- Delete Button (minimum 2 options) -->
+                                    <template x-if="pollOptions.length > 2">
+                                        <button type="button" @click="removePollOption(idx)" class="p-1.5 text-slate-400 hover:text-rose-500 transition-colors">
+                                            <span class="material-symbols-outlined text-lg">delete</span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <!-- Add Option Button (up to 4 options) -->
+                            <template x-if="pollOptions.length < 4">
+                                <button type="button" @click="addPollOption()" class="mt-2 text-xs text-purple-500 dark:text-purple-400 hover:underline font-bold flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">add_circle</span>
+                                    <span>Add another option</span>
+                                </button>
+                            </template>
+                        </div>
+
+                        <!-- Live Feed Sticker Preview -->
+                        <div class="mt-4 p-4 rounded-2xl bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-slate-100 dark:to-surface-card border border-purple-500/20">
+                            <div class="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-purple-500 mb-2">
+                                <span class="material-symbols-outlined text-sm" x-text="pollType === 'quiz' ? 'quiz' : 'bar_chart'"></span>
+                                <span x-text="pollType === 'quiz' ? 'Feed Quiz Sticker Preview' : 'Feed Poll Sticker Preview'"></span>
+                            </div>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-white mb-3" x-text="pollQuestion || 'Your question appears here...'"></h4>
+                            <div class="space-y-2">
+                                <template x-for="(opt, idx) in pollOptions" :key="idx">
+                                    <div class="relative w-full p-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-xs font-bold flex items-center justify-between overflow-hidden"
+                                         :class="pollType === 'quiz' && pollCorrectIndex === idx ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' : 'bg-white dark:bg-surface-card text-slate-700 dark:text-slate-300'">
+                                        <span x-text="opt || ('Option ' + (idx + 1))"></span>
+                                        <span class="text-[10px] font-mono text-slate-400" x-text="pollType === 'quiz' && pollCorrectIndex === idx ? '✓ Correct Answer' : '0%'"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -458,23 +809,148 @@
                                   class="w-full p-3 rounded-2xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none">{{ $article['excerpt'] ?? '' }}</textarea>
                     </div>
 
-                    <!-- Featured Image URL -->
-                    <div x-data="{ imgUrl: '{{ $article['featured_image'] ?? '' }}' }">
-                        <label class="block text-xs font-bold text-slate-400 mb-2">Cover Image URL</label>
-                        <input type="url" name="featured_image" x-model="imgUrl"
-                               placeholder="https://images.unsplash.com/..." 
-                               class="w-full px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40 mb-3">
-                        
-                        <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 dark:bg-surface-card border border-white/5 relative">
-                            <template x-if="imgUrl">
-                                <img :src="imgUrl" alt="Cover preview" class="w-full h-full object-cover">
-                            </template>
-                            <template x-if="!imgUrl">
-                                <div class="w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs">
-                                    <span class="material-symbols-outlined text-2xl mb-1">image</span>
-                                    <span>Preview appears here</span>
+                    <!-- Dynamic Media Manager (Standard Cover / Instagram Carousel / Video) -->
+                    <div>
+                        <!-- Hidden cover image input synced with coverImageUrl -->
+                        <input type="hidden" name="featured_image" :value="coverImageUrl">
+
+                        <!-- A. CAROUSEL MULTI-IMAGE MANAGER -->
+                        <div x-show="postFormat === 'carousel'" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base text-indigo-500">view_carousel</span>
+                                    <span>Carousel Slides</span>
+                                </label>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-500" x-text="carouselImages.length + ' slides'"></span>
+                            </div>
+
+                            <!-- Upload Multiple Files Button / Dropzone -->
+                            <div class="p-4 rounded-2xl border-2 border-dashed border-indigo-500/30 dark:border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors text-center relative cursor-pointer">
+                                <input type="file" multiple accept="image/*" @change="uploadCarouselImages($event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                <div class="flex flex-col items-center gap-1 text-slate-600 dark:text-slate-300">
+                                    <span class="material-symbols-outlined text-2xl text-indigo-500 animate-bounce">add_photo_alternate</span>
+                                    <span class="text-xs font-bold">Select Multiple Images</span>
+                                    <span class="text-[10px] text-slate-400">Upload multiple JPG, PNG, WEBP slides sequentially</span>
                                 </div>
-                            </template>
+                            </div>
+
+                            <div x-show="isUploadingCarousel" class="text-center py-2 text-xs text-indigo-500 font-bold flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-base animate-spin">sync</span>
+                                <span>Uploading carousel slides...</span>
+                            </div>
+
+                            <!-- Add via Image URL -->
+                            <div class="flex items-center gap-1.5">
+                                <input type="url" x-model="carouselInputUrl" placeholder="Or paste image URL..."
+                                       @keydown.enter.prevent="addCarouselUrl()"
+                                       class="flex-1 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                <button type="button" @click="addCarouselUrl()" class="px-3 py-1.5 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-xs shadow-xs transition-all">
+                                    Add
+                                </button>
+                            </div>
+
+                            <!-- Carousel Slides Thumbnail List -->
+                            <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                                <template x-for="(img, idx) in carouselImages" :key="idx">
+                                    <div class="p-2 rounded-xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 flex items-center justify-between gap-2 group">
+                                        <div class="flex items-center gap-2.5 min-w-0">
+                                            <span class="w-5 h-5 rounded-md bg-indigo-500/15 text-indigo-500 text-[10px] font-black flex items-center justify-center shrink-0" x-text="idx + 1"></span>
+                                            <img :src="img" class="w-10 h-10 rounded-lg object-cover bg-black shrink-0">
+                                            <span class="text-[11px] text-slate-600 dark:text-slate-300 truncate" x-text="img"></span>
+                                        </div>
+                                        <div class="flex items-center gap-1 shrink-0">
+                                            <button type="button" @click="moveCarouselImage(idx, -1)" :disabled="idx === 0" class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white disabled:opacity-30">
+                                                <span class="material-symbols-outlined text-base">arrow_upward</span>
+                                            </button>
+                                            <button type="button" @click="moveCarouselImage(idx, 1)" :disabled="idx === carouselImages.length - 1" class="p-1 rounded text-slate-400 hover:text-slate-900 dark:hover:text-white disabled:opacity-30">
+                                                <span class="material-symbols-outlined text-base">arrow_downward</span>
+                                            </button>
+                                            <button type="button" @click="removeCarouselImage(idx)" class="p-1 rounded text-slate-400 hover:text-rose-500">
+                                                <span class="material-symbols-outlined text-base">delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- B. VIDEO MEDIA MANAGER -->
+                        <div x-show="postFormat === 'video'" class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-base text-rose-500">play_circle</span>
+                                    <span>Featured Video Media</span>
+                                </label>
+                                <button type="button" @click="openVideoModal()" class="text-[10px] text-rose-500 hover:underline font-bold">
+                                    Embedder Tool
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10">
+                                <button type="button" @click="videoType = 'youtube'" 
+                                        class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all"
+                                        :class="videoType === 'youtube' ? 'bg-rose-500 text-white shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'">
+                                    YouTube Link
+                                </button>
+                                <button type="button" @click="videoType = 'upload'" 
+                                        class="flex-1 py-1.5 text-xs font-bold rounded-lg transition-all"
+                                        :class="videoType === 'upload' ? 'bg-rose-500 text-white shadow-xs' : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'">
+                                    Upload MP4
+                                </button>
+                            </div>
+
+                            <!-- YouTube Link Input -->
+                            <div x-show="videoType === 'youtube'" class="space-y-2">
+                                <input type="url" x-model="videoUrl" placeholder="https://www.youtube.com/watch?v=..."
+                                       @input="if(!coverImageUrl && getYoutubeId(videoUrl)) coverImageUrl = 'https://img.youtube.com/vi/' + getYoutubeId(videoUrl) + '/hqdefault.jpg'"
+                                       class="w-full px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-rose-500/40">
+                                <template x-if="getYoutubeEmbedUrl(videoUrl)">
+                                    <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-white/10">
+                                        <iframe :src="getYoutubeEmbedUrl(videoUrl)" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Video Upload Input -->
+                            <div x-show="videoType === 'upload'" class="space-y-2">
+                                <div class="p-4 rounded-2xl border-2 border-dashed border-rose-500/30 dark:border-rose-500/20 bg-rose-500/5 hover:bg-rose-500/10 transition-colors text-center relative cursor-pointer">
+                                    <input type="file" accept="video/mp4,video/webm,video/ogg" @change="uploadVideoFile($event, true)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                                    <div class="flex flex-col items-center gap-1 text-slate-600 dark:text-slate-300">
+                                        <span class="material-symbols-outlined text-2xl text-rose-500 animate-pulse">cloud_upload</span>
+                                        <span class="text-xs font-bold">Select Video File</span>
+                                        <span class="text-[10px] text-slate-400">MP4, WebM or Ogg format</span>
+                                    </div>
+                                </div>
+                                <div x-show="isUploadingVideo" class="text-center py-2 text-xs text-rose-500 font-bold flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined text-base animate-spin">sync</span>
+                                    <span>Uploading video...</span>
+                                </div>
+                                <template x-if="videoUrl && videoType === 'upload'">
+                                    <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-lg bg-black border border-slate-200 dark:border-white/10">
+                                        <video controls class="w-full h-full" :src="videoUrl"></video>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- C. STANDARD COVER IMAGE MANAGER -->
+                        <div x-show="postFormat === 'article' || postFormat === 'poll'" class="space-y-2.5">
+                            <label class="block text-xs font-bold text-slate-400">Cover Image URL</label>
+                            <input type="url" x-model="coverImageUrl"
+                                   placeholder="https://images.unsplash.com/..." 
+                                   class="w-full px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-primary/40">
+                            
+                            <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-200 dark:bg-surface-card border border-white/5 relative">
+                                <template x-if="coverImageUrl">
+                                    <img :src="coverImageUrl" alt="Cover preview" class="w-full h-full object-cover">
+                                </template>
+                                <template x-if="!coverImageUrl">
+                                    <div class="w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs">
+                                        <span class="material-symbols-outlined text-2xl mb-1">image</span>
+                                        <span>Preview appears here</span>
+                                    </div>
+                                </template>
+                            </div>
                         </div>
                     </div>
 
@@ -1007,6 +1483,103 @@
         </div>
     </div>
 
+    <!-- VIDEO EMBED MODAL (YouTube Link & Direct MP4 Upload) -->
+    <div x-cloak x-show="videoModalOpen" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-slate-900/75 dark:bg-black/80 backdrop-blur-sm transition-opacity" @click="videoModalOpen = false"></div>
+
+        <!-- Modal Content -->
+        <div class="relative w-full sm:max-w-xl rounded-t-3xl sm:rounded-3xl bg-white dark:bg-[#151923] text-slate-900 dark:text-white shadow-2xl border border-slate-200 dark:border-white/10 z-50 overflow-hidden flex flex-col transition-all">
+            <!-- Modal Header -->
+            <div class="p-5 sm:p-6 pb-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-10 h-10 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-2xl">smart_display</span>
+                    </span>
+                    <div>
+                        <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Video Embed & Upload</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Embed YouTube streams or upload MP4 video directly</p>
+                    </div>
+                </div>
+                <button type="button" @click="videoModalOpen = false" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="px-6 pt-4 flex items-center gap-2 border-b border-slate-100 dark:border-white/5">
+                <button type="button" @click="videoTab = 'youtube'"
+                        class="pb-3 px-3 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5"
+                        :class="videoTab === 'youtube' ? 'border-rose-500 text-rose-500' : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'">
+                    <span class="material-symbols-outlined text-base">link</span>
+                    <span>YouTube Embed</span>
+                </button>
+                <button type="button" @click="videoTab = 'upload'"
+                        class="pb-3 px-3 text-xs font-bold border-b-2 transition-all flex items-center gap-1.5"
+                        :class="videoTab === 'upload' ? 'border-rose-500 text-rose-500' : 'border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'">
+                    <span class="material-symbols-outlined text-base">upload_file</span>
+                    <span>Upload Video (MP4)</span>
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6 space-y-4">
+                <div x-show="videoUploadError" class="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">error</span>
+                    <span x-text="videoUploadError"></span>
+                </div>
+
+                <!-- 1. YouTube Link Tab -->
+                <div x-show="videoTab === 'youtube'" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">YouTube Video URL</label>
+                        <input type="url" x-model="youtubeInputUrl" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                               class="w-full px-4 py-3 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-rose-500/40">
+                        <p class="text-[10px] text-slate-400 mt-1">Supports standard YouTube videos, YouTube Shorts, and youtu.be links.</p>
+                    </div>
+
+                    <!-- Live YouTube Preview -->
+                    <template x-if="getYoutubeEmbedUrl(youtubeInputUrl)">
+                        <div class="aspect-video w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200 dark:border-white/10">
+                            <iframe :src="getYoutubeEmbedUrl(youtubeInputUrl)" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </template>
+
+                    <div class="flex items-center gap-2 pt-2">
+                        <button type="button" @click="embedYoutubeVideo(false)"
+                                :disabled="!getYoutubeId(youtubeInputUrl)"
+                                class="flex-1 py-3 px-4 rounded-xl bg-rose-500 hover:bg-rose-600 disabled:opacity-50 text-white font-bold text-xs shadow-md shadow-rose-500/25 transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">input</span>
+                            <span>Embed into Story</span>
+                        </button>
+                        <button type="button" @click="embedYoutubeVideo(true)"
+                                :disabled="!getYoutubeId(youtubeInputUrl)"
+                                class="py-3 px-4 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 disabled:opacity-50 text-slate-700 dark:text-white font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5">
+                            <span>Set as Featured</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Direct Video Upload Tab -->
+                <div x-show="videoTab === 'upload'" class="space-y-4">
+                    <div class="p-6 rounded-2xl border-2 border-dashed border-rose-500/30 bg-rose-500/5 hover:bg-rose-500/10 transition-colors text-center relative cursor-pointer">
+                        <input type="file" accept="video/mp4,video/webm,video/ogg" @change="uploadVideoFile($event, false)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                        <div class="flex flex-col items-center gap-1.5 text-slate-600 dark:text-slate-300">
+                            <span class="material-symbols-outlined text-3xl text-rose-500 animate-pulse">cloud_upload</span>
+                            <span class="text-xs font-bold">Choose a Video File</span>
+                            <span class="text-[10px] text-slate-400">MP4, WebM, Ogg (up to 100MB)</span>
+                        </div>
+                    </div>
+
+                    <div x-show="isUploadingVideo" class="text-center py-3 text-xs text-rose-500 font-bold flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-lg animate-spin">sync</span>
+                        <span>Uploading video to server... please wait</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Initialize CKEditor 5 with Custom Image Upload Adapter -->
@@ -1054,7 +1627,7 @@
                 items: [
                     'heading', '|',
                     'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
-                    'blockQuote', 'insertTable', 'uploadImage', 'code', '|',
+                    'blockQuote', 'insertTable', 'uploadImage', 'mediaEmbed', 'code', '|',
                     'undo', 'redo'
                 ]
             },

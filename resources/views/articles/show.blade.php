@@ -177,19 +177,100 @@
         </div>
     </div>
 
-    <!-- MAIN MEDIA PICTURE (Every story has at least one picture with Double-Tap Heart Pop) -->
-    <div class="relative w-full aspect-square sm:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl bg-black border border-slate-200 dark:border-white/10 select-none cursor-pointer group"
-         @dblclick="doubleTap()">
-        <img src="{{ $article['featured_image'] }}" alt="{{ $article['title'] }}" 
-             class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
-        
-        <!-- Animated Floating Heart on Like -->
-        <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-            <span class="material-symbols-outlined text-white text-9xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
-                favorite
-            </span>
+    <!-- MAIN MEDIA (Carousel / Video / Cover Picture with Double-Tap Heart Pop) -->
+    @php
+        $carouselSlides = parse_carousel_images($article['carousel_images'] ?? null);
+        $hasCarousel = !empty($carouselSlides) && count($carouselSlides) > 1;
+        $isVideo = ($article['post_format'] ?? '') === 'video' || !empty($article['video_url']);
+    @endphp
+
+    @if($hasCarousel)
+        <!-- Instagram Multi-Image Carousel -->
+        <div class="relative w-full aspect-square sm:aspect-[16/10] rounded-3xl bg-black overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10 select-none group"
+             x-data="{
+                 currentSlide: 0,
+                 slides: {{ json_encode($carouselSlides) }},
+                 nextSlide() { if (this.currentSlide < this.slides.length - 1) this.currentSlide++; },
+                 prevSlide() { if (this.currentSlide > 0) this.currentSlide--; }
+             }">
+            
+            <!-- Slides Strip -->
+            <div class="w-full h-full flex transition-transform duration-500 ease-out"
+                 :style="'transform: translateX(-' + (currentSlide * 100) + '%);'"
+                 @dblclick="doubleTap()">
+                <template x-for="(slide, sIdx) in slides" :key="sIdx">
+                    <div class="w-full h-full shrink-0 relative bg-black">
+                        <img :src="slide" alt="{{ $article['title'] }}" class="w-full h-full object-cover">
+                    </div>
+                </template>
+            </div>
+
+            <!-- Instagram Top-Right Counter Pill (e.g. 1/4) -->
+            <div class="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md z-10 pointer-events-none">
+                <span class="material-symbols-outlined text-sm">view_carousel</span>
+                <span x-text="(currentSlide + 1) + '/' + slides.length"></span>
+            </div>
+
+            <!-- Instagram Bottom Pagination Dots -->
+            <div class="absolute bottom-4 inset-x-0 flex items-center justify-center gap-2 z-10 pointer-events-none">
+                <template x-for="(slide, sIdx) in slides" :key="'dot-' + sIdx">
+                    <span class="h-2 rounded-full transition-all duration-300"
+                          :class="currentSlide === sIdx ? 'bg-primary w-6 shadow-md' : 'bg-white/60 w-2'"></span>
+                </template>
+            </div>
+
+            <!-- Navigation Arrows (< and >) -->
+            <button type="button" @click.stop="prevSlide()" x-show="currentSlide > 0"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white flex items-center justify-center shadow-xl transition-all z-10 opacity-0 group-hover:opacity-100">
+                <span class="material-symbols-outlined text-xl">chevron_left</span>
+            </button>
+            <button type="button" @click.stop="nextSlide()" x-show="currentSlide < slides.length - 1"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 backdrop-blur-md text-white flex items-center justify-center shadow-xl transition-all z-10 opacity-0 group-hover:opacity-100">
+                <span class="material-symbols-outlined text-xl">chevron_right</span>
+            </button>
+
+            <!-- Animated Floating Heart on Like -->
+            <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                <span class="material-symbols-outlined text-white text-9xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
+                    favorite
+                </span>
+            </div>
         </div>
-    </div>
+    @elseif($isVideo)
+        <!-- Video Player -->
+        <div class="relative w-full aspect-square sm:aspect-[16/10] rounded-3xl bg-black overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10 group">
+            @if(($article['video_type'] ?? '') === 'youtube' || preg_match('#(youtube\.com|youtu\.be)#i', $article['video_url']))
+                <iframe src="{{ youtube_embed_url($article['video_url']) }}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <span class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-rose-600/90 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md pointer-events-none z-10">
+                    <span class="material-symbols-outlined text-sm">smart_display</span>
+                    <span>YouTube Video</span>
+                </span>
+            @else
+                <video controls playsinline preload="metadata" class="w-full h-full object-cover">
+                    <source src="{{ $article['video_url'] }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <span class="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-rose-600/90 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md pointer-events-none z-10">
+                    <span class="material-symbols-outlined text-sm">videocam</span>
+                    <span>Video</span>
+                </span>
+            @endif
+        </div>
+    @else
+        <!-- MAIN MEDIA PICTURE (Every story has at least one picture with Double-Tap Heart Pop) -->
+        <div class="relative w-full aspect-square sm:aspect-[16/10] rounded-3xl overflow-hidden shadow-2xl bg-black border border-slate-200 dark:border-white/10 select-none cursor-pointer group"
+             @dblclick="doubleTap()">
+            <img src="{{ $article['featured_image'] }}" alt="{{ $article['title'] }}" 
+                 class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
+            
+            <!-- Animated Floating Heart on Like -->
+            <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                <span class="material-symbols-outlined text-white text-9xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
+                    favorite
+                </span>
+            </div>
+        </div>
+    @endif
 
     <!-- PLAYFUL INSTAGRAM REACTION BAR -->
     <div class="p-3.5 sm:p-5 rounded-3xl glass-panel border border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-3 shadow-md">
@@ -257,6 +338,91 @@
         </div>
     </article>
 
+
+    <!-- INTERACTIVE INSTAGRAM-STYLE POLL / QUIZ (No Login Required) -->
+    @if(!empty($article['poll']))
+        <div x-data="{
+            poll: {{ json_encode($article['poll']) }},
+            isVoting: false,
+            vote(optionId) {
+                if (this.poll.has_voted || this.isVoting) return;
+                this.isVoting = true;
+                fetch('{{ url('api/polls') }}/' + this.poll.id + '/vote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ option_id: optionId })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    this.isVoting = false;
+                    if (data.success && data.poll) {
+                        this.poll = data.poll;
+                        const body = document.querySelector('body');
+                        if (body && body.__x && body.__x.$data.showToast) {
+                            body.__x.$data.showToast(data.message || 'Vote registered!');
+                        }
+                    }
+                })
+                .catch(() => { this.isVoting = false; });
+            }
+        }" class="my-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-slate-100 dark:to-white/5 border border-purple-500/20 shadow-lg space-y-4">
+            <div class="flex items-center justify-between">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider"
+                      :class="poll.poll_type === 'quiz' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/20'">
+                    <span class="material-symbols-outlined text-sm" x-text="poll.poll_type === 'quiz' ? 'quiz' : 'how_to_vote'"></span>
+                    <span x-text="poll.poll_type === 'quiz' ? 'Interactive Quiz' : 'Community Poll'"></span>
+                </span>
+                <span class="text-xs font-bold text-slate-400" x-text="poll.total_votes + ' total votes'"></span>
+            </div>
+
+            <div>
+                <h3 class="text-lg sm:text-2xl font-black font-display text-slate-900 dark:text-white leading-snug" x-text="poll.question"></h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1" x-text="poll.poll_type === 'quiz' ? 'Test your knowledge on this story! Tap an answer below.' : 'Share your voice! Vote on this issue below.'"></p>
+            </div>
+
+            <div class="space-y-3 pt-2">
+                <template x-for="opt in poll.options" :key="opt.id">
+                    <button type="button" @click="vote(opt.id)"
+                            :disabled="poll.has_voted || isVoting"
+                            class="relative w-full p-3.5 sm:p-4 rounded-2xl border text-sm font-bold transition-all flex items-center justify-between text-left overflow-hidden group focus:outline-none"
+                            :class="{
+                                'cursor-pointer hover:border-purple-400 dark:hover:border-purple-400/50 hover:shadow-md bg-white dark:bg-surface-card border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-100': !poll.has_voted,
+                                'cursor-default border-slate-200 dark:border-white/10': poll.has_voted,
+                                'ring-2 ring-emerald-500 border-emerald-500 font-black': poll.has_voted && poll.poll_type === 'quiz' && opt.is_correct,
+                                'ring-2 ring-rose-500 border-rose-500': poll.has_voted && poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct,
+                                'ring-2 ring-purple-500 border-purple-500': poll.has_voted && poll.poll_type === 'poll' && poll.user_voted_option_id === opt.id
+                            }">
+                        <!-- Animated Fill Bar when voted -->
+                        <div x-show="poll.has_voted"
+                             class="absolute inset-y-0 left-0 transition-all duration-700 pointer-events-none"
+                             :style="'width: ' + opt.percentage + '%;'"
+                             :class="{
+                                 'bg-emerald-500/25 dark:bg-emerald-500/35': poll.poll_type === 'quiz' && opt.is_correct,
+                                 'bg-rose-500/20 dark:bg-rose-500/30': poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct,
+                                 'bg-purple-500/25 dark:bg-purple-500/35': poll.poll_type === 'poll' && poll.user_voted_option_id === opt.id,
+                                 'bg-slate-200/70 dark:bg-white/10': (poll.poll_type !== 'quiz' || !opt.is_correct) && poll.user_voted_option_id !== opt.id
+                             }"></div>
+
+                        <div class="relative z-10 flex items-center gap-2.5">
+                            <span x-show="poll.has_voted && poll.poll_type === 'quiz' && opt.is_correct" class="text-emerald-500 font-bold text-base">✓</span>
+                            <span x-show="poll.has_voted && poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct" class="text-rose-500 font-bold text-base">✗</span>
+                            <span x-text="opt.option_text"></span>
+                        </div>
+
+                        <div class="relative z-10 font-mono text-sm font-black shrink-0" x-show="poll.has_voted">
+                            <span x-text="opt.percentage + '%'"></span>
+                        </div>
+                    </button>
+                </template>
+            </div>
+
+            <!-- Poll footer caption -->
+            <div class="flex items-center justify-between text-xs text-slate-400 pt-1" x-show="poll.has_voted">
+                <span x-text="poll.poll_type === 'quiz' ? (poll.options.find(o => o.id === poll.user_voted_option_id && o.is_correct) ? '🎉 Great job! Correct answer.' : '💡 Good try! See correct answer highlighted in green.') : '✨ Thanks for participating in the community poll!'"></span>
+                <span class="font-medium">Instant results</span>
+            </div>
+        </div>
+    @endif
 
     <!-- COMMENTS SECTION (Changed from discussion to comment) -->
     <section id="comments" class="pt-8 border-t border-slate-200 dark:border-white/10 space-y-6">

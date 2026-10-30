@@ -664,25 +664,112 @@
                         </div>
                     </div>
 
-                    <!-- Post Media (Picture with Double-Tap Heart Pop) -->
-                    <div class="relative w-full aspect-square sm:aspect-[4/3] bg-black overflow-hidden group select-none cursor-pointer"
-                         @dblclick="doubleTap()">
-                        <img src="{{ $art['featured_image'] }}" alt="{{ $art['title'] }}" 
-                             class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
-                        
-                        <!-- Floating Big Animated Heart Pop on double tap / like -->
-                        <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                            <span class="material-symbols-outlined text-white text-8xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
-                                favorite
-                            </span>
-                        </div>
+                    <!-- Post Media (Carousel / Video / Image with Double-Tap Heart Pop) -->
+                    @php
+                        $carouselSlides = parse_carousel_images($art['carousel_images'] ?? null);
+                        $hasCarousel = !empty($carouselSlides) && count($carouselSlides) > 1;
+                        $isVideo = ($art['post_format'] ?? '') === 'video' || !empty($art['video_url']);
+                    @endphp
 
-                        <!-- Read Story Overlay Pill (hover) -->
-                        <a href="{{ url('articles/' . $art['slug']) }}" class="absolute bottom-4 right-4 px-4 py-2 rounded-2xl bg-black/60 hover:bg-primary backdrop-blur-md text-white text-xs font-bold transition-all flex items-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
-                            <span>Read Story</span>
-                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </a>
-                    </div>
+                    @if($hasCarousel)
+                        <!-- Instagram Multi-Image Carousel -->
+                        <div class="relative w-full aspect-square sm:aspect-[4/3] bg-black overflow-hidden select-none group"
+                             x-data="{
+                                 currentSlide: 0,
+                                 slides: {{ json_encode($carouselSlides) }},
+                                 nextSlide() { if (this.currentSlide < this.slides.length - 1) this.currentSlide++; },
+                                 prevSlide() { if (this.currentSlide > 0) this.currentSlide--; }
+                             }">
+                            
+                            <!-- Slides Strip -->
+                            <div class="w-full h-full flex transition-transform duration-500 ease-out"
+                                 :style="'transform: translateX(-' + (currentSlide * 100) + '%);'"
+                                 @dblclick="doubleTap()">
+                                <template x-for="(slide, sIdx) in slides" :key="sIdx">
+                                    <div class="w-full h-full shrink-0 relative bg-black">
+                                        <img :src="slide" alt="{{ $art['title'] }}" class="w-full h-full object-cover">
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Instagram Top-Right Counter Pill (e.g. 1/4) -->
+                            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-bold flex items-center gap-1 shadow-md z-10 pointer-events-none">
+                                <span class="material-symbols-outlined text-xs">view_carousel</span>
+                                <span x-text="(currentSlide + 1) + '/' + slides.length"></span>
+                            </div>
+
+                            <!-- Instagram Bottom Pagination Dots -->
+                            <div class="absolute bottom-3 inset-x-0 flex items-center justify-center gap-1.5 z-10 pointer-events-none">
+                                <template x-for="(slide, sIdx) in slides" :key="'dot-' + sIdx">
+                                    <span class="h-1.5 rounded-full transition-all duration-300"
+                                          :class="currentSlide === sIdx ? 'bg-primary w-4 shadow-sm' : 'bg-white/60 w-1.5'"></span>
+                                </template>
+                            </div>
+
+                            <!-- Navigation Arrows (< and >) -->
+                            <button type="button" @click.stop="prevSlide()" x-show="currentSlide > 0"
+                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/75 backdrop-blur-md text-white flex items-center justify-center shadow-lg transition-all z-10 opacity-0 group-hover:opacity-100">
+                                <span class="material-symbols-outlined text-base">chevron_left</span>
+                            </button>
+                            <button type="button" @click.stop="nextSlide()" x-show="currentSlide < slides.length - 1"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 hover:bg-black/75 backdrop-blur-md text-white flex items-center justify-center shadow-lg transition-all z-10 opacity-0 group-hover:opacity-100">
+                                <span class="material-symbols-outlined text-base">chevron_right</span>
+                            </button>
+
+                            <!-- Floating Heart Pop -->
+                            <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                                <span class="material-symbols-outlined text-white text-8xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
+                                    favorite
+                                </span>
+                            </div>
+
+                            <!-- Read Story Overlay Pill (hover) -->
+                            <a href="{{ url('articles/' . $art['slug']) }}" class="absolute bottom-7 right-4 px-3.5 py-1.5 rounded-2xl bg-black/60 hover:bg-primary backdrop-blur-md text-white text-xs font-bold transition-all flex items-center gap-1 opacity-0 group-hover:opacity-100 z-10">
+                                <span>Read Story</span>
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </div>
+                    @elseif($isVideo)
+                        <!-- Video Media Player -->
+                        <div class="relative w-full aspect-square sm:aspect-[4/3] bg-black overflow-hidden group">
+                            @if(($art['video_type'] ?? '') === 'youtube' || preg_match('#(youtube\.com|youtu\.be)#i', $art['video_url']))
+                                <iframe src="{{ youtube_embed_url($art['video_url']) }}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-rose-600/90 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1 shadow-md pointer-events-none z-10">
+                                    <span class="material-symbols-outlined text-xs">smart_display</span>
+                                    <span>Video</span>
+                                </span>
+                            @else
+                                <video controls playsinline preload="metadata" class="w-full h-full object-cover">
+                                    <source src="{{ $art['video_url'] }}" type="video/mp4">
+                                    Your browser does not support video.
+                                </video>
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-rose-600/90 backdrop-blur-md text-white text-[10px] font-bold flex items-center gap-1 shadow-md pointer-events-none z-10">
+                                    <span class="material-symbols-outlined text-xs">videocam</span>
+                                    <span>Video</span>
+                                </span>
+                            @endif
+                        </div>
+                    @else
+                        <!-- Standard Single Image with Double-Tap Heart Pop -->
+                        <div class="relative w-full aspect-square sm:aspect-[4/3] bg-black overflow-hidden group select-none cursor-pointer"
+                             @dblclick="doubleTap()">
+                            <img src="{{ $art['featured_image'] }}" alt="{{ $art['title'] }}" 
+                                 class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500">
+                            
+                            <!-- Floating Big Animated Heart Pop on double tap / like -->
+                            <div x-show="heartPopping" class="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+                                <span class="material-symbols-outlined text-white text-8xl drop-shadow-2xl animate-heart-pop font-fill text-rose-500">
+                                    favorite
+                                </span>
+                            </div>
+
+                            <!-- Read Story Overlay Pill (hover) -->
+                            <a href="{{ url('articles/' . $art['slug']) }}" class="absolute bottom-4 right-4 px-4 py-2 rounded-2xl bg-black/60 hover:bg-primary backdrop-blur-md text-white text-xs font-bold transition-all flex items-center gap-1 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0">
+                                <span>Read Story</span>
+                                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </div>
+                    @endif
 
                     <!-- Action Bar -->
                     <div class="p-4 sm:p-5 pb-3">
@@ -746,6 +833,88 @@
                                 {{ $art['excerpt'] }}
                             </p>
                         </div>
+
+                        <!-- Interactive Instagram-Style Poll / Quiz (No Login Required) -->
+                        @if(!empty($art['poll']))
+                            <div x-data="{
+                                poll: {{ json_encode($art['poll']) }},
+                                isVoting: false,
+                                vote(optionId) {
+                                    if (this.poll.has_voted || this.isVoting) return;
+                                    this.isVoting = true;
+                                    fetch('{{ url('api/polls') }}/' + this.poll.id + '/vote', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ option_id: optionId })
+                                    })
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        this.isVoting = false;
+                                        if (data.success && data.poll) {
+                                            this.poll = data.poll;
+                                            const body = document.querySelector('body');
+                                            if (body && body.__x && body.__x.$data.showToast) {
+                                                body.__x.$data.showToast(data.message || 'Vote registered!');
+                                            }
+                                        }
+                                    })
+                                    .catch(() => { this.isVoting = false; });
+                                }
+                            }" class="my-3.5 p-4 rounded-2xl bg-gradient-to-br from-purple-500/10 via-indigo-500/5 to-slate-100 dark:to-white/5 border border-purple-500/20 shadow-xs space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider"
+                                          :class="poll.poll_type === 'quiz' ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20' : 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border border-purple-500/20'">
+                                        <span class="material-symbols-outlined text-xs" x-text="poll.poll_type === 'quiz' ? 'quiz' : 'how_to_vote'"></span>
+                                        <span x-text="poll.poll_type === 'quiz' ? 'Interactive Quiz' : 'Community Poll'"></span>
+                                    </span>
+                                    <span class="text-[10px] font-bold text-slate-400" x-text="poll.total_votes + ' votes'"></span>
+                                </div>
+
+                                <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug" x-text="poll.question"></h4>
+
+                                <div class="space-y-2">
+                                    <template x-for="opt in poll.options" :key="opt.id">
+                                        <button type="button" @click="vote(opt.id)"
+                                                :disabled="poll.has_voted || isVoting"
+                                                class="relative w-full p-2.5 sm:p-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-between text-left overflow-hidden group focus:outline-none"
+                                                :class="{
+                                                    'cursor-pointer hover:border-purple-400 dark:hover:border-purple-400/50 bg-white dark:bg-surface-card border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-100': !poll.has_voted,
+                                                    'cursor-default border-slate-200 dark:border-white/10': poll.has_voted,
+                                                    'ring-2 ring-emerald-500 border-emerald-500 font-black': poll.has_voted && poll.poll_type === 'quiz' && opt.is_correct,
+                                                    'ring-2 ring-rose-500 border-rose-500': poll.has_voted && poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct,
+                                                    'ring-2 ring-purple-500 border-purple-500': poll.has_voted && poll.poll_type === 'poll' && poll.user_voted_option_id === opt.id
+                                                }">
+                                            <!-- Animated Fill Bar when voted -->
+                                            <div x-show="poll.has_voted"
+                                                 class="absolute inset-y-0 left-0 transition-all duration-700 pointer-events-none"
+                                                 :style="'width: ' + opt.percentage + '%;'"
+                                                 :class="{
+                                                     'bg-emerald-500/25 dark:bg-emerald-500/35': poll.poll_type === 'quiz' && opt.is_correct,
+                                                     'bg-rose-500/20 dark:bg-rose-500/30': poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct,
+                                                     'bg-purple-500/25 dark:bg-purple-500/35': poll.poll_type === 'poll' && poll.user_voted_option_id === opt.id,
+                                                     'bg-slate-200/70 dark:bg-white/10': (poll.poll_type !== 'quiz' || !opt.is_correct) && poll.user_voted_option_id !== opt.id
+                                                 }"></div>
+
+                                            <div class="relative z-10 flex items-center gap-2">
+                                                <span x-show="poll.has_voted && poll.poll_type === 'quiz' && opt.is_correct" class="text-emerald-500 font-bold">✓</span>
+                                                <span x-show="poll.has_voted && poll.poll_type === 'quiz' && poll.user_voted_option_id === opt.id && !opt.is_correct" class="text-rose-500 font-bold">✗</span>
+                                                <span x-text="opt.option_text"></span>
+                                            </div>
+
+                                            <div class="relative z-10 font-mono text-xs font-black shrink-0" x-show="poll.has_voted">
+                                                <span x-text="opt.percentage + '%'"></span>
+                                            </div>
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <div class="flex items-center justify-between text-[10px] text-slate-400 font-medium pt-1">
+                                    <span x-show="!poll.has_voted">Tap an option to vote • No login required</span>
+                                    <span x-show="poll.has_voted && poll.poll_type === 'quiz'" :class="poll.options.find(o => o.id === poll.user_voted_option_id)?.is_correct ? 'text-emerald-500 font-bold' : 'text-rose-500 font-bold'" x-text="poll.options.find(o => o.id === poll.user_voted_option_id)?.is_correct ? '🎉 Correct Answer!' : 'Nice try!'"></span>
+                                    <span x-show="poll.has_voted && poll.poll_type === 'poll'" class="text-purple-500 font-bold">Vote recorded</span>
+                                </div>
+                            </div>
+                        @endif
 
                         <!-- View Comments Link -->
                         <div class="mb-3">
