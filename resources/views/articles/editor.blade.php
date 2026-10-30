@@ -742,6 +742,35 @@ aiModalOpen: false,
                     </div>
                 </div>
 
+                <!-- Bottom Story Action Bar (After Content & Poll) -->
+                <div class="p-4 sm:p-5 rounded-3xl glass-panel border border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <span class="material-symbols-outlined text-base text-emerald-500">check_circle</span>
+                        <span>Finished crafting your story? Save as a draft or publish it now.</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+                        <button type="submit" name="action" value="save_draft" 
+                                class="flex-1 sm:flex-initial px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card hover:bg-slate-200 dark:hover:bg-surface-high text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">save</span>
+                            <span>Save Draft</span>
+                        </button>
+
+                        @if(auth()->canPublishDirectly())
+                            <button type="submit" name="action" value="publish" 
+                                    class="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">publish</span>
+                                <span>Publish Live</span>
+                            </button>
+                        @else
+                            <button type="submit" name="action" value="submit_review" 
+                                    class="flex-1 sm:flex-initial px-5 py-2.5 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">send</span>
+                                <span>Submit for Editorial Review</span>
+                            </button>
+                        @endif
+                    </div>
+                </div>
+
             </div>
 
             <!-- Right Column: Metadata & Settings (1 Col) -->
@@ -961,12 +990,35 @@ aiModalOpen: false,
                     </div>
 
                     <!-- Creator Workflow Notes -->
-                    <div class="pt-3 border-t border-white/5 text-[11px] text-slate-400 space-y-1.5">
-                        <div class="flex items-center gap-1.5 font-bold text-slate-300">
+                    <div class="pt-3 border-t border-slate-200 dark:border-white/5 text-[11px] text-slate-500 dark:text-slate-400 space-y-1.5">
+                        <div class="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-300">
                             <span class="material-symbols-outlined text-sm text-primary">policy</span>
                             <span>Editorial Pipeline:</span>
                         </div>
                         <p>Contributors & Journalists submit drafts to the Editorial review queue. Managing Editors verify fact checks and approve for live feed.</p>
+                    </div>
+
+                    <!-- Bottom Publishing Action Buttons (After Editorial Pipeline) -->
+                    <div class="pt-4 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                        <button type="submit" name="action" value="save_draft" 
+                                class="flex-1 py-3 px-4 rounded-2xl bg-slate-100 dark:bg-surface-card hover:bg-slate-200 dark:hover:bg-surface-high text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-white/10 transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-base">save</span>
+                            <span>Save Draft</span>
+                        </button>
+
+                        @if(auth()->canPublishDirectly())
+                            <button type="submit" name="action" value="publish" 
+                                    class="flex-1 py-3 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">publish</span>
+                                <span>Publish Live</span>
+                            </button>
+                        @else
+                            <button type="submit" name="action" value="submit_review" 
+                                    class="flex-1 py-3 px-4 rounded-2xl bg-primary hover:bg-primary-hover text-white font-bold text-xs shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-1.5">
+                                <span class="material-symbols-outlined text-base">send</span>
+                                <span>Submit for Review</span>
+                            </button>
+                        @endif
                     </div>
                 </div>
 
