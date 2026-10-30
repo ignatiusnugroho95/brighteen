@@ -45,9 +45,10 @@
     }
 </style>
 
-<div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-     x-data="{
-         aiModalOpen: false,
+<script>
+function articleEditorData() {
+    return {
+aiModalOpen: false,
          aiActiveSection: 'ideas', // 'ideas' | 'draft' | 'title' | 'rephrase' | 'grammar'
          aiLanguage: 'en', // 'en' (default) | 'id' | 'other'
          aiLoading: false,
@@ -427,7 +428,12 @@
                  }
              }
          }
-     }">
+    };
+}
+</script>
+
+<div class="py-8 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+     x-data="articleEditorData()">
 
     <!-- Page Header & Action Bar -->
     <form id="articleForm" method="POST" action="{{ $isEdit ? url('articles/' . $article['id'] . '/update') : url('articles') }}" class="space-y-8">
