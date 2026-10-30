@@ -73,3 +73,4 @@ CREATE TABLE IF NOT EXISTS `poll_votes` (
 echo "Table `poll_votes` checked/created.\n";
 
 echo "Migration finished successfully!\n";
+

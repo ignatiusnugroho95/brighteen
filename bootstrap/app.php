@@ -99,6 +99,9 @@ class Application
             ");
             $stmt->execute([$_SESSION['user_id']]);
             $this->user = $stmt->fetch() ?: null;
+            if ($this->user && !empty($this->user['avatar']) && function_exists('normalize_media_url')) {
+                $this->user['avatar'] = normalize_media_url($this->user['avatar']);
+            }
         }
     }
 }
@@ -178,21 +181,36 @@ if (!function_exists('asset')) {
 if (!function_exists('url')) {
     function url($path = '') {
         $envUrl = rtrim(getenv('APP_URL') ?: '', '/');
-        $subPath = parse_url($envUrl, PHP_URL_PATH) ?: '';
-        if (empty($subPath)) {
-            $script = dirname($_SERVER['SCRIPT_NAME'] ?? '');
-            $subPath = rtrim($script, '/\\');
-        }
 
         if (!empty($_SERVER['HTTP_HOST'])) {
-            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            $script = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+            if (substr($script, -7) === '/public') {
+                $script = substr($script, 0, -7);
+            }
+            $subPath = ($script === '/' || $script === '.') ? '' : rtrim($script, '/');
+
+            $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+                || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+                || (!empty($_SERVER['HTTP_CF_VISITOR']) && strpos($_SERVER['HTTP_CF_VISITOR'], 'https') !== false);
             $scheme = $isHttps ? 'https://' : 'http://';
             $baseUrl = $scheme . $_SERVER['HTTP_HOST'] . $subPath;
         } else {
+            $subPath = parse_url($envUrl, PHP_URL_PATH) ?: '';
             $baseUrl = $envUrl ?: $subPath;
         }
 
         return rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
+    }
+}
+
+if (!function_exists('normalize_media_url')) {
+    function normalize_media_url($mediaUrl) {
+        if (empty($mediaUrl) || !is_string($mediaUrl)) return $mediaUrl;
+        if (preg_match('#^https?://localhost(?::\d+)?/(?:brighteen/)?(uploads/.+)$#i', $mediaUrl, $m)) {
+            return url($m[1]);
+        }
+        return $mediaUrl;
     }
 }
 
@@ -272,9 +290,9 @@ if (!function_exists('youtube_embed_url')) {
 if (!function_exists('parse_carousel_images')) {
     function parse_carousel_images($data) {
         if (empty($data)) return [];
-        if (is_array($data)) return array_values(array_filter($data));
-        $decoded = json_decode($data, true);
-        return is_array($decoded) ? array_values(array_filter($decoded)) : [];
+        $list = is_array($data) ? array_values(array_filter($data)) : (json_decode($data, true) ?: []);
+        if (!is_array($list)) return [];
+        return array_values(array_map('normalize_media_url', array_filter($list)));
     }
 }
 

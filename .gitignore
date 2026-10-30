@@ -10,6 +10,9 @@ composer.phar
 
 # Scratch & temporary development files
 /scratch/
+/deploy/
+database/sql/if0_43312857_brighteen.sql
+database/sql/brighteen_infinityfree_ready.sql
 *.log
 
 # Editor & OS files
