@@ -30,6 +30,7 @@ class Application
     {
         self::$instance = $this;
         $this->loadEnv(__DIR__ . '/../.env');
+        $this->loadPhpEnv(__DIR__ . '/../config/env.php');
         $this->initDatabase();
         $this->initSession();
     }
@@ -40,6 +41,21 @@ class Application
             self::$instance = new self();
         }
         return self::$instance;
+    }
+
+    public function env($key, $default = null)
+    {
+        if (array_key_exists($key, $this->config)) {
+            return $this->config[$key];
+        }
+        if (array_key_exists($key, $_ENV)) {
+            return $_ENV[$key];
+        }
+        if (array_key_exists($key, $_SERVER)) {
+            return $_SERVER[$key];
+        }
+        $val = function_exists('getenv') ? @getenv($key) : false;
+        return ($val !== false && $val !== '') ? $val : $default;
     }
 
     private function loadEnv($path)
@@ -57,19 +73,39 @@ class Application
                 list($key, $val) = explode('=', $line, 2);
                 $key = trim($key);
                 $val = trim($val, " \t\n\r\0\x0B\"'");
+                $this->config[$key] = $val;
                 $_ENV[$key] = $val;
-                putenv("$key=$val");
+                if (function_exists('putenv')) {
+                    @putenv("$key=$val");
+                }
+            }
+        }
+    }
+
+    private function loadPhpEnv($path)
+    {
+        if (!file_exists($path)) {
+            return;
+        }
+        $vars = include $path;
+        if (is_array($vars)) {
+            foreach ($vars as $key => $val) {
+                $this->config[$key] = $val;
+                $_ENV[$key] = $val;
+                if (function_exists('putenv')) {
+                    @putenv("$key=$val");
+                }
             }
         }
     }
 
     private function initDatabase()
     {
-        $host = getenv('DB_HOST') ?: '127.0.0.1';
-        $port = getenv('DB_PORT') ?: '3306';
-        $dbname = getenv('DB_DATABASE') ?: 'brighteen';
-        $username = getenv('DB_USERNAME') ?: 'root';
-        $password = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : '';
+        $host = $this->env('DB_HOST', '127.0.0.1');
+        $port = $this->env('DB_PORT', '3306');
+        $dbname = $this->env('DB_DATABASE', 'brighteen');
+        $username = $this->env('DB_USERNAME', 'root');
+        $password = $this->env('DB_PASSWORD', '');
 
         try {
             $dsn = "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8mb4";
@@ -164,11 +200,16 @@ if (!function_exists('auth')) {
     }
 }
 
+if (!function_exists('env')) {
+    function env($key, $default = null) {
+        return app()->env($key, $default);
+    }
+}
+
 if (!function_exists('config')) {
     function config($key, $default = null) {
         $envKey = strtoupper(str_replace('.', '_', $key));
-        $val = getenv($envKey);
-        return $val !== false ? $val : $default;
+        return app()->env($envKey, $default);
     }
 }
 
@@ -180,7 +221,7 @@ if (!function_exists('asset')) {
 
 if (!function_exists('url')) {
     function url($path = '') {
-        $envUrl = rtrim(getenv('APP_URL') ?: '', '/');
+        $envUrl = rtrim((string)app()->env('APP_URL', ''), '/');
 
         if (!empty($_SERVER['HTTP_HOST'])) {
             $script = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));

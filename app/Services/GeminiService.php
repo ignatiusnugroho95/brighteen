@@ -15,10 +15,10 @@ class GeminiService
     {
         // Check system_settings table, then environment variable
         $dbKey = class_exists(SystemSetting::class) ? SystemSetting::get('gemini_api_key') : null;
-        $this->apiKey = !empty($dbKey) ? $dbKey : (getenv('GEMINI_API_KEY') ?: '');
+        $this->apiKey = !empty($dbKey) ? $dbKey : (function_exists('env') ? env('GEMINI_API_KEY', '') : (getenv('GEMINI_API_KEY') ?: ''));
 
         $dbModel = class_exists(SystemSetting::class) ? SystemSetting::get('gemini_model') : null;
-        $this->model = !empty($dbModel) ? $dbModel : (getenv('GEMINI_MODEL') ?: 'gemini-3.5-flash');
+        $this->model = !empty($dbModel) ? $dbModel : (function_exists('env') ? env('GEMINI_MODEL', 'gemini-3.5-flash') : (getenv('GEMINI_MODEL') ?: 'gemini-3.5-flash'));
     }
 
     public function getApiKey()

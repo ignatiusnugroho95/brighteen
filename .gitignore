@@ -3,6 +3,7 @@
 .env.backup
 .env.production
 *.env
+config/env.php
 
 # Dependencies & binaries
 /vendor/
