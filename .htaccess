@@ -1,9 +1,36 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+<IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+</IfModule>
 
+# Security: Block all dotfiles and sensitive files (.env, .git, composer, etc.)
+<IfModule mod_authz_core.c>
+    <FilesMatch "^\.">
+        Require all denied
+    </FilesMatch>
+    <FilesMatch "^(composer\.(json|lock|phar)|package(-lock)?\.json)$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+    <FilesMatch "^\.">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "^(composer\.(json|lock|phar)|package(-lock)?\.json)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Security: Block access to hidden files and directories (e.g. .env, .git)
+    RewriteCond %{REQUEST_URI} "!(^|/)\.well-known([^./]+)?/" [NC]
+    RewriteRule "(^|/)\." - [F,L]
+
+    # Security: Block direct web access to backend source, templates, and database folders
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|scratch|tests|vendor)/ - [F,L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
