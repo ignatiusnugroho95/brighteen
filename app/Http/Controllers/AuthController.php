@@ -32,6 +32,7 @@ class AuthController
 
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
+            unset($_SESSION['demo_override_role']);
             if ($redirectUrl) {
                 redirect($redirectUrl);
             }
@@ -88,30 +89,34 @@ class AuthController
 
     public function logout()
     {
-        unset($_SESSION['user_id']);
+        unset($_SESSION['user_id'], $_SESSION['demo_override_role']);
         session_destroy();
         redirect('');
     }
 
     /**
-     * Fast role switcher for instant demonstration & testing across all 6 roles
+     * Per-account temporary role switcher for Management & Editor accounts
+     * (Switches active role on the current logged-in account without changing user/login)
      */
     public function switchUser($roleName)
     {
-        if ($roleName === 'guest') {
-            unset($_SESSION['user_id']);
+        if (!auth()->canUseRoleSwitcher()) {
             redirect('');
         }
 
-        $role = Role::findBy('name', $roleName);
-        if ($role) {
-            $user = User::findBy('role_id', $role['id']);
-            if ($user) {
-                $_SESSION['user_id'] = $user['id'];
-            }
+        $allowed = auth()->availableSwitchRoles();
+        $originalRole = auth()->originalRole();
+
+        if ($roleName === 'reset' || $roleName === $originalRole) {
+            unset($_SESSION['demo_override_role']);
+        } elseif (in_array($roleName, $allowed, true)) {
+            $_SESSION['demo_override_role'] = $roleName;
         }
 
         $redirect = $_GET['redirect'] ?? '';
+        if (in_array($roleName, ['guest', 'reader_registered'], true)) {
+            redirect('');
+        }
         redirect($redirect ?: '');
     }
 }

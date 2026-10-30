@@ -21,10 +21,18 @@ spl_autoload_register(function ($class) {
 
 class Application
 {
+    /**
+     * TEMPORARY FEATURE FLAG: Per-Account Demo Role Switcher
+     * Change DEMO_ROLE_SWITCHER_ENABLED to false (or set DEMO_ROLE_SWITCHER=false in .env)
+     * whenever you want to permanently disable role switching so every account strictly uses its own role.
+     */
+    const DEMO_ROLE_SWITCHER_ENABLED = true;
+
     private static $instance = null;
     public $db = null;
     public $config = [];
     public $user = null;
+    public $originalUser = null;
 
     public function __construct()
     {
@@ -119,6 +127,26 @@ class Application
         }
     }
 
+    public function isRoleSwitcherEnabled()
+    {
+        if (!self::DEMO_ROLE_SWITCHER_ENABLED) {
+            return false;
+        }
+        $flag = $this->env('DEMO_ROLE_SWITCHER', 'true');
+        return !in_array(strtolower((string)$flag), ['false', '0', 'off', 'no'], true);
+    }
+
+    public static function getAllowedSwitchRoles($originalRole)
+    {
+        if ($originalRole === 'management') {
+            return ['management', 'editor', 'journalist', 'contributor', 'reader_registered', 'guest'];
+        }
+        if ($originalRole === 'editor') {
+            return ['editor', 'journalist', 'contributor', 'reader_registered', 'guest'];
+        }
+        return [];
+    }
+
     private function initSession()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -134,9 +162,36 @@ class Application
                 WHERE u.id = ?
             ");
             $stmt->execute([$_SESSION['user_id']]);
-            $this->user = $stmt->fetch() ?: null;
-            if ($this->user && !empty($this->user['avatar']) && function_exists('normalize_media_url')) {
-                $this->user['avatar'] = normalize_media_url($this->user['avatar']);
+            $fetchedUser = $stmt->fetch() ?: null;
+            if ($fetchedUser && !empty($fetchedUser['avatar']) && function_exists('normalize_media_url')) {
+                $fetchedUser['avatar'] = normalize_media_url($fetchedUser['avatar']);
+            }
+            $this->originalUser = $fetchedUser;
+            $this->user = $fetchedUser;
+
+            // Apply temporary per-account Demo Role Switcher override if enabled & permitted
+            if ($this->originalUser && $this->isRoleSwitcherEnabled()) {
+                $origRole = $this->originalUser['role_name'] ?? '';
+                $allowed = self::getAllowedSwitchRoles($origRole);
+                $overrideRole = $_SESSION['demo_override_role'] ?? null;
+
+                if ($overrideRole && in_array($overrideRole, $allowed, true)) {
+                    if ($overrideRole === 'guest') {
+                        // Simulate Guest mode while keeping $this->originalUser in session to switch back
+                        $this->user = null;
+                    } elseif ($overrideRole !== $origRole) {
+                        $roleStmt = $this->db->prepare("SELECT id, name, display_name FROM roles WHERE name = ? LIMIT 1");
+                        $roleStmt->execute([$overrideRole]);
+                        $roleRow = $roleStmt->fetch();
+                        if ($roleRow) {
+                            $this->user['role_id'] = $roleRow['id'];
+                            $this->user['role_name'] = $roleRow['name'];
+                            $this->user['role_display_name'] = $roleRow['display_name'];
+                        } else {
+                            $this->user['role_name'] = $overrideRole;
+                        }
+                    }
+                }
             }
         }
     }
@@ -165,6 +220,31 @@ if (!function_exists('auth')) {
         return new class {
             public function user() {
                 return app()->user;
+            }
+            public function originalUser() {
+                return app()->originalUser;
+            }
+            public function originalRole() {
+                return app()->originalUser ? app()->originalUser['role_name'] : null;
+            }
+            public function canUseRoleSwitcher() {
+                if (!app()->isRoleSwitcherEnabled() || !app()->originalUser) {
+                    return false;
+                }
+                return !empty(Application::getAllowedSwitchRoles($this->originalRole()));
+            }
+            public function availableSwitchRoles() {
+                if (!$this->canUseRoleSwitcher()) {
+                    return [];
+                }
+                return Application::getAllowedSwitchRoles($this->originalRole());
+            }
+            public function isRoleOverridden() {
+                if (!$this->canUseRoleSwitcher()) {
+                    return false;
+                }
+                $active = $this->check() ? $this->role() : 'guest';
+                return $active !== $this->originalRole();
             }
             public function check() {
                 return app()->user !== null;

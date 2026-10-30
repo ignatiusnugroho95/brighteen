@@ -39,29 +39,7 @@
             </button>
         </form>
 
-        <!-- Fast Demo Credentials Quick Picker -->
-        <div class="mt-8 pt-6 border-t border-slate-200 dark:border-white/10 space-y-3">
-            <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center">
-                ⚡ Instant 1-Click Role Switcher
-            </div>
-            <div class="grid grid-cols-2 gap-2 text-xs">
-                <a href="{{ url('switch-user/management') }}" class="p-2.5 rounded-xl bg-secondary/10 hover:bg-secondary/20 text-secondary-light font-bold text-center border border-secondary/20 transition-all">
-                    Management
-                </a>
-                <a href="{{ url('switch-user/editor') }}" class="p-2.5 rounded-xl bg-tertiary/10 hover:bg-tertiary/20 text-tertiary-light font-bold text-center border border-tertiary/20 transition-all">
-                    Editor
-                </a>
-                <a href="{{ url('switch-user/journalist') }}" class="p-2.5 rounded-xl bg-primary/10 hover:bg-primary/20 text-primary-light font-bold text-center border border-primary/20 transition-all">
-                    Journalist
-                </a>
-                <a href="{{ url('switch-user/contributor') }}" class="p-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 font-bold text-center border border-amber-500/20 transition-all">
-                    Contributor
-                </a>
-            </div>
-            <a href="{{ url('switch-user/reader_registered') }}" class="block w-full py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs text-center border border-white/5 transition-all">
-                Login as Verified Reader
-            </a>
-        </div>
+
 
         <div class="mt-6 text-center text-xs text-slate-400">
             Don't have an account? <a href="{{ url('register') }}" class="text-primary hover:underline font-bold">Register free</a>

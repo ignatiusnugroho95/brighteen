@@ -498,11 +498,7 @@
                     Join Brighteen
                 </a>
             </div>
-            <div class="pt-2">
-                <a href="{{ url('switch-user/reader_registered') }}" class="text-[11px] text-primary hover:underline font-semibold">
-                    (Demo: Switch to Registered Reader)
-                </a>
-            </div>
+
         </div>
     </div>
 

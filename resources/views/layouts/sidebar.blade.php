@@ -256,92 +256,124 @@
                 @endauth
             </div>
 
-            <!-- Demo Role Switcher (Compact & Neatly Structured) -->
-            <div class="pt-2 border-t border-slate-200/80 dark:border-white/10 space-y-1.5 min-w-0">
-                <div class="flex items-center justify-between px-1">
-                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
-                        <span class="material-symbols-outlined text-xs text-purple-400">swap_horiz</span>
-                        <span>Demo Role Switcher</span>
-                    </span>
-                    <span class="text-[9px] font-bold text-purple-500 dark:text-purple-400 truncate">
-                        {{ auth()->check() ? auth()->role() : 'guest' }}
-                    </span>
+            {{-- TEMPORARY FEATURE: Per-Account Demo Role Switcher (Management & Editor Only) --}}
+            @if(auth()->canUseRoleSwitcher())
+                @php
+                    $allowedSwitchRoles = auth()->availableSwitchRoles();
+                    $origRole = auth()->originalRole();
+                    $origUser = auth()->originalUser();
+                    $currentActiveRole = auth()->check() ? auth()->role() : 'guest';
+                @endphp
+                <div class="pt-2 border-t border-slate-200/80 dark:border-white/10 space-y-1.5 min-w-0">
+                    <div class="flex items-center justify-between px-1">
+                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1">
+                            <span class="material-symbols-outlined text-xs text-purple-400">swap_horiz</span>
+                            <span>Demo Role Switcher</span>
+                        </span>
+                        @if(auth()->isRoleOverridden())
+                            <a href="{{ url('switch-user/reset') }}" class="text-[9px] font-bold text-amber-500 hover:underline truncate">
+                                Reset ({{ $origRole }})
+                            </a>
+                        @else
+                            <span class="text-[9px] font-bold text-purple-500 dark:text-purple-400 truncate">
+                                {{ $currentActiveRole }}
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="px-2 py-1 rounded-lg bg-purple-500/5 border border-purple-500/15 text-[10px] text-slate-500 dark:text-slate-400 flex items-center justify-between gap-1">
+                        <span class="truncate">Account: <strong class="text-slate-800 dark:text-slate-200">{{ $origUser['name'] ?? 'User' }}</strong></span>
+                        <span class="text-[9px] uppercase font-bold text-purple-500 shrink-0">{{ $origRole }}</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-1 p-1.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200/80 dark:border-white/5 min-w-0">
+                        @if(in_array('management', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/management') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'management' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/30' : 'text-slate-700 dark:text-slate-300' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                                    <span class="truncate">Management</span>
+                                    @if($origRole === 'management')
+                                        <span class="text-[10px] text-slate-400 font-normal shrink-0">(Default)</span>
+                                    @endif
+                                </div>
+                                @if($currentActiveRole === 'management')
+                                    <span class="material-symbols-outlined text-xs text-emerald-500 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+
+                        @if(in_array('editor', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/editor') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'editor' ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold border border-purple-500/30' : 'text-slate-700 dark:text-slate-300' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0"></span>
+                                    <span class="truncate">Editor</span>
+                                    @if($origRole === 'editor')
+                                        <span class="text-[10px] text-slate-400 font-normal shrink-0">(Default)</span>
+                                    @endif
+                                </div>
+                                @if($currentActiveRole === 'editor')
+                                    <span class="material-symbols-outlined text-xs text-purple-500 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+
+                        @if(in_array('journalist', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/journalist') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'journalist' ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/30' : 'text-slate-700 dark:text-slate-300' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span>
+                                    <span class="truncate">Journalist</span>
+                                </div>
+                                @if($currentActiveRole === 'journalist')
+                                    <span class="material-symbols-outlined text-xs text-indigo-500 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+
+                        @if(in_array('contributor', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/contributor') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'contributor' ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold border border-sky-500/30' : 'text-slate-700 dark:text-slate-300' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0"></span>
+                                    <span class="truncate">Contributor</span>
+                                </div>
+                                @if($currentActiveRole === 'contributor')
+                                    <span class="material-symbols-outlined text-xs text-sky-500 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+
+                        @if(in_array('reader_registered', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/reader_registered') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'reader_registered' ? 'bg-slate-500/10 text-slate-800 dark:text-white font-bold border border-slate-500/30' : 'text-slate-700 dark:text-slate-300' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
+                                    <span class="truncate">Registered Reader</span>
+                                </div>
+                                @if($currentActiveRole === 'reader_registered')
+                                    <span class="material-symbols-outlined text-xs text-slate-400 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+
+                        @if(in_array('guest', $allowedSwitchRoles, true))
+                            <a href="{{ url('switch-user/guest') }}" 
+                               class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-rose-500/10 text-xs transition-all min-w-0 {{ $currentActiveRole === 'guest' ? 'bg-rose-500/10 text-rose-500 font-bold border border-rose-500/30' : 'text-slate-600 dark:text-slate-400' }}">
+                                <div class="flex items-center gap-1.5 min-w-0 truncate">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></span>
+                                    <span class="truncate">Guest</span>
+                                    <span class="text-[10px] text-slate-400 font-normal shrink-0">(Preview)</span>
+                                </div>
+                                @if($currentActiveRole === 'guest')
+                                    <span class="material-symbols-outlined text-xs text-rose-500 shrink-0">check</span>
+                                @endif
+                            </a>
+                        @endif
+                    </div>
                 </div>
-
-                <div class="grid grid-cols-1 gap-1 p-1.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200/80 dark:border-white/5 min-w-0">
-                    <a href="{{ url('switch-user/management') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ auth()->check() && auth()->role() === 'management' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/30' : 'text-slate-700 dark:text-slate-300' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
-                            <span class="truncate">Alex Rivera</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Mgmt)</span>
-                        </div>
-                        @if(auth()->check() && auth()->role() === 'management')
-                            <span class="material-symbols-outlined text-xs text-emerald-500 shrink-0">check</span>
-                        @endif
-                    </a>
-
-                    <a href="{{ url('switch-user/editor') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ auth()->check() && auth()->role() === 'editor' ? 'bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold border border-purple-500/30' : 'text-slate-700 dark:text-slate-300' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500 shrink-0"></span>
-                            <span class="truncate">Maya Lin</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Editor)</span>
-                        </div>
-                        @if(auth()->check() && auth()->role() === 'editor')
-                            <span class="material-symbols-outlined text-xs text-purple-500 shrink-0">check</span>
-                        @endif
-                    </a>
-
-                    <a href="{{ url('switch-user/journalist') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ auth()->check() && auth()->role() === 'journalist' ? 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold border border-indigo-500/30' : 'text-slate-700 dark:text-slate-300' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0"></span>
-                            <span class="truncate">Kai Chen</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Journalist)</span>
-                        </div>
-                        @if(auth()->check() && auth()->role() === 'journalist')
-                            <span class="material-symbols-outlined text-xs text-indigo-500 shrink-0">check</span>
-                        @endif
-                    </a>
-
-                    <a href="{{ url('switch-user/contributor') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ auth()->check() && auth()->role() === 'contributor' ? 'bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold border border-sky-500/30' : 'text-slate-700 dark:text-slate-300' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-sky-500 shrink-0"></span>
-                            <span class="truncate">Zoe Parker</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Contributor)</span>
-                        </div>
-                        @if(auth()->check() && auth()->role() === 'contributor')
-                            <span class="material-symbols-outlined text-xs text-sky-500 shrink-0">check</span>
-                        @endif
-                    </a>
-
-                    <a href="{{ url('switch-user/reader_registered') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-200/70 dark:hover:bg-white/10 text-xs transition-all min-w-0 {{ auth()->check() && auth()->role() === 'reader_registered' ? 'bg-slate-500/10 text-slate-800 dark:text-white font-bold border border-slate-500/30' : 'text-slate-700 dark:text-slate-300' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0"></span>
-                            <span class="truncate">Jordan Taylor</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Reader)</span>
-                        </div>
-                        @if(auth()->check() && auth()->role() === 'reader_registered')
-                            <span class="material-symbols-outlined text-xs text-slate-400 shrink-0">check</span>
-                        @endif
-                    </a>
-
-                    <a href="{{ url('switch-user/guest') }}" 
-                       class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-rose-500/10 text-xs transition-all min-w-0 {{ !auth()->check() ? 'bg-rose-500/10 text-rose-500 font-bold border border-rose-500/30' : 'text-slate-600 dark:text-slate-400' }}">
-                        <div class="flex items-center gap-1.5 min-w-0 truncate">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0"></span>
-                            <span class="truncate">Guest Mode</span>
-                            <span class="text-[10px] text-slate-400 font-normal shrink-0">(Logged Out)</span>
-                        </div>
-                        @if(!auth()->check())
-                            <span class="material-symbols-outlined text-xs text-rose-500 shrink-0">check</span>
-                        @endif
-                    </a>
-                </div>
-            </div>
+            @endif
 
         </div>
 
