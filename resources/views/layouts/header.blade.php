@@ -52,7 +52,7 @@
                 </form>
             </div>
 
-            <!-- Right Actions: Notifications, Theme Toggle & Sidebar/Profile Trigger -->
+            <!-- Right Actions: Theme Toggle, Notifications & Sidebar/Profile Trigger -->
             <div class="flex items-center gap-1.5 sm:gap-3">
 
                 <!-- Mobile Search Toggle Button -->
@@ -60,6 +60,14 @@
                         class="md:hidden p-2 rounded-2xl bg-slate-100 dark:bg-surface-card hover:bg-slate-200 dark:hover:bg-surface-high text-slate-600 dark:text-slate-300 transition-all"
                         title="Search">
                     <span class="material-symbols-outlined text-xl" x-text="searchOpen ? 'close' : 'search'"></span>
+                </button>
+
+                <!-- Universal Light / Dark Mode Toggle Switch -->
+                <button type="button" @click="toggleTheme()" 
+                        class="p-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card hover:bg-slate-200 dark:hover:bg-surface-high text-slate-600 dark:text-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40"
+                        title="Toggle Light/Dark Theme">
+                    <span x-show="isDark" class="material-symbols-outlined text-xl text-amber-400 animate-spin-slow">light_mode</span>
+                    <span x-show="!isDark" class="material-symbols-outlined text-xl text-indigo-500">dark_mode</span>
                 </button>
 
                 <!-- Notification Bell Component (Auth Only) -->
@@ -164,18 +172,10 @@
                     </div>
                 @endauth
 
-                <!-- Universal Light / Dark Mode Toggle Switch -->
-                <button type="button" @click="toggleTheme()" 
-                        class="p-2.5 rounded-2xl bg-slate-100 dark:bg-surface-card hover:bg-slate-200 dark:hover:bg-surface-high text-slate-600 dark:text-slate-300 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40"
-                        title="Toggle Light/Dark Theme">
-                    <span x-show="isDark" class="material-symbols-outlined text-xl text-amber-400 animate-spin-slow">light_mode</span>
-                    <span x-show="!isDark" class="material-symbols-outlined text-xl text-indigo-500">dark_mode</span>
-                </button>
-
-                <!-- Sidebar & Profile Drawer Trigger Button -->
+                <!-- Sidebar & Profile Drawer Trigger Button (Desktop Only - Mobile uses Bottom Nav Menu) -->
                 @auth
                     <button type="button" @click="$dispatch('open-sidebar')" 
-                            class="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-surface-card dark:hover:bg-surface-high border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40 group shadow-sm"
+                            class="hidden md:flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-surface-card dark:hover:bg-surface-high border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-primary/40 group shadow-sm"
                             title="Open Sidebar Menu & Profile">
                         <img src="{{ auth()->user()['avatar'] ?: url('uploads/avatars/default-avatar.svg') }}" 
                              alt="{{ auth()->user()['name'] }}" 
@@ -195,7 +195,7 @@
                             Sign In
                         </a>
                         <button type="button" @click="$dispatch('open-sidebar')" 
-                                class="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-surface-card dark:hover:bg-surface-high text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 transition-all"
+                                class="hidden md:inline-flex p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-surface-card dark:hover:bg-surface-high text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-white/10 transition-all"
                                 title="Open Sidebar Menu">
                             <span class="material-symbols-outlined text-xl">menu</span>
                         </button>
