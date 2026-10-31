@@ -247,10 +247,17 @@ class DashboardController
                     ],
                     [
                         'title' => 'Editorial Review Desk',
-                        'desc' => 'Review incoming manuscripts, curate frontpage headlines, manage beats and announcements.',
+                        'desc' => 'Review incoming manuscripts, curate frontpage headlines, and manage beats.',
                         'url' => 'dashboard/editorial',
                         'icon' => 'rule',
                         'color' => 'text-purple-600 bg-purple-600/10 border-purple-600/20'
+                    ],
+                    [
+                        'title' => 'Announcement Manager',
+                        'desc' => 'Manage up to 5 active running announcements (text, emoji & link) on the homepage.',
+                        'url' => 'dashboard/announcement',
+                        'icon' => 'campaign',
+                        'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Editorial Assignment Center',
@@ -322,6 +329,13 @@ class DashboardController
                         'url' => 'dashboard/editorial#categories',
                         'icon' => 'category',
                         'color' => 'text-sky-500 bg-sky-500/10 border-sky-500/20'
+                    ],
+                    [
+                        'title' => 'Announcement Manager',
+                        'desc' => 'Manage up to 5 active running announcements (text, emoji & link) on the homepage.',
+                        'url' => 'dashboard/announcement',
+                        'icon' => 'campaign',
+                        'color' => 'text-amber-500 bg-amber-500/10 border-amber-500/20'
                     ],
                     [
                         'title' => 'Commission New Assignment',

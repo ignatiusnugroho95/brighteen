@@ -112,11 +112,6 @@ class ContributorApplication extends Model
             'articles/create'
         );
 
-        // 4. Automatically announce promotion on the ticker!
-        $institutionStr = !empty($app['institution']) ? " ({$app['institution']})" : "";
-        $tickerText = "🎉 Congratulations to {$authorName}{$institutionStr} on being officially promoted to Brighteen Community Contributor! Welcome to the creator team!";
-        SystemSetting::set('announcement_text', $tickerText, 'Active platform-wide announcement on homepage ticker');
-
         return true;
     }
 

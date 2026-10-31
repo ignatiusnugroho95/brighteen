@@ -6,11 +6,13 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\SystemSetting;
 use App\Models\Poll;
+use App\Models\Announcement;
 
 require_once __DIR__ . '/../../Models/Article.php';
 require_once __DIR__ . '/../../Models/Category.php';
 require_once __DIR__ . '/../../Models/SystemSetting.php';
 require_once __DIR__ . '/../../Models/Poll.php';
+require_once __DIR__ . '/../../Models/Announcement.php';
 
 class HomeController
 {
@@ -164,7 +166,7 @@ class HomeController
 
         $platformName = SystemSetting::get('platform_name', 'Brighteen');
         $tagline = SystemSetting::get('tagline', 'The Youth Pulse of Culture, Tech & Creativity');
-        $announcement = SystemSetting::get('announcement_text', 'Welcome to Brighteen! Read the latest stories from student journalists across our campus.');
+        $announcements = Announcement::getActive(5);
         $latestUpdatedStories = Article::getLatestUpdated(5);
 
         // Fetch recently promoted contributors for the live ticker
@@ -194,7 +196,7 @@ class HomeController
             'search' => $search,
             'platformName' => $platformName,
             'tagline' => $tagline,
-            'announcement' => $announcement,
+            'announcements' => $announcements,
             'latestPromotedContributors' => $latestPromotedContributors,
             'latestUpdatedStories' => $latestUpdatedStories,
         ]);

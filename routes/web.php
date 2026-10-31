@@ -13,6 +13,7 @@ use App\Http\Controllers\AiController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PollController;
+use App\Http\Controllers\AnnouncementController;
 
 require_once __DIR__ . '/../app/Http/Controllers/HomeController.php';
 require_once __DIR__ . '/../app/Http/Controllers/DashboardController.php';
@@ -26,6 +27,7 @@ require_once __DIR__ . '/../app/Http/Controllers/AiController.php';
 require_once __DIR__ . '/../app/Http/Controllers/AboutController.php';
 require_once __DIR__ . '/../app/Http/Controllers/ProfileController.php';
 require_once __DIR__ . '/../app/Http/Controllers/PollController.php';
+require_once __DIR__ . '/../app/Http/Controllers/AnnouncementController.php';
 
 // Public Homepage & Feeds
 Router::get('', [HomeController::class, 'index']);
@@ -72,8 +74,14 @@ Router::post('dashboard/editorial/categories/update', [EditorialDashboardControl
 Router::post('dashboard/editorial/categories/{id}/update', [EditorialDashboardController::class, 'updateCategory']);
 Router::post('dashboard/editorial/categories/delete', [EditorialDashboardController::class, 'deleteCategory']);
 Router::post('dashboard/editorial/categories/{id}/delete', [EditorialDashboardController::class, 'deleteCategory']);
-Router::post('dashboard/editorial/announcement', [EditorialDashboardController::class, 'updateAnnouncement']);
-Router::post('dashboard/announcement', [EditorialDashboardController::class, 'updateAnnouncement']);
+
+// Announcement Manager (Editor & Management Single Channel)
+Router::get('dashboard/announcement', [AnnouncementController::class, 'index']);
+Router::get('dashboard/announcements', [AnnouncementController::class, 'index']);
+Router::post('dashboard/announcement', [AnnouncementController::class, 'store']);
+Router::post('dashboard/announcement/{id}/update', [AnnouncementController::class, 'update']);
+Router::post('dashboard/announcement/{id}/toggle', [AnnouncementController::class, 'toggle']);
+Router::post('dashboard/announcement/{id}/delete', [AnnouncementController::class, 'destroy']);
 
 // Editorial Assignment Management (CRUD for Editor/Management)
 Router::post('dashboard/editorial/assignments', [AssignmentController::class, 'store']);

@@ -38,7 +38,7 @@
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             <span class="material-symbols-outlined text-[16px]">campaign</span>
-            <span class="hidden sm:inline">Dispatches Ticker</span>
+            <span class="hidden sm:inline">Announcement</span>
         </div>
 
         <!-- Marquee Scrolling Track -->
@@ -46,15 +46,25 @@
             <div class="animate-marquee-smooth items-center gap-8 py-0.5">
                 @for($repeat = 0; $repeat < 2; $repeat++)
                     <div class="inline-flex items-center gap-6 sm:gap-8">
-                        @if(!empty($announcement))
-                            <div class="inline-flex items-center gap-2">
-                                <span class="px-2 py-0.5 rounded-full bg-amber-500 text-white font-black text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-xs">
-                                    <span class="material-symbols-outlined text-[13px]">info</span>
-                                    <span>ANNOUNCEMENT</span>
-                                </span>
-                                <span class="font-bold text-slate-800 dark:text-slate-100">{{ $announcement }}</span>
-                            </div>
-                            <span class="text-slate-300 dark:text-slate-700 select-none">•</span>
+                        @if(!empty($announcements))
+                            @foreach($announcements as $ann)
+                                <div class="inline-flex items-center gap-2">
+                                    <span class="px-2 py-0.5 rounded-full bg-amber-500 text-white font-black text-[10px] uppercase tracking-wider flex items-center gap-1 shadow-xs">
+                                        <span>{{ $ann['emoji'] ?: '📢' }}</span>
+                                        <span>ANNOUNCEMENT</span>
+                                    </span>
+                                    <span class="font-bold text-slate-800 dark:text-slate-100">{{ $ann['text'] }}</span>
+                                    @if(!empty($ann['link_url']))
+                                        <a href="{{ \App\Models\Announcement::formatHref($ann['link_url']) }}"
+                                           target="{{ preg_match('#^https?://#i', $ann['link_url']) ? '_blank' : '_self' }}"
+                                           class="px-2 py-0.5 rounded-lg bg-primary/15 hover:bg-primary text-primary hover:text-white font-bold text-[10px] transition-colors inline-flex items-center gap-0.5">
+                                            <span>{{ $ann['link_label'] ?: 'Open Link' }}</span>
+                                            <span class="material-symbols-outlined text-[12px]">arrow_outward</span>
+                                        </a>
+                                    @endif
+                                </div>
+                                <span class="text-slate-300 dark:text-slate-700 select-none">•</span>
+                            @endforeach
                         @endif
 
                         @if(!empty($latestPromotedContributors))

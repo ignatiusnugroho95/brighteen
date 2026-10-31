@@ -179,6 +179,21 @@
                                 <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Review queue, beats & curation</p>
                             </div>
                         </a>
+
+                        {{-- Announcement Manager (Editor & Management) --}}
+                        <a href="{{ url('dashboard/announcement') }}" 
+                           class="flex items-center gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] hover:bg-amber-500/10 border border-slate-200/80 dark:border-white/10 hover:border-amber-500/30 text-slate-800 dark:text-slate-200 transition-all group min-w-0">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                                <span class="material-symbols-outlined text-lg">campaign</span>
+                            </span>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Announcements</span>
+                                    <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 shrink-0">Ticker</span>
+                                </div>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Kelola hingga 5 pengumuman aktif</p>
+                            </div>
+                        </a>
                     @endif
 
                     {{-- Assignment Center & Drafts (Contributor, Journalist, Editor & Management) --}}

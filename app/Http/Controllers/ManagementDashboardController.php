@@ -60,7 +60,10 @@ class ManagementDashboardController
 
         $roles = Role::all('id ASC');
         $allArticles = Article::all('id DESC');
-        $settings = SystemSetting::all('id ASC');
+        $allSettings = SystemSetting::all('id ASC');
+        $settings = array_values(array_filter($allSettings, function ($st) {
+            return !in_array($st['key'], ['announcement_text', 'announcements_migrated', 'headline_article_id', 'curated_article_ids'], true);
+        }));
 
         return view('dashboard.management', [
             'metrics' => [
@@ -96,12 +99,8 @@ class ManagementDashboardController
             $oldUser = User::find($id);
             User::update($id, ['role_id' => $roleId]);
 
-            // If user is promoted to Contributor (role_id = 4), automatically announce on ticker!
+            // If user is promoted to Contributor (role_id = 4), send notification
             if ($roleId === 4 && $oldUser && (int)$oldUser['role_id'] !== 4) {
-                $name = $oldUser['name'];
-                $tickerText = "🎉 Congratulations to {$name} on being officially promoted to Brighteen Community Contributor! Welcome to the creator team!";
-                SystemSetting::set('announcement_text', $tickerText, 'Active platform-wide announcement on homepage ticker');
-
                 Notification::send(
                     $id,
                     'assignment_promoted',
@@ -137,6 +136,9 @@ class ManagementDashboardController
 
         if (!empty($_POST['settings']) && is_array($_POST['settings'])) {
             foreach ($_POST['settings'] as $key => $val) {
+                if (in_array($key, ['announcement_text', 'announcements_migrated'], true)) {
+                    continue;
+                }
                 SystemSetting::set($key, $val);
             }
         }

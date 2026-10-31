@@ -113,7 +113,6 @@ class EditorialDashboardController
             'categoryName' => $_GET['category_name'] ?? null,
             'categoryColor' => $_GET['category_color'] ?? null,
             'categoryIcon' => $_GET['category_icon'] ?? null,
-            'announcement' => SystemSetting::get('announcement_text', ''),
             'categorySlug' => $_GET['category_slug'] ?? null,
             'deletedName' => $_GET['deleted_name'] ?? null,
             'targetName' => $_GET['target_name'] ?? null,
@@ -416,19 +415,5 @@ class EditorialDashboardController
         ];
 
         redirect('dashboard/editorial?' . http_build_query($params));
-    }
-
-    public function updateAnnouncement()
-    {
-        if (!auth()->check() || (!auth()->isEditor() && !auth()->isManagement())) {
-            http_response_code(403);
-            die(view('errors.403', ['message' => 'Restricted Area: Editor or Management permissions required.']));
-        }
-
-        $text = trim($_POST['announcement_text'] ?? '');
-        SystemSetting::set('announcement_text', $text, 'Active platform-wide announcement on homepage ticker');
-
-        $redirect = $_POST['redirect_to'] ?? 'dashboard/editorial?notice=announcement_updated';
-        redirect($redirect);
     }
 }

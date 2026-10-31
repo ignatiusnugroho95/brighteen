@@ -403,6 +403,12 @@ function editorialDesk() {
                         <span>Manage Categories & Beats</span>
                     </button>
 
+                    <a href="{{ url('dashboard/announcement') }}" @click="moreOptionsOpen = false"
+                       class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                        <span class="material-symbols-outlined text-base text-amber-500">campaign</span>
+                        <span>Announcement Manager</span>
+                    </a>
+
                     <a href="{{ url('about/edit') }}" @click="moreOptionsOpen = false"
                        class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
                         <span class="material-symbols-outlined text-base text-sky-500">info</span>
@@ -471,37 +477,6 @@ function editorialDesk() {
         </div>
     @endif
 
-    <!-- ACTIVE HOMEPAGE RUNNING ANNOUNCEMENT CONTROL -->
-    <div class="p-5 sm:p-6 rounded-3xl glass-panel border border-primary/30 bg-gradient-to-r from-primary/5 via-indigo-500/5 to-transparent shadow-sm">
-        <form method="POST" action="{{ url('dashboard/editorial/announcement') }}" class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <input type="hidden" name="redirect_to" value="dashboard/editorial?notice=announcement_updated">
-            <div class="flex items-start gap-3">
-                <span class="w-10 h-10 rounded-2xl bg-primary/20 text-primary flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
-                    <span class="material-symbols-outlined text-xl">campaign</span>
-                </span>
-                <div>
-                    <h4 class="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-                        <span>Active Homepage Running Announcement</span>
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20 uppercase">Editorial & Management</span>
-                    </h4>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">This official announcement appears on the homepage running marquee ticker alongside the 5 latest updated stories.</p>
-                </div>
-            </div>
-            <div class="flex-1 max-w-xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-                <input type="text" name="announcement_text" value="{{ $announcement ?? '' }}" 
-                       placeholder="Write important announcement here..."
-                       class="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40">
-                <button type="submit" 
-                        class="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20 transition-all whitespace-nowrap flex items-center justify-center gap-1.5">
-                    <span class="material-symbols-outlined text-sm">save</span>
-                    <span>Update Ticker</span>
-                </button>
-            </div>
-        </form>
-    </div>
-
-    <!-- 2 & 4. TRANSFORMED UNIFIED TAB UI: MOBILE SCROLLABLE PILLS & DESKTOP TAB BAR -->
-    
     <!-- 2 & 4. TRANSFORMED UNIFIED TAB UI: MOBILE COLLAPSIBLE CONTROLS & DESKTOP TAB BAR -->
     
     <!-- Mobile Collapsible Sections Helper Bar (< 768px): Replaces cut-off horizontal pill tabs -->
