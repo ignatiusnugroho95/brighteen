@@ -142,7 +142,7 @@
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Central Dashboard</span>
                                     <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-sky-500/15 text-sky-600 dark:text-sky-400 shrink-0">Hub</span>
                                 </div>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Statistik, analitik & pintasan</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Statistics, analytics & shortcuts</p>
                             </div>
                         </a>
                     @endif
@@ -191,7 +191,7 @@
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate">Announcements</span>
                                     <span class="text-[8px] font-black uppercase px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 shrink-0">Ticker</span>
                                 </div>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Kelola hingga 5 pengumuman aktif</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400 truncate">Manage up to 5 active announcements</p>
                             </div>
                         </a>
                     @endif

@@ -80,7 +80,7 @@ function announcementManager() {
                 </span>
             </div>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Kelola hingga {{ $maxActive }} pengumuman aktif (teks singkat, emoji &amp; tautan) yang berjalan otomatis di bar <strong>Announcement</strong> halaman utama.
+                Manage up to {{ $maxActive }} active announcements (concise text, emojis &amp; optional link) displayed on the homepage <strong>Announcement</strong> bar.
             </p>
         </div>
 
@@ -111,16 +111,16 @@ function announcementManager() {
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined">check_circle</span>
                 <span>
-                    @if($notice === 'created') Announcement baru berhasil ditambahkan!
-                    @elseif($notice === 'updated') Perubahan announcement berhasil disimpan!
-                    @elseif($notice === 'activated') Announcement berhasil diaktifkan ke ticker halaman utama!
-                    @elseif($notice === 'deactivated') Announcement dinonaktifkan dari ticker halaman utama.
-                    @elseif($notice === 'deleted') Announcement berhasil dihapus.
-                    @else Aksi berhasil dijalankan.
+                    @if($notice === 'created') New announcement successfully created!
+                    @elseif($notice === 'updated') Announcement changes saved successfully!
+                    @elseif($notice === 'activated') Announcement activated on the homepage ticker!
+                    @elseif($notice === 'deactivated') Announcement deactivated from the homepage ticker.
+                    @elseif($notice === 'deleted') Announcement permanently deleted.
+                    @else Action completed successfully.
                     @endif
                 </span>
             </div>
-            <a href="{{ url('dashboard/announcement') }}" class="text-xs font-bold underline shrink-0">Tutup</a>
+            <a href="{{ url('dashboard/announcement') }}" class="text-xs font-bold underline shrink-0">Dismiss</a>
         </div>
     @endif
 
@@ -129,14 +129,14 @@ function announcementManager() {
             <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined">error</span>
                 <span>
-                    @if($error === 'max_active_reached') Maksimal {{ $maxActive }} announcement aktif dapat ditampilkan sekaligus. Nonaktifkan atau hapus salah satu announcement aktif terlebih dahulu.
-                    @elseif($error === 'empty_text') Teks announcement tidak boleh kosong.
-                    @elseif($error === 'not_found') Data announcement tidak ditemukan.
-                    @else Terjadi kesalahan saat memproses permintaan Anda.
+                    @if($error === 'max_active_reached') Maximum of {{ $maxActive }} active announcements reached. Please deactivate or delete an active announcement first.
+                    @elseif($error === 'empty_text') Announcement text cannot be empty.
+                    @elseif($error === 'not_found') The requested announcement could not be found.
+                    @else An error occurred while processing your request.
                     @endif
                 </span>
             </div>
-            <a href="{{ url('dashboard/announcement') }}" class="text-xs font-bold underline shrink-0">Tutup</a>
+            <a href="{{ url('dashboard/announcement') }}" class="text-xs font-bold underline shrink-0">Dismiss</a>
         </div>
     @endif
 
@@ -165,7 +165,7 @@ function announcementManager() {
             <div class="relative overflow-hidden flex-1 group">
                 @if(empty($activeAnnouncements))
                     <div class="py-0.5 text-slate-400 italic text-xs">
-                        Belum ada announcement aktif. Tambahkan atau aktifkan announcement di bawah.
+                        No active announcements right now. Create or activate an announcement below.
                     </div>
                 @else
                     <div class="animate-marquee-smooth items-center gap-8 py-0.5">
@@ -208,8 +208,8 @@ function announcementManager() {
                         <span class="material-symbols-outlined text-lg">add_comment</span>
                     </span>
                     <div>
-                        <h2 class="text-base font-black font-display text-slate-900 dark:text-white">Buat Announcement Baru</h2>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Simpel dengan batas karakter, emoji &amp; link</p>
+                        <h2 class="text-base font-black font-display text-slate-900 dark:text-white">Create Announcement</h2>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Concise text with character limit, emojis &amp; link</p>
                     </div>
                 </div>
             </div>
@@ -219,7 +219,7 @@ function announcementManager() {
                 <!-- 1. Emoji Badge Selector -->
                 <div class="space-y-1.5">
                     <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                        Ikon Emoji Utama
+                        Lead Emoji Badge
                     </label>
                     <input type="hidden" name="emoji" :value="createEmoji">
                     <div class="flex flex-wrap gap-1.5">
@@ -240,7 +240,7 @@ function announcementManager() {
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
                         <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                            Teks Announcement <span class="text-rose-500">*</span>
+                            Announcement Text <span class="text-rose-500">*</span>
                         </label>
                         <span class="text-[11px] font-mono font-bold"
                               :class="createText.length >= {{ $maxTextLength }} ? 'text-rose-500' : (createText.length > {{ $maxTextLength - 25 }} ? 'text-amber-500' : 'text-slate-400')">
@@ -249,16 +249,16 @@ function announcementManager() {
                     </div>
                     <textarea name="text" rows="3" required maxlength="{{ $maxTextLength }}"
                               x-model="createText"
-                              placeholder="Tulis pengumuman singkat di sini (maks {{ $maxTextLength }} karakter)..."
+                              placeholder="Write your short announcement here (max {{ $maxTextLength }} characters)..."
                               class="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40"></textarea>
                     
                     <!-- Quick Insert Emoji into Text -->
                     <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Sisipkan Emoji:</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Insert Emoji:</span>
                         <template x-for="em in ['🎉', '🔥', '✨', '👏', '🚀', '📌', '💡', '❤️']" :key="'ins-' + em">
                             <button type="button" @click="insertEmojiToCreate(em)"
                                     class="px-1.5 py-0.5 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-xs transition-colors"
-                                    title="Tambah emoji ke teks">
+                                    title="Insert emoji into text">
                                 <span x-text="em"></span>
                             </button>
                         </template>
@@ -272,7 +272,7 @@ function announcementManager() {
                             <input type="checkbox" x-model="createHasLink" class="rounded text-primary focus:ring-primary">
                             <span class="text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1">
                                 <span class="material-symbols-outlined text-sm text-primary">link</span>
-                                <span>Sertakan Tautan / Link (Opsional)</span>
+                                <span>Include Action Link (Optional)</span>
                             </span>
                         </label>
                     </div>
@@ -280,22 +280,22 @@ function announcementManager() {
                     <div x-show="createHasLink" x-cloak class="space-y-2.5 pt-1">
                         <div>
                             <div class="flex items-center justify-between mb-1">
-                                <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400">URL Tautan</label>
+                                <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Link URL</label>
                                 <span class="text-[10px] font-mono text-slate-400" x-text="createLinkUrl.length + ' / {{ $maxLinkUrlLength }}'"></span>
                             </div>
                             <input type="text" name="link_url" x-model="createLinkUrl" maxlength="{{ $maxLinkUrlLength }}"
                                    :disabled="!createHasLink"
-                                   placeholder="Contoh: https://... atau articles/judul-artikel"
+                                   placeholder="e.g. https://... or articles/story-slug"
                                    class="w-full px-3 py-2 rounded-xl bg-white dark:bg-background border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/40">
                         </div>
                         <div>
                             <div class="flex items-center justify-between mb-1">
-                                <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Label Tombol Link (Maks {{ $maxLinkLabelLength }} kar)</label>
+                                <label class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Link Button Label (Max {{ $maxLinkLabelLength }} chars)</label>
                                 <span class="text-[10px] font-mono text-slate-400" x-text="createLinkLabel.length + ' / {{ $maxLinkLabelLength }}'"></span>
                             </div>
                             <input type="text" name="link_label" x-model="createLinkLabel" maxlength="{{ $maxLinkLabelLength }}"
                                    :disabled="!createHasLink"
-                                   placeholder="Contoh: Baca Selengkapnya"
+                                   placeholder="e.g. Read More"
                                    class="w-full px-3 py-2 rounded-xl bg-white dark:bg-background border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/40">
                         </div>
                     </div>
@@ -304,26 +304,26 @@ function announcementManager() {
                 <!-- 4. Status Selection -->
                 <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10">
                     <div>
-                        <div class="text-xs font-bold text-slate-800 dark:text-slate-200">Status Tayang</div>
+                        <div class="text-xs font-bold text-slate-800 dark:text-slate-200">Display Status</div>
                         <div class="text-[10px] text-slate-500 dark:text-slate-400">
                             @if($activeCount >= $maxActive)
-                                <span class="text-amber-500 font-semibold">Slot aktif penuh ({{ $activeCount }}/{{ $maxActive }}). Simpan sebagai Draft atau nonaktifkan yang lain.</span>
+                                <span class="text-amber-500 font-semibold">Active slots full ({{ $activeCount }}/{{ $maxActive }}). Save as Draft or deactivate another item.</span>
                             @else
-                                Tersedia {{ $maxActive - $activeCount }} slot aktif lagi.
+                                {{ $maxActive - $activeCount }} active slot(s) remaining.
                             @endif
                         </div>
                     </div>
                     <select name="is_active" x-model="createIsActive"
                             class="px-3 py-1.5 rounded-xl bg-white dark:bg-surface-card border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/40">
-                        <option value="1" {{ $activeCount >= $maxActive ? 'disabled' : '' }}>Active (Tayang)</option>
-                        <option value="0" {{ $activeCount >= $maxActive ? 'selected' : '' }}>Draft / Nonaktif</option>
+                        <option value="1" {{ $activeCount >= $maxActive ? 'disabled' : '' }}>Active (Live)</option>
+                        <option value="0" {{ $activeCount >= $maxActive ? 'selected' : '' }}>Draft / Inactive</option>
                     </select>
                 </div>
 
                 <button type="submit" 
                         class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:from-primary-hover hover:to-indigo-700 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-base">add_circle</span>
-                    <span>Simpan Announcement</span>
+                    <span>Save Announcement</span>
                 </button>
             </form>
         </div>
@@ -332,8 +332,8 @@ function announcementManager() {
         <div class="lg:col-span-7 space-y-4">
             <div class="flex items-center justify-between px-1">
                 <div>
-                    <h2 class="text-base font-black font-display text-slate-900 dark:text-white">Daftar Announcement ({{ count($announcements) }})</h2>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Maksimal {{ $maxActive }} announcement berstatus <strong>Active</strong> akan diputar di halaman depan.</p>
+                    <h2 class="text-base font-black font-display text-slate-900 dark:text-white">All Announcements ({{ count($announcements) }})</h2>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Up to {{ $maxActive }} <strong>Active</strong> announcements rotate automatically on the homepage ticker.</p>
                 </div>
             </div>
 
@@ -342,9 +342,9 @@ function announcementManager() {
                     <span class="w-12 h-12 mx-auto rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
                         <span class="material-symbols-outlined text-2xl">campaign</span>
                     </span>
-                    <div class="text-sm font-bold text-slate-800 dark:text-white">Belum Ada Announcement</div>
+                    <div class="text-sm font-bold text-slate-800 dark:text-white">No Announcements Yet</div>
                     <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-                        Gunakan formulir di sebelah kiri untuk membuat announcement pertama Anda.
+                        Use the composer form on the left to publish your first announcement.
                     </p>
                 </div>
             @else
@@ -383,16 +383,16 @@ function announcementManager() {
                                                 </span>
                                             @else
                                                 <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-400">
-                                                    Nonaktif / Draft
+                                                    Inactive / Draft
                                                 </span>
                                             @endif
 
                                             <span class="text-[11px] text-slate-400">
-                                                {{ mb_strlen($item['text']) }}/{{ $maxTextLength }} kar
+                                                {{ mb_strlen($item['text']) }}/{{ $maxTextLength }} chars
                                             </span>
 
                                             @if(!empty($item['creator_name']))
-                                                <span class="text-[11px] text-slate-400">&bull; oleh {{ $item['creator_name'] }}</span>
+                                                <span class="text-[11px] text-slate-400">&bull; by {{ $item['creator_name'] }}</span>
                                             @endif
                                         </div>
 
@@ -422,7 +422,7 @@ function announcementManager() {
                                     <form action="{{ url('dashboard/announcement/' . $item['id'] . '/toggle') }}" method="POST">
                                         <button type="submit"
                                                 class="p-2 rounded-xl border text-xs font-bold transition-all flex items-center justify-center {{ $isActive ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/25' : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/25' }}"
-                                                title="{{ $isActive ? 'Nonaktifkan dari Ticker' : 'Aktifkan ke Ticker' }}">
+                                                title="{{ $isActive ? 'Deactivate from Ticker' : 'Activate on Ticker' }}">
                                             <span class="material-symbols-outlined text-base">{{ $isActive ? 'visibility_off' : 'play_arrow' }}</span>
                                         </button>
                                     </form>
@@ -439,7 +439,7 @@ function announcementManager() {
                                     <button type="button"
                                             @click="openDelete({{ (int)$item['id'] }}, '{{ addslashes($item['text']) }}')"
                                             class="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 transition-all flex items-center justify-center"
-                                            title="Hapus Announcement">
+                                            title="Delete Announcement">
                                         <span class="material-symbols-outlined text-base">delete</span>
                                     </button>
                                 </div>
@@ -463,7 +463,7 @@ function announcementManager() {
                     </span>
                     <div>
                         <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Edit Announcement</h3>
-                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Perbarui teks, emoji, link, atau status tayang</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">Update announcement text, emoji, link, or active status</p>
                     </div>
                 </div>
                 <button type="button" @click="editModalOpen = false" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
@@ -474,7 +474,7 @@ function announcementManager() {
             <form :action="'{{ url('dashboard/announcement/') }}/' + editId + '/update'" method="POST" class="space-y-4">
                 <!-- Emoji Selector -->
                 <div class="space-y-1.5">
-                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Ikon Emoji Utama</label>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Lead Emoji Badge</label>
                     <input type="hidden" name="emoji" :value="editEmoji">
                     <div class="flex flex-wrap gap-1.5">
                         <template x-for="em in emojiOptions" :key="'edit-' + em">
@@ -493,7 +493,7 @@ function announcementManager() {
                 <!-- Text Input -->
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
-                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Teks Announcement</label>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Announcement Text</label>
                         <span class="text-[11px] font-mono font-bold"
                               :class="editText.length >= {{ $maxTextLength }} ? 'text-rose-500' : 'text-slate-400'">
                             <span x-text="editText.length"></span> / {{ $maxTextLength }}
@@ -503,7 +503,7 @@ function announcementManager() {
                               x-model="editText"
                               class="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 dark:bg-surface-card border border-slate-200 dark:border-white/10 text-xs sm:text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/40"></textarea>
                     <div class="flex items-center gap-1.5 flex-wrap">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Sisipkan Emoji:</span>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Insert Emoji:</span>
                         <template x-for="em in ['🎉', '🔥', '✨', '👏', '🚀', '📌', '💡', '❤️']" :key="'edit-ins-' + em">
                             <button type="button" @click="insertEmojiToEdit(em)"
                                     class="px-1.5 py-0.5 rounded-lg bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 text-xs">
@@ -517,20 +517,20 @@ function announcementManager() {
                 <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 space-y-3">
                     <label class="flex items-center gap-2 cursor-pointer select-none">
                         <input type="checkbox" x-model="editHasLink" @change="if(!editHasLink) { editLinkUrl = ''; editLinkLabel = ''; }" class="rounded text-primary focus:ring-primary">
-                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Sertakan Tautan / Link</span>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Include Action Link</span>
                     </label>
 
                     <div x-show="editHasLink" x-cloak class="space-y-2.5 pt-1">
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">URL Tautan</label>
+                            <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Link URL</label>
                             <input type="text" name="link_url" x-model="editLinkUrl" maxlength="{{ $maxLinkUrlLength }}"
-                                   placeholder="https://... atau articles/..."
+                                   placeholder="https://... or articles/..."
                                    class="w-full px-3 py-2 rounded-xl bg-white dark:bg-background border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Label Tombol Link (Maks {{ $maxLinkLabelLength }} kar)</label>
+                            <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1">Link Button Label (Max {{ $maxLinkLabelLength }} chars)</label>
                             <input type="text" name="link_label" x-model="editLinkLabel" maxlength="{{ $maxLinkLabelLength }}"
-                                   placeholder="Baca Selengkapnya"
+                                   placeholder="Read More"
                                    class="w-full px-3 py-2 rounded-xl bg-white dark:bg-background border border-slate-200 dark:border-white/10 text-xs text-slate-900 dark:text-white">
                         </div>
                     </div>
@@ -538,22 +538,22 @@ function announcementManager() {
 
                 <!-- Active Status -->
                 <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10">
-                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Status Tayang</span>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Display Status</span>
                     <select name="is_active" x-model="editIsActive"
                             class="px-3 py-1.5 rounded-xl bg-white dark:bg-surface-card border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-900 dark:text-white">
-                        <option value="1">Active (Tayang)</option>
-                        <option value="0">Draft / Nonaktif</option>
+                        <option value="1">Active (Live)</option>
+                        <option value="0">Draft / Inactive</option>
                     </select>
                 </div>
 
                 <div class="flex items-center justify-end gap-2.5 pt-2">
                     <button type="button" @click="editModalOpen = false"
                             class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 text-xs font-bold text-slate-700 dark:text-slate-300">
-                        Batal
+                        Cancel
                     </button>
                     <button type="submit"
                             class="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-bold shadow-md shadow-primary/20">
-                        Simpan Perubahan
+                        Save Changes
                     </button>
                 </div>
             </form>
@@ -569,8 +569,8 @@ function announcementManager() {
                     <span class="material-symbols-outlined text-xl">delete_forever</span>
                 </span>
                 <div>
-                    <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Hapus Announcement?</h3>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Tindakan ini tidak dapat dibatalkan.</p>
+                    <h3 class="text-base font-black font-display text-slate-900 dark:text-white">Delete Announcement?</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">This action cannot be undone.</p>
                 </div>
             </div>
 
@@ -579,11 +579,11 @@ function announcementManager() {
             <form :action="'{{ url('dashboard/announcement/') }}/' + deleteId + '/delete'" method="POST" class="flex items-center justify-end gap-2.5 pt-2">
                 <button type="button" @click="deleteModalOpen = false"
                         class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/10 text-xs font-bold text-slate-700 dark:text-slate-300">
-                    Batal
+                    Cancel
                 </button>
                 <button type="submit"
                         class="px-5 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold shadow-md shadow-rose-500/20">
-                    Ya, Hapus
+                    Yes, Delete
                 </button>
             </form>
         </div>
